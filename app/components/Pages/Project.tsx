@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { PinContainer } from "../ui/3d-pin";
 import { FaReact } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
-import { SiReact } from "react-icons/si"; // Bisa pakai react-native icon dari simple-icons
+import { SiReact } from "react-icons/si";
 
 const projects = [
   {
@@ -87,12 +87,13 @@ export default function Project() {
       id="project"
     >
       {/* Title */}
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-white mb-4">
-          My <span className="text-[#61DCA3]">Projects</span>
+      <div className="text-center mb-20">
+        <h2 className="text-4xl font-extrabold text-white tracking-tight">
+          Snippets of My <span className="text-[#61DCA3]">Selected Works</span>
         </h2>
-        <p className="text-slate-400 max-w-xl mx-auto">
-          Here are some of my featured works, crafted with love and creativity.
+        <p className="mt-4 text-gray-400 max-w-xl mx-auto text-sm">
+          A glimpse into my creations from interfaces to functionality crafted
+          with code and intent.
         </p>
       </div>
 
@@ -102,10 +103,10 @@ export default function Project() {
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition ${
+            className={`px-5 py-2 rounded-lg text-sm font-medium transition ${
               filter === cat
-                ? "bg-[#61DCA3] text-white"
-                : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+                ? "bg-[#61DCA3] text-[#131920]"
+                : "bg-[#131920] text-gray-400 hover:bg-slate-800"
             }`}
           >
             {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -114,10 +115,10 @@ export default function Project() {
       </div>
 
       {/* Project Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 auto-rows-max">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 auto-rows-max  ">
         {filteredProjects.map((project, idx) => (
           <PinContainer key={idx} title={project.title} href={project.href}>
-            <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] bg-black rounded-xl">
+            <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] bg-black rounded-xl border border-[#61DCA3]">
               {/* Title */}
               <h3 className="max-w-xs !pb-2 !m-0 font-bold text-base text-slate-100">
                 {project.title}
