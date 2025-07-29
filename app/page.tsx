@@ -1,103 +1,172 @@
-import Image from "next/image";
+"use client";
+
+import React from "react";
+import Lanyard from "./components/Lanyard/Lanyard";
+import AnimatedContent from "./components/AnimatedContent/AnimatedContent";
+import BlurText from "./components/BlurText/BlurText";
+import SplitText from "./components/SplitText/SplitText";
+import Squares from "./components/Squares/Squares";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { HiDownload } from "react-icons/hi";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      <div className="min-h-screen overflow-x-hidden font-Poppins">
+        {/* Background */}
+        <div className="absolute top-0 right-0 left-0 bottom-0 w-full h-full">
+          <Squares
+            speed={0.2}
+            squareSize={40}
+            direction="diagonal"
+            borderColor="#FFFFFF"
+            hoverFillColor="#61DCA3"
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Navbar */}
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[999] w-full px-4">
+          <div className="backdrop-blur-lg bg-white/5 border border-white/10 px-8 py-3 rounded-full flex items-center justify-between max-w-screen-lg mx-auto">
+            {/* Left: Logo */}
+            <span className="text-[#61DCA3] font-extrabold text-xl">Y.</span>
+
+            {/* Right: Menu */}
+            <div className="flex gap-6 text-white text-sm font-medium">
+              <a href="#home" className="hover:text-[#61DCA3] transition">
+                Home
+              </a>
+              <a href="#project" className="hover:text-[#61DCA3] transition">
+                Project
+              </a>
+              <a href="#contact" className="hover:text-[#61DCA3] transition">
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Hero Section */}
+        <div className="container mx-auto max-w-screen-lg h-screen px-4">
+          <div className="grid grid-cols-1 md:grid-cols-12">
+            {/* Kiri */}
+            <div className="col-span-6 flex items-center">
+              <div className="flex items-center h-full">
+                <div className="flex flex-col gap-6 ">
+                  <AnimatedContent
+                    distance={150}
+                    direction="horizontal"
+                    reverse={false}
+                    config={{ tension: 80, friction: 20 }}
+                    initialOpacity={0.2}
+                    animateOpacity
+                    scale={1.1}
+                    threshold={0.2}
+                  >
+                    <div className="flex items-center gap-2">
+                      <h1 className="text-xl text-white font-semibold">
+                        Welcome to My Portfolio...
+                      </h1>
+                    </div>
+                  </AnimatedContent>
+
+                  <div className="flex flex-col items-start">
+                    <SplitText
+                      text="Hey, I'm"
+                      className="text-6xl font-semibold text-start"
+                      delay={50}
+                      animationFrom={{
+                        opacity: 0,
+                        transform: "translate3d(0,50px,0)",
+                      }}
+                      animationTo={{
+                        opacity: 1,
+                        transform: "translate3d(0,0,0)",
+                      }}
+                      threshold={0.2}
+                      rootMargin="-50px"
+                    />
+                    <SplitText
+                      text="Akhyar"
+                      className="text-6xl font-semibold text-start text-[#61DCA3]"
+                      delay={75}
+                      animationFrom={{
+                        opacity: 0,
+                        transform: "translate3d(0,50px,0)",
+                      }}
+                      animationTo={{
+                        opacity: 1,
+                        transform: "translate3d(0,0,0)",
+                      }}
+                      threshold={0.2}
+                      rootMargin="-50px"
+                    />
+                  </div>
+
+                  <BlurText
+                    text="Just finished my Informatics degree, and right now I'm really into building cool digital stuff from websites to mobile apps. I enjoy coding and love turning ideas into something real and useful. Got something in mind? Let's build it together!"
+                    delay={75}
+                    animateBy="words"
+                    direction="top"
+                    className="text-xl mb-8"
+                  />
+
+                  {/* CV */}
+                  <div className="flex items-center gap-4 relative z-50">
+                    {/* Button Download CV */}
+                    <div className="flex items-center gap-4 relative z-50">
+                      {/* Download CV Button */}
+                      <a
+                        href="/CV-Akhyar.pdf"
+                        download
+                        className="flex items-center gap-2 px-8 py-4 rounded-lg border border-[#61DCA3] text-[#61DCA3] 
+                   hover:bg-[#61DCA3] hover:text-white transition duration-300 active:scale-95"
+                      >
+                        <span>Download CV</span>
+                        <HiDownload className="w-5 h-5" />
+                      </a>
+                    </div>
+
+                    {/* Social Icons */}
+                    <div className="flex gap-3">
+                      {/* Instagram */}
+                      <a
+                        href="https://instagram.com/akhyaar._"
+                        target="_blank"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#61DCA3] text-[#61DCA3] hover:bg-[#61DCA3] hover:text-white transition"
+                      >
+                        <FaInstagram size={20} />
+                      </a>
+
+                      {/* LinkedIn */}
+                      <a
+                        href="https://www.linkedin.com/in/akhyarrr/"
+                        target="_blank"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#61DCA3] text-[#61DCA3] hover:bg-[#61DCA3] hover:text-white transition"
+                      >
+                        <FaLinkedin size={20} />
+                      </a>
+
+                      {/* GitHub */}
+                      <a
+                        href="https://github.com/Akhyarrrrr"
+                        target="_blank"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#61DCA3] text-[#61DCA3] hover:bg-[#61DCA3] hover:text-white transition"
+                      >
+                        <FaGithub size={20} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Kanan */}
+            <div className="col-span-6 mt-10 md:mt-0 pt-0 md:pt-6">
+              <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
