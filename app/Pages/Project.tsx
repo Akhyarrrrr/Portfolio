@@ -14,52 +14,61 @@ import {
   SiLaravel,
   SiExpress,
 } from "react-icons/si";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-const techIcons = {
-  react: { icon: <FaReact className="text-sky-400 text-lg" />, label: "React" },
-  "react-native": {
-    icon: <FaReact className="text-indigo-400 text-lg" />,
-    label: "React Native",
-  },
-  tailwind: {
-    icon: <SiTailwindcss className="text-cyan-400 text-lg" />,
-    label: "Tailwind CSS",
-  },
-  html: {
-    icon: <FaHtml5 className="text-orange-500 text-lg" />,
-    label: "HTML",
-  },
-  css: { icon: <FaCss3Alt className="text-blue-500 text-lg" />, label: "CSS" },
-  javascript: {
-    icon: <SiJavascript className="text-yellow-400 text-lg" />,
-    label: "JavaScript",
-  },
-  next: {
-    icon: <SiNextdotjs className="text-white text-lg" />,
-    label: "Next.js",
-  },
-  mysql: {
-    icon: <SiMysql className="text-blue-300 text-lg" />,
-    label: "MySQL",
-  },
-  firebase: {
-    icon: <SiFirebase className="text-yellow-300 text-lg" />,
-    label: "Firebase",
-  },
-  expo: { icon: <SiExpo className="text-white text-lg" />, label: "Expo" },
-  kotlin: {
-    icon: <SiKotlin className="text-purple-400 text-lg" />,
-    label: "Kotlin",
-  },
-  laravel: {
-    icon: <SiLaravel className="text-red-500 text-lg" />,
-    label: "Laravel",
-  },
-  express: {
-    icon: <SiExpress className="text-white text-lg" />,
-    label: "Express.js",
-  },
-};
+const techIcons: { [key: string]: { icon: React.JSX.Element; label: string } } =
+  {
+    react: {
+      icon: <FaReact className="text-sky-400 text-lg" />,
+      label: "React",
+    },
+    "react-native": {
+      icon: <FaReact className="text-indigo-400 text-lg" />,
+      label: "React Native",
+    },
+    tailwind: {
+      icon: <SiTailwindcss className="text-cyan-400 text-lg" />,
+      label: "Tailwind CSS",
+    },
+    html: {
+      icon: <FaHtml5 className="text-orange-500 text-lg" />,
+      label: "HTML",
+    },
+    css: {
+      icon: <FaCss3Alt className="text-blue-500 text-lg" />,
+      label: "CSS",
+    },
+    javascript: {
+      icon: <SiJavascript className="text-yellow-400 text-lg" />,
+      label: "JavaScript",
+    },
+    next: {
+      icon: <SiNextdotjs className="text-white text-lg" />,
+      label: "Next.js",
+    },
+    mysql: {
+      icon: <SiMysql className="text-blue-300 text-lg" />,
+      label: "MySQL",
+    },
+    firebase: {
+      icon: <SiFirebase className="text-yellow-300 text-lg" />,
+      label: "Firebase",
+    },
+    expo: { icon: <SiExpo className="text-white text-lg" />, label: "Expo" },
+    kotlin: {
+      icon: <SiKotlin className="text-purple-400 text-lg" />,
+      label: "Kotlin",
+    },
+    laravel: {
+      icon: <SiLaravel className="text-red-500 text-lg" />,
+      label: "Laravel",
+    },
+    express: {
+      icon: <SiExpress className="text-white text-lg" />,
+      label: "Express.js",
+    },
+  };
 
 const projects = [
   {
@@ -194,14 +203,25 @@ export default function Project() {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+  }, []);
+
   return (
     <section
       className="relative z-10 w-full py-32 px-0 md:px-16 lg:px-32 bg-[#0B0F15]"
       id="project"
     >
       {/* Header dan Filter tetap */}
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-extrabold text-white tracking-tight">
+      <div
+        className="text-center mb-12"
+        data-aos="fade-down"
+        data-aos-duration="2000"
+      >
+        <h2 className="text-4xl font-extrabold text-white tracking-tight ">
           Snippets of My <span className="text-[#61DCA3]">Selected Works</span>
         </h2>
         <p className="mt-4 text-gray-400 max-w-xl mx-auto text-sm">
@@ -211,13 +231,17 @@ export default function Project() {
       </div>
 
       {/* Filter */}
-      <div className="flex justify-center flex-wrap gap-3 mb-10">
+      <div
+        className="flex justify-center flex-wrap gap-3 mb-10"
+        data-aos="zoom-in-up"
+        data-aos-duration="2000"
+      >
         {["all", "web", "mobile"].map((cat) => (
           <button
             key={cat}
             onClick={() => {
               setFilter(cat);
-              setCurrentPage(1); // Reset halaman saat filter berubah
+              setCurrentPage(1);
             }}
             className={`px-5 py-2 rounded-md text-sm font-semibold transition-all border-2
               ${
@@ -232,15 +256,13 @@ export default function Project() {
       </div>
 
       {/* Project Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 auto-rows-max">
+      <div
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 auto-rows-max"
+        data-aos="fade-up"
+        data-aos-duration="2000"
+      >
         {paginatedProjects.map((project, idx) => (
-          <PinContainer
-            key={idx}
-            title={
-              <FaGithub className="text-2xl flex items-center justify-center pl-1" />
-            }
-            href={project.href}
-          >
+          <PinContainer key={idx} title="View on Github" href={project.href}>
             <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] bg-black rounded-xl border border-[#61DCA3]">
               <h3 className="max-w-xs pb-2 font-bold text-base text-slate-100">
                 {project.title}
