@@ -9,6 +9,7 @@ import Experience from "./Pages/Experience";
 import Tape from "./Pages/Tape";
 import Skills from "./Pages/Skills";
 import Contact from "./Pages/Contact";
+import Footer from "./Pages/Footer";
 
 export default function Home() {
   return (
@@ -37,6 +38,9 @@ export default function Home() {
 
         {/* Contact Section */}
         <Contact />
+
+        {/* Footer Section */}
+        <Footer />
       </div>
     </>
   );
