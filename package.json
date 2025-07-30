@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.14.4",
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.3.0",
     "@react-three/rapier": "^2.1.0",
