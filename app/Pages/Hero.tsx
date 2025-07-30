@@ -20,7 +20,6 @@ export default function Hero() {
                 distance={150}
                 direction="horizontal"
                 reverse={false}
-                config={{ tension: 80, friction: 20 }}
                 initialOpacity={0.2}
                 animateOpacity
                 scale={1.1}
@@ -38,11 +37,11 @@ export default function Hero() {
                   text="Hey, I'm"
                   className="text-4xl md:text-6xl font-semibold text-start"
                   delay={50}
-                  animationFrom={{
+                  from={{
                     opacity: 0,
                     transform: "translate3d(0,50px,0)",
                   }}
-                  animationTo={{
+                  to={{
                     opacity: 1,
                     transform: "translate3d(0,0,0)",
                   }}
@@ -53,11 +52,11 @@ export default function Hero() {
                   text="Akhyar"
                   className="text-5xl md:text-6xl font-semibold text-start text-[#61DCA3]"
                   delay={75}
-                  animationFrom={{
+                  from={{
                     opacity: 0,
                     transform: "translate3d(0,50px,0)",
                   }}
-                  animationTo={{
+                  to={{
                     opacity: 1,
                     transform: "translate3d(0,0,0)",
                   }}
@@ -129,6 +128,7 @@ export default function Hero() {
           <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
         </div>
       </div>
+      .{" "}
     </div>
   );
 }

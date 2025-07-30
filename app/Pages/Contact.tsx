@@ -1,6 +1,8 @@
 "use client";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import React, { useRef, useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -47,12 +49,23 @@ export default function Contact() {
     }
   };
 
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+  }, []);
+
   return (
     <section
       id="contact"
       className="min-h-screen bg-[#0B0F15] flex items-center justify-center px-4 py-12 relative"
     >
-      <div className="w-full max-w-6xl bg-white/5 backdrop-blur-lg rounded-3xl shadow-2xl p-6 sm:p-10 md:p-16 border border-white/10">
+      <div
+        className="w-full max-w-6xl bg-white/5 backdrop-blur-lg rounded-3xl shadow-2xl p-6 sm:p-10 md:p-16 border border-white/10"
+        data-aos="zoom-out-up"
+        data-aos-duration="2000"
+      >
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           {/* Lottie Animation */}
           <div className="w-full md:w-1/2 flex justify-center items-center">
