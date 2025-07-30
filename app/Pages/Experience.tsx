@@ -11,10 +11,10 @@ const experiences = [
   {
     id: 1,
     title: "Informatics Graduate",
-    company: "Universitas Syiah Kuala",
+    company: "Syiah Kuala University",
     year: "2021 - 2025",
     description:
-      "Graduated with a Bachelor's degree in Informatics from Universitas Syiah Kuala. Specialized in software engineering with a strong focus on mobile and web application development.",
+      "Graduated with a Bachelor's degree in Informatics from Syiah Kuala University. Specialized in software engineering with a strong focus on mobile and web application development.",
     logo: "https://pbs.twimg.com/profile_images/975955312791318528/obloSW_n_400x400.jpg",
   },
   {
@@ -23,7 +23,7 @@ const experiences = [
     company: "Bangkit Academy",
     year: "2024",
     description:
-      "Contributed as a Mobile Developer in a capstone project called MediGuide — an AI-based virtual health assistant. Built using React Native and Firebase, this app provides disease info to users.",
+      "Contributed as a Mobile Developer in a capstone project called MediGuide an AI-based virtual health assistant. Built using Kotlin, this app provides disease info to users.",
     logo: "https://yt3.googleusercontent.com/0b3Ljhqw5VJpXwOaffzj5lwAfHHYa7fTfT32hjnZ3MMHyWu84IUfy4CTliMmY15f0k8i-wt7oA=s900-c-k-c0x00ffffff-no-rj",
   },
   {
@@ -61,7 +61,7 @@ const Experience: React.FC = () => {
 
   return (
     <section
-      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32"
+      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32 bg-[#0B0F15]"
       id="experience"
     >
       <div

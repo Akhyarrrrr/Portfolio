@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
-import Navbar from "./components/Pages/Navbar";
-import Hero from "./components/Pages/Hero";
-import Background from "./components/Pages/Background";
-import Project from "./components/Pages/Project";
-import Experience from "./components/Pages/Experience";
+import Navbar from "./Pages/Navbar";
+import Hero from "./Pages/Hero";
+import Background from "./Pages/Background";
+import Project from "./Pages/Project";
+import Experience from "./Pages/Experience";
+import Tape from "./Pages/Tape";
+import Skills from "./Pages/Skills";
+import Contact from "./Pages/Contact";
 
 export default function Home() {
   return (
@@ -23,10 +26,17 @@ export default function Home() {
         {/* Experience Section */}
         <Experience />
 
+        {/* Tape Component */}
+        <Tape />
+
         {/* Project Section */}
         <Project />
 
+        {/* Skills Section */}
+        <Skills />
+
         {/* Contact Section */}
+        <Contact />
       </div>
     </>
   );
