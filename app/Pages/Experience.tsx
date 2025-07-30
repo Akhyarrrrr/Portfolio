@@ -61,11 +61,11 @@ const Experience: React.FC = () => {
 
   return (
     <section
-      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32 bg-[#0B0F15]"
+      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32 bg-[#0B0F15] "
       id="experience"
     >
       <div
-        className="text-center mb-20 "
+        className="text-center mb-2 md:mb-20"
         data-aos="fade-down"
         data-aos-duration="2000"
       >
