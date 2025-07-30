@@ -8,12 +8,12 @@ import { HiDownload } from "react-icons/hi";
 export default function Hero() {
   return (
     <div
-      className="container mx-auto max-w-screen-xl h-screen px-4 bg-[#0B0F15]"
+      className="container mx-auto max-w-screen-xl md:h-screen px-4 bg-[#0B0F15]"
       id="hero"
     >
       <div className="grid grid-cols-1 md:grid-cols-12">
         {/* Kiri */}
-        <div className="col-span-6 flex items-center">
+        <div className="col-span-6 flex items-center pt-28 md:pt-0">
           <div className="flex items-center h-full">
             <div className="flex flex-col gap-6 ">
               <AnimatedContent
@@ -36,7 +36,7 @@ export default function Hero() {
               <div className="flex flex-col items-start">
                 <SplitText
                   text="Hey, I'm"
-                  className="text-6xl font-semibold text-start"
+                  className="text-4xl md:text-6xl font-semibold text-start"
                   delay={50}
                   animationFrom={{
                     opacity: 0,
@@ -51,7 +51,7 @@ export default function Hero() {
                 />
                 <SplitText
                   text="Akhyar"
-                  className="text-6xl font-semibold text-start text-[#61DCA3]"
+                  className="text-5xl md:text-6xl font-semibold text-start text-[#61DCA3]"
                   delay={75}
                   animationFrom={{
                     opacity: 0,
@@ -71,7 +71,7 @@ export default function Hero() {
                 delay={75}
                 animateBy="words"
                 direction="top"
-                className="text-xl mb-8"
+                className="text-lg md:text-xl mb-8"
               />
 
               {/* CV */}
@@ -82,7 +82,7 @@ export default function Hero() {
                   <a
                     href="/CV-Akhyar.pdf"
                     download
-                    className="flex items-center gap-2 px-8 py-4 rounded-lg border border-[#61DCA3] text-[#61DCA3] 
+                    className="flex items-center gap-2 px-4 md:px-8  py-2 md:py-4 rounded-lg border border-[#61DCA3] text-[#61DCA3] 
                    hover:bg-[#61DCA3] hover:text-white transition duration-300 active:scale-95"
                   >
                     <span>Download CV</span>
@@ -125,7 +125,7 @@ export default function Hero() {
         </div>
 
         {/* Kanan */}
-        <div className="col-span-6 mt-10 md:mt-0 pt-0 md:pt-8">
+        <div className="col-span-6 mt-44 md:mt-0 pt-0 md:pt-8 -mb:20 md:mb-0 ">
           <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
         </div>
       </div>

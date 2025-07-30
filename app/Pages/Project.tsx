@@ -196,7 +196,7 @@ export default function Project() {
 
   return (
     <section
-      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32 bg-[#0B0F15]"
+      className="relative z-10 w-full py-32 px-0 md:px-16 lg:px-32 bg-[#0B0F15]"
       id="project"
     >
       {/* Header dan Filter tetap */}
