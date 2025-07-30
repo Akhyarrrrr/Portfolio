@@ -1,13 +1,16 @@
-import AnimatedContent from "../AnimatedContent/AnimatedContent";
-import SplitText from "../SplitText/SplitText";
-import BlurText from "../BlurText/BlurText";
-import Lanyard from "../Lanyard/Lanyard";
+import AnimatedContent from "../components/AnimatedContent/AnimatedContent";
+import SplitText from "../components/SplitText/SplitText";
+import BlurText from "../components/BlurText/BlurText";
+import Lanyard from "../components/Lanyard/Lanyard";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiDownload } from "react-icons/hi";
 
 export default function Hero() {
   return (
-    <div className="container mx-auto max-w-screen-xl h-screen px-4" id="hero">
+    <div
+      className="container mx-auto max-w-screen-xl h-screen px-4 bg-[#0B0F15]"
+      id="hero"
+    >
       <div className="grid grid-cols-1 md:grid-cols-12">
         {/* Kiri */}
         <div className="col-span-6 flex items-center">

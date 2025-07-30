@@ -1,4 +1,4 @@
-import Squares from "../Squares/Squares";
+import Squares from "../components/Squares/Squares";
 
 export default function Background() {
   return (
