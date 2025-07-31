@@ -16,6 +16,7 @@ import {
 } from "react-icons/si";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { getProjects } from "../../lib/firestoreCrud";
 
 const techIcons: { [key: string]: { icon: React.JSX.Element; label: string } } =
   {
@@ -70,102 +71,18 @@ const techIcons: { [key: string]: { icon: React.JSX.Element; label: string } } =
     },
   };
 
-const projects = [
-  {
-    title: "MediGuide",
-    description:
-      "An AI-powered virtual health assistant providing information various diseases",
-    category: "mobile",
-    href: "https://github.com/MediGuide-Project/MediGuide-Apps",
-    image: "/assets/images/projects/mediguide.png",
-    tech: ["kotlin"],
-  },
-  {
-    title: "NutriCycle",
-    description:
-      "A website promoting food waste awareness & sustainable nutrition habits.",
-    category: "web",
-    href: "https://github.com/alifannaufally/INF206-2023-DY2-NutriCycle",
-    image: "/assets/images/projects/nutricycle.png",
-    tech: ["laravel", "tailwind", "mysql"],
-  },
-  {
-    title: "Simbima",
-    description:
-      "Monitoring information system for student guidance documentation.",
-    category: "web",
-    href: "https://github.com/AdreanBadarr/NoobDev._Final_Project",
-    image: "/assets/images/projects/simbima.png",
-    tech: ["laravel", "tailwind"],
-  },
-  {
-    title: "Employee Leave Application System",
-    description:
-      "Leave request system for employees with admin and user interface.",
-    category: "web",
-    href: "#",
-    image: "/assets/images/projects/bmkg.png",
-    tech: ["react", "tailwind", "mysql", "express"],
-  },
-  {
-    title: "Web Portofolio basic",
-    description:
-      "A classic portfolio made with semantic HTML, custom CSS, and vanilla JavaScript.",
-    category: "web",
-    href: "https://akhyarrrrr.github.io/Portfolio-HtmlCssJs/#",
-    image: "/assets/images/projects/portfolio_htmlcss.png",
-    tech: ["html", "css", "javascript"],
-  },
-  {
-    title: "Web Portofolio",
-    description: "Modern and responsive personal portfolio using Tailwind CSS.",
-    category: "web",
-    href: "https://akhyarrrrr.github.io/portfolio-tailwind-css/",
-    image: "/assets/images/projects/portfolio_tailwind.png",
-    tech: ["html", "tailwind", "javascript"],
-  },
-  {
-    title: "Web Portofolio",
-    description:
-      "Interactive portfolio built with Next.js using various custom React Bits components.",
-    category: "web",
-    href: "#",
-    image: "/assets/images/projects/portfolio_next.png",
-    tech: ["next", "react", "tailwind", "firebase"],
-  },
-  {
-    title: "Forterzz",
-    description:
-      "A team-based service platform that provides professional account boosting",
-    category: "web",
-    href: "#",
-    image: "/assets/images/projects/forterz.png",
-    tech: ["react", "tailwind"],
-  },
-  {
-    title: "RWikiStat",
-    description:
-      "Interactive statistics learning platform with built-in R compiler.",
-    category: "mobile",
-    href: "https://apps.apple.com/id/app/rwikistat/id6739125153",
-    image: "/assets/images/projects/rwikistat.png",
-    tech: ["expo", "react-native", "tailwind", "firebase"],
-  },
-  {
-    title: "Wedding Invitation Website",
-    description:
-      "Digital wedding invitation with RSVP and location integration.",
-    category: "web",
-    href: "#",
-    image: "/assets/images/projects/wedding.png",
-    tech: ["laravel", "tailwind"],
-  },
-];
-
 export default function Project() {
   const [filter, setFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    getProjects().then((data) => {
+      console.log("DATA DARI FIRESTORE:", data); // Tambahkan ini!
+      setProjects(data);
+    });
+  }, []);
 
   // Hitung jumlah project berdasarkan filter
   const filteredProjects = (
@@ -279,7 +196,7 @@ export default function Project() {
               </div>
               <div
                 className="w-full rounded-lg overflow-hidden aspect-video bg-center bg-cover transform transition duration-300 hover:scale-105 hover:shadow-xl"
-                style={{ backgroundImage: `url(${project.image})` }}
+                style={{ backgroundImage: `url(${project.imageUrl})` }}
               />
             </div>
           </PinContainer>

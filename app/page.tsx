@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Navbar from "./Pages/Navbar";
-import Hero from "./Pages/Hero";
-import Background from "./Pages/Background";
-import Project from "./Pages/Project";
-import Experience from "./Pages/Experience";
-import Tape from "./Pages/Tape";
-import Skills from "./Pages/Skills";
-import Contact from "./Pages/Contact";
-import Footer from "./Pages/Footer";
+import Navbar from "./pages/Navbar";
+import Hero from "./pages/Hero";
+import Background from "./pages/Background";
+import Project from "./pages/Project";
+import Experience from "./pages/Experience";
+import Tape from "./pages/Tape";
+import Skills from "./pages/Skills";
+import Contact from "./pages/Contact";
+import Footer from "./pages/Footer";
 
 export default function Home() {
   // Smooth scroll to top on refresh
