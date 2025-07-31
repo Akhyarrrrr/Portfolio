@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { PinContainer } from "../components/ui/3d-pin";
+import { PinContainer } from "./components/ui/3d-pin";
 import { FaReact, FaHtml5, FaCss3Alt, FaGithub } from "react-icons/fa";
 import {
   SiTailwindcss,
@@ -16,7 +16,7 @@ import {
 } from "react-icons/si";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { getProjects } from "../../lib/firestoreCrud";
+import { getProjects } from "../lib/firestoreCrud";
 
 type ProjectType = {
   id: string;

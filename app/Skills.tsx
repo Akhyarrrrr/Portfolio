@@ -14,7 +14,7 @@ import {
   SiDocker,
   SiLinux,
 } from "react-icons/si";
-import ScrollVelocity from "../components/ScrollVelocity/ScrollVelocity";
+import ScrollVelocity from "./components/ScrollVelocity/ScrollVelocity";
 
 const skills = [
   {
