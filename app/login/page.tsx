@@ -38,66 +38,70 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-[#0b0f15] relative overflow-hidden px-4">
-      {/* Lottie with soft shadow glow */}
-      <div className="relative flex flex-col items-center w-full z-10">
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-          aria-hidden
-        >
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0b0f15] px-4 py-12 sm:px-6 lg:flex-row lg:px-8">
+      {/* Left side: Lottie Animation */}
+      <div className="relative flex w-full items-center justify-center lg:w-1/2">
+        <div className="relative z-10 flex flex-col items-center">
           <div
-            className="rounded-full blur-2xl opacity-40"
-            style={{
-              background:
-                "radial-gradient(circle, #61dca380 30%, transparent 80%)",
-              width: "620px",
-              height: "620px",
-            }}
-          />
-        </div>
-        <div className="w-36 h-36 md:w-96 md:h-96 relative z-20 flex items-center justify-center animate-pop-in">
-          <DotLottieReact
-            src="https://lottie.host/3a3a6bfa-c42d-42be-aebe-fbd87507d3d6/LCJHZoKvgu.lottie"
-            loop
-            autoplay
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              display: "block",
-              minWidth: 0,
-              minHeight: 0,
-            }}
-          />
+            className="pointer-events-none absolute inset-0 flex select-none items-center justify-center"
+            aria-hidden
+          >
+            <div
+              className="rounded-full blur-3xl opacity-30 h-[600px] w-[600px] md:h-[900px] md:w-[900px]"
+              style={{
+                background:
+                  "radial-gradient(circle, #61DCA3 20%, transparent 70%)",
+              }}
+            />
+          </div>
+          <div className="relative z-20 flex h-40 w-40 animate-pop-in items-center justify-center h-56 w-56 md:h-64 md:w-64 lg:h-80 lg:w-80">
+            <DotLottieReact
+              src="https://lottie.host/3a3a6bfa-c42d-42be-aebe-fbd87507d3d6/LCJHZoKvgu.lottie"
+              loop
+              autoplay
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                display: "block",
+                minWidth: 0,
+                minHeight: 0,
+              }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Glass Card */}
-      <div className="relative z-30 w-full max-w-sm mt-1">
-        <div className="backdrop-blur-xl bg-[#181d23cc] border border-[#232537] shadow-2xl rounded-3xl px-8 py-10 flex flex-col gap-7 items-center animate-slide-fade-in">
-          <h2 className="text-3xl md:text-4xl font-black text-[#61DCA3] text-center tracking-tight drop-shadow mb-2">
-            Admin Login
-          </h2>
-          <button
-            onClick={handleLogin}
-            disabled={loading}
-            className={`flex items-center justify-center gap-3 w-full bg-[#61DCA3] text-[#0B0F15] py-3 px-6 rounded-xl font-bold shadow-xl text-lg focus:ring-4 focus:ring-[#61dca3]/30 outline-none
-              transition-all duration-200 hover:scale-105 hover:bg-[#50b57e] active:scale-100 ${
-                loading ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-          >
-            <FcGoogle className="text-2xl" />
-            {loading ? (
-              <span className="flex items-center gap-2">
-                <FaSpinner className="animate-spin" />
-                Loading...
-              </span>
-            ) : (
-              <span>Login with Google</span>
-            )}
-          </button>
-          <div className="text-gray-400 text-xs text-center mt-2 select-none">
-            Hanya untuk admin: <b>ahyar12324@gmail.com</b>
+      {/* Right side: Glass Card */}
+      <div className="flex w-full items-center justify-center lg:w-1/2">
+        <div className="relative z-30 mt-8 w-full max-w-sm lg:mt-0">
+          <div className="relative rounded-3xl bg-gradient-to-b from-[#61DCA3]/20 via-transparent to-transparent p-px transition-all duration-300 hover:from-[#61DCA3]/40">
+            <div className="flex animate-slide-fade-in flex-col items-center gap-7 rounded-[23px] bg-[#181d23cc] px-6 py-8 shadow-2xl backdrop-blur-xl md:px-8 md:py-10">
+              <h2 className="mb-2 bg-gradient-to-b from-[#61DCA3] to-[#50b57e] bg-clip-text text-center text-3xl font-black tracking-tight text-transparent drop-shadow-md md:text-4xl">
+                Admin Login
+              </h2>
+              <button
+                onClick={handleLogin}
+                disabled={loading}
+                className={`flex w-full items-center justify-center gap-3 rounded-xl bg-[#61DCA3] py-3 px-6 text-lg font-bold text-[#0B0F15] shadow-xl outline-none transition-all duration-200 hover:scale-105 hover:bg-[#50b57e] focus:ring-4 focus:ring-[#61dca3]/30 active:scale-100 ${
+                  loading ? "cursor-not-allowed opacity-70" : ""
+                }`}
+              >
+                <FcGoogle className="text-2xl" />
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <FaSpinner className="animate-spin" />
+                    Loading...
+                  </span>
+                ) : (
+                  <span>Login with Google</span>
+                )}
+              </button>
+              <div className="mt-2 select-none text-center text-xs text-gray-400">
+                Hanya untuk admin:{" "}
+                <b className="font-medium text-white">ahyar12324@gmail.com</b>
+              </div>
+            </div>
           </div>
         </div>
       </div>

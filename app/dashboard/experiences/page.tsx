@@ -10,9 +10,13 @@ import { useAuth } from "../../../context/AuthContext";
 import { uploadToCloudinary } from "../../../lib/cloudinary";
 import { useRouter } from "next/navigation";
 import { FiArrowLeft, FiUploadCloud } from "react-icons/fi";
-import {  FaUserTie } from "react-icons/fa";
+import { FaUserTie } from "react-icons/fa";
 
 export default function ExperienceCRUD() {
+  const [showDelete, setShowDelete] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
   const [experiences, setExperiences] = useState<any[]>([]);
   const [form, setForm] = useState({
     title: "",
@@ -85,12 +89,8 @@ export default function ExperienceCRUD() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id: string) => {
-    if (confirm("Delete this experience? This action is irreversible.")) {
-      await deleteExperience(id);
-      setToast("Experience deleted!");
-      getExperiences().then(setExperiences);
-    }
+  const handleDelete = (id: string, title: string) => {
+    setShowDelete({ id, title });
   };
 
   if (user === undefined) return <div className="text-white">Loading...</div>;
@@ -118,7 +118,7 @@ export default function ExperienceCRUD() {
         </div>
 
         {toast && (
-          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg shadow bg-[#202f22] text-[#61dca3] font-bold border border-[#61dca3] animate-fade-in">
+          <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg bg-[#232537] text-[#61dca3] font-bold border border-[#61dca3] animate-fade-in text-lg">
             {toast}
           </div>
         )}
@@ -282,7 +282,7 @@ export default function ExperienceCRUD() {
                       </button>
                       <button
                         className="text-red-400 hover:underline font-semibold"
-                        onClick={() => handleDelete(exp.id)}
+                        onClick={() => handleDelete(exp.id, exp.title)}
                       >
                         Delete
                       </button>
@@ -315,6 +315,42 @@ export default function ExperienceCRUD() {
             animation: fade-in 0.3s ease-out;
           }
         `}</style>
+        {showDelete && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 animate-fade-in">
+            <div className="bg-[#181a21] rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center border border-gray-700">
+              <div className="text-5xl mb-4 text-red-500">⚠️</div>
+              <h2 className="font-bold text-xl mb-2">Delete Experience?</h2>
+              <p className="mb-6 text-gray-400">
+                Are you sure you want to delete{" "}
+                <span className="font-semibold text-white">
+                  {showDelete.title}
+                </span>
+                ? This action is irreversible.
+              </p>
+              <div className="flex justify-center gap-4">
+                <button
+                  className="px-6 py-2 rounded-lg bg-[#61dca3] text-[#0b0f15] font-bold hover:bg-[#3fc78d] transition"
+                  onClick={async () => {
+                    if (showDelete) {
+                      await deleteExperience(showDelete.id);
+                      setToast("Experience deleted!");
+                      setShowDelete(null);
+                      getExperiences().then(setExperiences);
+                    }
+                  }}
+                >
+                  Yes, Delete
+                </button>
+                <button
+                  className="px-6 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+                  onClick={() => setShowDelete(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
