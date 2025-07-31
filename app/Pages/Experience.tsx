@@ -5,7 +5,7 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { getExperiences } from "@/lib/firestoreCrud"; // pastikan path benar!
+import { getExperiences } from "@/lib/firestoreCrud";
 
 type ExperienceType = {
   id: string;
@@ -18,15 +18,6 @@ type ExperienceType = {
 
 const Experience: React.FC = () => {
   const [experiences, setExperiences] = useState<ExperienceType[]>([]);
-
-  // Fetch experiences dari Firestore pas komponen mount
-  useEffect(() => {
-    getExperiences().then(setExperiences);
-    AOS.init({
-      duration: 800,
-      once: true,
-    });
-  }, []);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -45,7 +36,7 @@ const Experience: React.FC = () => {
   useEffect(() => {
     getExperiences().then((exps) => {
       const sorted = [...exps].sort((a, b) => {
-        const getLastYear = (y) => {
+        const getLastYear = (y: string) => {
           const nums = String(y).match(/\d{4}/g);
           return nums ? parseInt(nums[nums.length - 1]) : 0;
         };
