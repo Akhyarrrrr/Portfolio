@@ -1,7 +1,7 @@
-import AnimatedContent from "../components/AnimatedContent/AnimatedContent";
-import SplitText from "../components/SplitText/SplitText";
-import BlurText from "../components/BlurText/BlurText";
-import Lanyard from "../components/Lanyard/Lanyard";
+import AnimatedContent from "./components/AnimatedContent/AnimatedContent";
+import SplitText from "./components/SplitText/SplitText";
+import BlurText from "./components/BlurText/BlurText";
+import Lanyard from "./components/Lanyard/Lanyard";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiDownload } from "react-icons/hi";
 
