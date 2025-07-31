@@ -1,5 +1,13 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  JSXElementConstructor,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+} from "react";
 import {
   getProjects,
   addProject,
@@ -9,6 +17,8 @@ import {
 import { uploadToCloudinary } from "../../../lib/cloudinary";
 import { useAuth } from "../../../context/AuthContext";
 import { useRouter } from "next/navigation";
+import { FiArrowLeft, FiUploadCloud } from "react-icons/fi";
+import { FaProjectDiagram } from "react-icons/fa";
 
 export default function ProjectCRUD() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -41,7 +51,7 @@ export default function ProjectCRUD() {
       return;
     }
     getProjects().then(setProjects);
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
     if (!toast) return;
@@ -134,29 +144,48 @@ export default function ProjectCRUD() {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen bg-[#0b0f15]">
-      <div className="flex-1 flex flex-col p-4 sm:p-6 md:p-10 lg:p-14 transition-all ml-0 md:ml-[240px]">
-        <h1 className="text-3xl font-extrabold tracking-tight mb-8 text-white">
-          Projects Admin
-        </h1>
+    <div className="flex min-h-screen bg-[#0b0f15] text-white">
+      <main className="flex-1 px-3 sm:px-6 md:px-10 py-8 w-full">
+        {/* Header */}
+        <div className="flex flex-row items-start sm:items-center justify-between mb-8 gap-4">
+          <div className="flex items-center gap-4">
+            <div className="bg-gradient-to-br from-[#61DCA3] to-emerald-500 p-3 rounded-lg">
+              <FaProjectDiagram className="text-xl md:text-3xl" />
+            </div>
+            <h1 className=" text-xl md:text-3xl font-bold tracking-tight">
+              Manage Projects
+            </h1>
+          </div>
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
+          >
+            <FiArrowLeft />
+            <span>Back</span>
+          </button>
+        </div>
+
+        {/* Toast */}
         {toast && (
           <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg bg-[#232537] text-[#61dca3] font-bold border border-[#61dca3] animate-fade-in text-lg">
             {toast}
           </div>
         )}
-        {/* FORM */}
+
+        {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col lg:flex-row gap-6 bg-[#17191f] rounded-2xl p-7 shadow-2xl mb-10"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-[#17191f] rounded-2xl p-7 shadow-2xl mb-10"
         >
-          <div className="flex-1 flex flex-col gap-4">
+          {/* Input Fields */}
+          <div className="lg:col-span-2 flex flex-col gap-4">
             <input
               placeholder="Title"
               value={form.title}
               onChange={(e) =>
                 setForm((f) => ({ ...f, title: e.target.value }))
               }
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
               required
             />
             <textarea
@@ -165,7 +194,7 @@ export default function ProjectCRUD() {
               onChange={(e) =>
                 setForm((f) => ({ ...f, description: e.target.value }))
               }
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none resize-none"
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none resize-none"
               rows={3}
               required
             />
@@ -174,7 +203,7 @@ export default function ProjectCRUD() {
               onChange={(e) =>
                 setForm((f) => ({ ...f, category: e.target.value }))
               }
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
               required
             >
               <option value="" disabled>
@@ -184,9 +213,6 @@ export default function ProjectCRUD() {
               <option value="mobile">Mobile</option>
             </select>
             <div>
-              <label className="block mb-1 font-semibold text-gray-400">
-                Tech Stack
-              </label>
               <div className="flex flex-wrap items-center gap-2 rounded-xl bg-[#232537] px-3 py-2 min-h-[44px] border border-transparent focus-within:ring-2 focus-within:ring-[#61dca3]">
                 {form.tech.map((tech, idx) => (
                   <span
@@ -210,7 +236,7 @@ export default function ProjectCRUD() {
                   value={techInput}
                   onChange={(e) => setTechInput(e.target.value)}
                   onKeyDown={handleTechKey}
-                  className="bg-transparent outline-none text-white py-2 flex-1 min-w-[80px]"
+                  className="bg-transparent outline-none text-white py-1 flex-1 min-w-[100px]"
                   list="tech-list"
                 />
                 <datalist id="tech-list">
@@ -218,40 +244,35 @@ export default function ProjectCRUD() {
                   <option value="next" />
                   <option value="firebase" />
                   <option value="tailwind" />
-                  <option value="expo" />
-                  <option value="kotlin" />
-                  <option value="mysql" />
-                  <option value="laravel" />
-                  <option value="css" />
-                  <option value="html" />
-                  <option value="express" />
                 </datalist>
               </div>
-              <span className="text-xs text-gray-400 mt-1 block">
-                Press <b>Enter/Tab</b> to add. Example:{" "}
-                <i>react, next, firebase, ...</i>
-              </span>
             </div>
             <input
               placeholder="Github/Link"
               value={form.href}
               onChange={(e) => setForm((f) => ({ ...f, href: e.target.value }))}
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
             />
           </div>
-          <div className="flex flex-col items-center justify-start gap-4 min-w-[200px]">
+          {/* Image Upload */}
+          <div className="lg:col-span-1 flex flex-col items-center justify-start gap-4">
             <label
               htmlFor="file"
-              className="w-full flex flex-col items-center justify-center gap-3 px-4 py-6 bg-[#22242b] border-2 border-dashed border-[#61dca3]/40 rounded-2xl cursor-pointer hover:bg-[#232537] transition"
+              className="w-full max-w-xs min-h-[150px] flex flex-col items-center justify-center gap-3 px-4 py-6 bg-[#22242b] border-2 border-dashed border-[#61dca3]/40 rounded-2xl cursor-pointer hover:bg-[#232537] transition"
             >
               {preview || form.imageUrl ? (
                 <img
                   src={preview || form.imageUrl}
                   alt="Preview"
-                  className="w-36 h-28 object-cover rounded-xl shadow-lg border-2 border-[#61dca3]/50 mb-2"
+                  className="w-full h-36 object-cover rounded-xl shadow-lg border-2 border-[#61dca3]/50 mb-2"
                 />
               ) : (
-                <span className="text-[#61dca3] font-bold">+ Upload Image</span>
+                <div className="text-center">
+                  <FiUploadCloud className="mx-auto text-3xl text-gray-500 mb-2" />
+                  <span className="text-[#61dca3] font-bold">
+                    + Upload Image
+                  </span>
+                </div>
               )}
               <input
                 ref={fileRef}
@@ -270,10 +291,12 @@ export default function ProjectCRUD() {
               {file || preview ? (
                 <button
                   type="button"
-                  className="text-xs text-red-400 hover:text-red-600 underline"
-                  onClick={() => {
+                  className="text-xs text-red-400 hover:text-red-600 underline mt-2"
+                  onClick={(e) => {
+                    e.preventDefault();
                     setFile(null);
                     setPreview(null);
+                    setForm((f) => ({ ...f, imageUrl: "" }));
                     if (fileRef.current) fileRef.current.value = "";
                   }}
                 >
@@ -296,7 +319,7 @@ export default function ProjectCRUD() {
                   setForm({
                     title: "",
                     description: "",
-                    category: "web",
+                    category: "",
                     href: "",
                     tech: [],
                     imageUrl: "",
@@ -313,17 +336,17 @@ export default function ProjectCRUD() {
           </div>
         </form>
 
-        {/* TABLE */}
+        {/* Table */}
         <div className="overflow-x-auto rounded-2xl bg-[#181a21] p-4 shadow-lg">
-          <table className="w-full text-left min-w-[640px]">
+          <table className="w-full text-left min-w-[600px]">
             <thead>
-              <tr>
-                <th className="pb-3 px-2">Image</th>
-                <th className="pb-3 px-2">Title</th>
-                <th className="pb-3 px-2">Category</th>
-                <th className="pb-3 px-2">Tech</th>
-                <th className="pb-3 px-2">Link</th>
-                <th className="pb-3 px-2"></th>
+              <tr className="border-b border-gray-700">
+                <th className="p-3">Image</th>
+                <th className="p-3">Title</th>
+                <th className="p-3">Category</th>
+                <th className="p-3">Tech</th>
+                <th className="p-3">Link</th>
+                <th className="p-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -332,28 +355,59 @@ export default function ProjectCRUD() {
                   key={proj.id}
                   className="border-b border-[#232537]/40 hover:bg-[#232537]/30 transition"
                 >
-                  <td className="py-2 px-2">
+                  <td className="p-3">
                     <img
                       src={proj.imageUrl}
-                      alt=""
-                      className="w-16 h-16 object-cover rounded-full border-2 border-[#61dca3]/50"
+                      alt={proj.title}
+                      className="w-16 h-16 object-cover rounded-md border-2 border-[#61dca3]/50"
                     />
                   </td>
-                  <td className="py-2 px-2 font-bold">{proj.title}</td>
-                  <td className="py-2 px-2 capitalize">{proj.category}</td>
-                  <td className="py-2 px-2">
-                    {Array.isArray(proj.tech)
-                      ? proj.tech.map((t, idx) => (
+                  <td className="p-3 font-bold">{proj.title}</td>
+                  <td className="p-3 capitalize">{proj.category}</td>
+                  <td className="p-3 max-w-xs">
+                    <div className="flex flex-wrap gap-1">
+                      {(Array.isArray(proj.tech) ? proj.tech : []).map(
+                        (
+                          t:
+                            | string
+                            | number
+                            | bigint
+                            | boolean
+                            | ReactElement<
+                                unknown,
+                                string | JSXElementConstructor<any>
+                              >
+                            | Iterable<ReactNode>
+                            | ReactPortal
+                            | Promise<
+                                | string
+                                | number
+                                | bigint
+                                | boolean
+                                | ReactPortal
+                                | ReactElement<
+                                    unknown,
+                                    string | JSXElementConstructor<any>
+                                  >
+                                | Iterable<ReactNode>
+                                | null
+                                | undefined
+                              >
+                            | null
+                            | undefined,
+                          idx: any
+                        ) => (
                           <span
                             key={t + idx}
-                            className="bg-[#232537] px-2 py-1 rounded-full text-xs font-semibold text-[#61dca3] mr-1"
+                            className="bg-[#232537] px-2 py-1 rounded text-xs font-semibold text-[#61dca3]"
                           >
                             {t}
                           </span>
-                        ))
-                      : proj.tech}
+                        )
+                      )}
+                    </div>
                   </td>
-                  <td className="py-2 px-2 max-w-[160px] truncate">
+                  <td className="p-3 max-w-xs truncate">
                     {proj.href ? (
                       <a
                         href={proj.href}
@@ -364,56 +418,60 @@ export default function ProjectCRUD() {
                         {proj.href}
                       </a>
                     ) : (
-                      "-"
+                      <span className="text-gray-500">-</span>
                     )}
                   </td>
-                  <td className="py-2 px-2 flex gap-4">
-                    <button
-                      className="text-blue-400 hover:underline font-semibold"
-                      onClick={() => handleEdit(proj)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="text-red-400 hover:underline font-semibold"
-                      onClick={() =>
-                        setShowDelete({ id: proj.id, title: proj.title })
-                      }
-                    >
-                      Delete
-                    </button>
+                  <td className="p-3">
+                    <div className="flex gap-4">
+                      <button
+                        className="text-blue-400 hover:underline font-semibold"
+                        onClick={() => handleEdit(proj)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="text-red-400 hover:underline font-semibold"
+                        onClick={() =>
+                          setShowDelete({ id: proj.id, title: proj.title })
+                        }
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
               {!projects.length && (
                 <tr>
-                  <td colSpan={6} className="text-center py-8 text-gray-500">
-                    No project data yet.
+                  <td colSpan={6} className="text-center py-12 text-gray-500">
+                    No projects found. Add one above!
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
           {showDelete && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fade-in">
-              <div className="bg-[#181a21] rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
-                <div className="text-3xl mb-2 text-red-500">⚠️</div>
+            <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 animate-fade-in">
+              <div className="bg-[#181a21] rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center border border-gray-700">
+                <div className="text-5xl mb-4 text-red-500">⚠️</div>
                 <h2 className="font-bold text-xl mb-2">Delete Project?</h2>
                 <p className="mb-6 text-gray-400">
                   Are you sure you want to delete{" "}
                   <span className="font-semibold text-white">
                     {showDelete.title}
                   </span>
-                  ?
+                  ? This action is irreversible.
                 </p>
                 <div className="flex justify-center gap-4">
                   <button
                     className="px-6 py-2 rounded-lg bg-[#61dca3] text-[#0b0f15] font-bold hover:bg-[#3fc78d] transition"
                     onClick={async () => {
-                      await deleteProject(showDelete.id);
-                      setToast("Project deleted!");
-                      setShowDelete(null);
-                      getProjects().then(setProjects);
+                      if (showDelete) {
+                        await deleteProject(showDelete.id);
+                        setToast("Project deleted!");
+                        setShowDelete(null);
+                        getProjects().then(setProjects);
+                      }
                     }}
                   >
                     Yes, Delete
@@ -433,23 +491,18 @@ export default function ProjectCRUD() {
           @keyframes fade-in {
             from {
               opacity: 0;
-              transform: translateY(32px);
+              transform: scale(0.95);
             }
             to {
               opacity: 1;
-              transform: none;
+              transform: scale(1);
             }
           }
           .animate-fade-in {
-            animation: fade-in 0.6s ease;
-          }
-          @media (max-width: 767px) {
-            .ml-0.md\\:ml-\\[240px\\] {
-              margin-left: 0 !important;
-            }
+            animation: fade-in 0.3s ease-out;
           }
         `}</style>
-      </div>
+      </main>
     </div>
   );
 }
