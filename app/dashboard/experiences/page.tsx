@@ -9,8 +9,10 @@ import {
 import { useAuth } from "../../../context/AuthContext";
 import { uploadToCloudinary } from "../../../lib/cloudinary";
 import { useRouter } from "next/navigation";
+import { FiArrowLeft, FiUploadCloud } from "react-icons/fi";
+import {  FaUserTie } from "react-icons/fa";
 
-export default function experienceCRUD() {
+export default function ExperienceCRUD() {
   const [experiences, setExperiences] = useState<any[]>([]);
   const [form, setForm] = useState({
     title: "",
@@ -24,7 +26,7 @@ export default function experienceCRUD() {
   const [preview, setPreview] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -35,7 +37,7 @@ export default function experienceCRUD() {
       return;
     }
     getExperiences().then(setExperiences);
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
     if (!toast) return;
@@ -84,7 +86,7 @@ export default function experienceCRUD() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm("Delete this experience?")) {
+    if (confirm("Delete this experience? This action is irreversible.")) {
       await deleteExperience(id);
       setToast("Experience deleted!");
       getExperiences().then(setExperiences);
@@ -95,11 +97,25 @@ export default function experienceCRUD() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen flex bg-[#0b0f15]">
-      <main className="flex-1 px-8 py-8">
-        <h1 className="text-3xl font-extrabold mb-6 text-white">
-          Manage Experience
-        </h1>
+    <div className="min-h-screen flex bg-[#0b0f15] text-white">
+      <main className="flex-1 w-full px-4 sm:px-6 md:px-10 py-8">
+        <div className="flex flex-row items-start sm:items-center justify-between mb-8 gap-4">
+          <div className="flex items-center gap-4">
+            <div className="bg-gradient-to-br from-[#61DCA3] to-emerald-500 p-3 rounded-lg">
+              <FaUserTie className="text-xl md:text-3xl" />
+            </div>
+            <h1 className="text:xl md:text-3xl font-bold tracking-tight">
+              Manage Experience
+            </h1>
+          </div>
+          <button
+            onClick={() => router.push("/dashboard")}
+            className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
+          >
+            <FiArrowLeft />
+            <span>Back</span>
+          </button>
+        </div>
 
         {toast && (
           <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg shadow bg-[#202f22] text-[#61dca3] font-bold border border-[#61dca3] animate-fade-in">
@@ -107,19 +123,18 @@ export default function experienceCRUD() {
           </div>
         )}
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col md:flex-row gap-6 bg-[#17191f] rounded-2xl p-7 shadow-2xl mb-10"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-[#17191f] rounded-2xl p-7 shadow-2xl mb-10"
         >
-          <div className="flex-1 flex flex-col gap-4">
+          <div className="lg:col-span-2 flex flex-col gap-4">
             <input
               placeholder="Title"
               value={form.title}
               onChange={(e) =>
                 setForm((f) => ({ ...f, title: e.target.value }))
               }
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
               required
             />
             <input
@@ -128,14 +143,14 @@ export default function experienceCRUD() {
               onChange={(e) =>
                 setForm((f) => ({ ...f, company: e.target.value }))
               }
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
               required
             />
             <input
               placeholder="Year (ex: 2021 - 2025)"
               value={form.year}
               onChange={(e) => setForm((f) => ({ ...f, year: e.target.value }))}
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none"
               required
             />
             <textarea
@@ -144,25 +159,29 @@ export default function experienceCRUD() {
               onChange={(e) =>
                 setForm((f) => ({ ...f, description: e.target.value }))
               }
-              className="px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none resize-none"
-              rows={3}
+              className="w-full px-4 py-3 rounded-xl bg-[#232537] text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none resize-none"
+              rows={4}
               required
             />
           </div>
-          {/* Logo Upload & Preview */}
-          <div className="flex flex-col items-center justify-start gap-4 min-w-[200px]">
+          <div className="lg:col-span-1 flex flex-col items-center justify-start gap-4">
             <label
               htmlFor="logo"
-              className="w-full flex flex-col items-center justify-center gap-3 px-4 py-6 bg-[#22242b] border-2 border-dashed border-[#61dca3]/40 rounded-2xl cursor-pointer hover:bg-[#232537] transition"
+              className="w-full h-full min-h-[150px] flex flex-col items-center justify-center gap-3 px-4 py-6 bg-[#22242b] border-2 border-dashed border-[#61dca3]/40 rounded-2xl cursor-pointer hover:bg-[#232537] transition"
             >
               {preview || form.logo ? (
                 <img
                   src={preview || form.logo}
                   alt="Preview"
-                  className="w-24 h-24 object-contain rounded-full shadow-lg border-2 border-[#61dca3]/50 mb-2 bg-white"
+                  className="w-28 h-28 object-contain rounded-full shadow-lg border-2 border-[#61dca3]/50 mb-2 bg-white"
                 />
               ) : (
-                <span className="text-[#61dca3] font-bold">+ Upload Logo</span>
+                <div className="text-center">
+                  <FiUploadCloud className="mx-auto text-3xl text-gray-500 mb-2" />
+                  <span className="text-[#61dca3] font-bold">
+                    + Upload Logo
+                  </span>
+                </div>
               )}
               <input
                 ref={fileRef}
@@ -178,19 +197,21 @@ export default function experienceCRUD() {
                   )
                 }
               />
-              {file || preview ? (
+              {(file || preview) && (
                 <button
                   type="button"
-                  className="text-xs text-red-400 hover:text-red-600 underline"
-                  onClick={() => {
+                  className="text-xs text-red-400 hover:text-red-600 underline mt-2"
+                  onClick={(e) => {
+                    e.preventDefault();
                     setFile(null);
                     setPreview(null);
+                    setForm((f) => ({ ...f, logo: "" }));
                     if (fileRef.current) fileRef.current.value = "";
                   }}
                 >
                   Remove
                 </button>
-              ) : null}
+              )}
             </label>
             <button
               type="submit"
@@ -222,17 +243,16 @@ export default function experienceCRUD() {
           </div>
         </form>
 
-        {/* Table */}
         <div className="overflow-x-auto rounded-2xl bg-[#181a21] p-4 shadow-lg">
-          <table className="w-full text-left min-w-[600px]">
+          <table className="w-full text-left min-w-[700px]">
             <thead>
-              <tr>
-                <th className="pb-3 px-2">Logo</th>
-                <th className="pb-3 px-2">Title</th>
-                <th className="pb-3 px-2">Company</th>
-                <th className="pb-3 px-2">Year</th>
-                <th className="pb-3 px-2">Description</th>
-                <th className="pb-3 px-2"></th>
+              <tr className="border-b border-gray-700">
+                <th className="p-3">Logo</th>
+                <th className="p-3">Title</th>
+                <th className="p-3">Company</th>
+                <th className="p-3">Year</th>
+                <th className="p-3">Description</th>
+                <th className="p-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -241,38 +261,38 @@ export default function experienceCRUD() {
                   key={exp.id}
                   className="border-b border-[#232537]/40 hover:bg-[#232537]/30 transition"
                 >
-                  <td className="py-2 px-2">
+                  <td className="p-3">
                     <img
                       src={exp.logo}
-                      alt=""
+                      alt={exp.title}
                       className="w-14 h-14 object-contain rounded-full border-2 border-[#61dca3]/50 bg-white"
                     />
                   </td>
-                  <td className="py-2 px-2 font-bold">{exp.title}</td>
-                  <td className="py-2 px-2">{exp.company}</td>
-                  <td className="py-2 px-2">{exp.year}</td>
-                  <td className="py-2 px-2 max-w-[250px] truncate">
-                    {exp.description}
-                  </td>
-                  <td className="py-2 px-2 flex gap-4">
-                    <button
-                      className="text-blue-400 hover:underline font-semibold"
-                      onClick={() => handleEdit(exp)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="text-red-400 hover:underline font-semibold"
-                      onClick={() => handleDelete(exp.id)}
-                    >
-                      Delete
-                    </button>
+                  <td className="p-3 font-bold">{exp.title}</td>
+                  <td className="p-3">{exp.company}</td>
+                  <td className="p-3">{exp.year}</td>
+                  <td className="p-3 max-w-xs truncate">{exp.description}</td>
+                  <td className="p-3">
+                    <div className="flex gap-4">
+                      <button
+                        className="text-blue-400 hover:underline font-semibold"
+                        onClick={() => handleEdit(exp)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="text-red-400 hover:underline font-semibold"
+                        onClick={() => handleDelete(exp.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
               {!experiences.length && (
                 <tr>
-                  <td colSpan={6} className="text-center py-8 text-gray-500">
+                  <td colSpan={6} className="text-center py-12 text-gray-500">
                     No experience data yet.
                   </td>
                 </tr>
@@ -284,15 +304,15 @@ export default function experienceCRUD() {
           @keyframes fade-in {
             from {
               opacity: 0;
-              transform: translateY(32px);
+              transform: scale(0.95);
             }
             to {
               opacity: 1;
-              transform: none;
+              transform: scale(1);
             }
           }
           .animate-fade-in {
-            animation: fade-in 0.6s ease;
+            animation: fade-in 0.3s ease-out;
           }
         `}</style>
       </main>

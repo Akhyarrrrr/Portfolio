@@ -1,84 +1,97 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { FaProjectDiagram, FaUserTie } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useAuth } from "../../context/AuthContext";
 
 export default function DashboardHome() {
   const router = useRouter();
+  const { signOut } = useAuth();
 
   const options = [
     {
       title: "Manage Projects",
-      desc: "Add, edit, or delete your project portfolio in one place.",
-      icon: <FaProjectDiagram className="text-4xl text-[#61DCA3]" />,
+      desc: "Add, edit, or delete your project portfolio.",
+      icon: <FaProjectDiagram className="text-3xl text-white" />,
       href: "/dashboard/projects",
-      color: "from-[#43e97b] to-[#38f9d7]",
+      color: "from-gray-700 to-gray-800",
+      borderColor: "hover:border-[#61DCA3]",
     },
     {
       title: "Manage Experiences",
-      desc: "Showcase your work experience and education easily.",
-      icon: <FaUserTie className="text-4xl text-[#61DCA3]" />,
+      desc: "Showcase your work experience and education.",
+      icon: <FaUserTie className="text-3xl text-white" />,
       href: "/dashboard/experiences",
-      color: "from-[#6a11cb] to-[#2575fc]",
+      color: "from-gray-700 to-gray-800",
+      borderColor: "hover:border-[#61DCA3]",
     },
   ];
 
   return (
-    <main className="min-h-screen w-full flex flex-col items-center justify-center bg-[#0b0f15] px-3 py-10">
-      <motion.h1
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-3xl md:text-5xl font-extrabold text-white text-center mb-4"
-      >
-        Welcome to Admin Dashboard
-      </motion.h1>
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        className="text-gray-400 text-lg text-center mb-8 max-w-2xl"
-      >
-        Select what you want to manage below.
-      </motion.p>
-
-      <div className="w-full max-w-3xl flex flex-col md:flex-row items-center justify-center gap-8">
-        {options.map((opt, i) => (
-          <motion.div
-            key={opt.href}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              delay: 0.2 + i * 0.15,
-              duration: 0.5,
-              type: "spring",
+    <main className="min-h-screen w-full flex flex-col items-center justify-center bg-[#0d1117] text-white p-4 sm:p-6">
+      <div className="w-full max-w-4xl">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4"
+        >
+          <h1 className="text-3xl md:text-4xl font-bold md:text-center text-left mt-6 md:mt-0">
+            Welcome back, <span className="text-[#61DCA3]">Yar!</span>
+          </h1>
+          <button
+            onClick={async () => {
+              await signOut();
+              router.replace("/login");
             }}
-            whileHover={{ scale: 1.04, boxShadow: "0 8px 32px 0 #61dca380" }}
-            onClick={() => router.push(opt.href)}
-            className={`
-              cursor-pointer w-full md:w-1/2 max-w-md bg-gradient-to-br ${opt.color}
-              rounded-2xl shadow-xl transition-all duration-300 flex flex-col items-center gap-4 py-10 px-7
-              border-2 border-[#232537] hover:border-[#61DCA3] hover:shadow-2xl
-              group relative
-            `}
-            style={{ minHeight: 210 }}
+            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 shadow-md"
           >
-            <div className="absolute top-5 right-5 opacity-20 group-hover:opacity-40 text-[60px] pointer-events-none">
-              {opt.icon}
-            </div>
-            <div className="flex flex-col items-center gap-3 z-10">
-              <span className="bg-[#181a21]/90 p-4 rounded-full border-4 border-[#61DCA3] shadow-lg">
-                {opt.icon}
-              </span>
-              <h2 className="text-2xl md:text-3xl font-bold text-white text-center">
-                {opt.title}
-              </h2>
-              <p className="text-base md:text-lg text-gray-100 text-center">
-                {opt.desc}
-              </p>
-            </div>
-          </motion.div>
-        ))}
+            <FiLogOut />
+            <span>Logout</span>
+          </button>
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-gray-400 text-lg text-center mb-12"
+        >
+          What would you like to manage today?
+        </motion.p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {options.map((opt, i) => (
+            <motion.div
+              key={opt.href}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                delay: 0.4 + i * 0.1,
+                duration: 0.5,
+                type: "spring",
+              }}
+              whileHover={{ scale: 1.03, y: -5 }}
+              onClick={() => router.push(opt.href)}
+              className={`cursor-pointer w-full bg-gradient-to-br ${opt.color} rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 flex flex-col justify-between border-2 border-transparent ${opt.borderColor}`}
+              style={{ minHeight: 240 }}
+            >
+              <div>
+                <div className="bg-black/30 p-4 rounded-full w-max mb-4 shadow-md">
+                  {opt.icon}
+                </div>
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  {opt.title}
+                </h2>
+                <p className="text-gray-300">{opt.desc}</p>
+              </div>
+              <div className="text-right mt-4 font-semibold opacity-80 group-hover:opacity-100 text-[#61DCA3]">
+                Go to manager &rarr;
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </main>
   );
