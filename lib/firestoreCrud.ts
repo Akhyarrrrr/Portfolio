@@ -30,11 +30,31 @@ export async function deleteProject(id: string) {
 }
 
 // Experience CRUD
-export async function getExperiences() {
+export interface ExperienceType {
+  id: string;
+  title: string;
+  company: string;
+  year: string;
+  logo: string;
+  description: string;
+}
+
+export async function getExperiences(): Promise<ExperienceType[]> {
   const q = query(collection(db, "experience"), orderBy("year", "desc"));
   const snap = await getDocs(q);
-  return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return snap.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      title: data.title ?? "",
+      company: data.company ?? "",
+      year: data.year ?? "",
+      logo: data.logo ?? "",
+      description: data.description ?? "",
+    };
+  });
 }
+
 export async function addExperience(data: any) {
   return addDoc(collection(db, "experience"), data);
 }

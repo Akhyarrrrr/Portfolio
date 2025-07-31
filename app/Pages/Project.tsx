@@ -18,6 +18,16 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { getProjects } from "../../lib/firestoreCrud";
 
+type ProjectType = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  tech: string[];
+  imageUrl: string;
+  href?: string;
+};
+
 const techIcons: { [key: string]: { icon: React.JSX.Element; label: string } } =
   {
     react: {
@@ -75,12 +85,11 @@ export default function Project() {
   const [filter, setFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<ProjectType[]>([]);
 
   useEffect(() => {
     getProjects().then((data) => {
-      console.log("DATA DARI FIRESTORE:", data); // Tambahkan ini!
-      setProjects(data);
+      setProjects(data as ProjectType[]); // Sudah pasti sesuai
     });
   }, []);
 
