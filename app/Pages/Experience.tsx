@@ -7,8 +7,17 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { getExperiences } from "@/lib/firestoreCrud"; // pastikan path benar!
 
+type ExperienceType = {
+  id: string;
+  title: string;
+  company: string;
+  year: string;
+  logo: string;
+  description: string;
+};
+
 const Experience: React.FC = () => {
-  const [experiences, setExperiences] = useState<any[]>([]);
+  const [experiences, setExperiences] = useState<ExperienceType[]>([]);
 
   // Fetch experiences dari Firestore pas komponen mount
   useEffect(() => {
@@ -32,6 +41,23 @@ const Experience: React.FC = () => {
   });
 
   const dotTop = useTransform(scaleY, [0, 1], ["0%", "100%"]);
+
+  useEffect(() => {
+    getExperiences().then((exps) => {
+      const sorted = [...exps].sort((a, b) => {
+        const getLastYear = (y) => {
+          const nums = String(y).match(/\d{4}/g);
+          return nums ? parseInt(nums[nums.length - 1]) : 0;
+        };
+        return getLastYear(b.year) - getLastYear(a.year);
+      });
+      setExperiences(sorted);
+      AOS.init({
+        duration: 800,
+        once: true,
+      });
+    });
+  }, []);
 
   return (
     <section
@@ -150,7 +176,7 @@ const Experience: React.FC = () => {
                           src={exp.logo}
                           alt={`${exp.company} logo`}
                           fill
-                          className="object-contain rounded-full border-4 border-[#61DCA3] shadow-md"
+                          className="object-contain rounded-full border-4 border-[#61DCA3] shadow-md bg-white"
                           unoptimized
                         />
                       </div>
