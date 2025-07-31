@@ -1,43 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
-import React, { useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
-const experiences = [
-  {
-    id: 1,
-    title: "Informatics Graduate",
-    company: "Syiah Kuala University",
-    year: "2021 - 2025",
-    description:
-      "Graduated with a Bachelor's degree in Informatics from Syiah Kuala University. Specialized in software engineering with a strong focus on mobile and web application development.",
-    logo: "https://pbs.twimg.com/profile_images/975955312791318528/obloSW_n_400x400.jpg",
-  },
-  {
-    id: 2,
-    title: "Mobile Developer Student",
-    company: "Bangkit Academy",
-    year: "2024",
-    description:
-      "Contributed as a Mobile Developer in a capstone project called MediGuide an AI-based virtual health assistant. Built using Kotlin, this app provides disease info to users.",
-    logo: "https://yt3.googleusercontent.com/0b3Ljhqw5VJpXwOaffzj5lwAfHHYa7fTfT32hjnZ3MMHyWu84IUfy4CTliMmY15f0k8i-wt7oA=s900-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    id: 3,
-    title: "Full Stack Dev Intern",
-    company: "BMKG Aceh Besar",
-    year: "2024",
-    description:
-      "Worked on a leave request system for BMKG Aceh Besar. Built with React, Tailwind, Express, and MySQL. Implemented features for employee leave applications and admin management.",
-    logo: "https://seputarpapua.com/wp-content/uploads/534af319b1120cb88366a34672a2c17d.jpg",
-  },
-];
+import { getExperiences } from "@/lib/firestoreCrud"; // pastikan path benar!
 
 const Experience: React.FC = () => {
+  const [experiences, setExperiences] = useState<any[]>([]);
+
+  // Fetch experiences dari Firestore pas komponen mount
+  useEffect(() => {
+    getExperiences().then(setExperiences);
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+  }, []);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -52,16 +33,9 @@ const Experience: React.FC = () => {
 
   const dotTop = useTransform(scaleY, [0, 1], ["0%", "100%"]);
 
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-    });
-  }, []);
-
   return (
     <section
-      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32 bg-[#0B0F15] "
+      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32 bg-[#0B0F15]"
       id="experience"
     >
       <div
@@ -186,6 +160,10 @@ const Experience: React.FC = () => {
               </div>
             </div>
           ))}
+          {/* Handle jika kosong */}
+          {experiences.length === 0 && (
+            <div className="text-center text-gray-500">No experience yet!</div>
+          )}
         </div>
       </div>
     </section>
