@@ -10,6 +10,7 @@ import Tape from "./Tape";
 import Skills from "./Skills";
 import Contact from "./Contact";
 import Footer from "./Footer";
+import ScrollToTop from "./ScrollToTop";
 
 export default function Home() {
   // Smooth scroll to top on refresh
@@ -53,6 +54,9 @@ export default function Home() {
 
       {/* Footer Section */}
       <Footer />
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </div>
   );
 }

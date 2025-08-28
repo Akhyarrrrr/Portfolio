@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import { AuthProvider } from "../context/AuthContext";
+import { LanguageProvider } from "../context/LanguageProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -42,7 +43,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body className={`${poppins.variable} font-sans antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <LanguageProvider>{children}</LanguageProvider>
+        </AuthProvider>
       </body>
     </html>
   );
