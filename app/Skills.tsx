@@ -67,7 +67,7 @@ function SkillLine({ reverse = false }: { reverse?: boolean }) {
 
 export default function SkillsTape() {
   return (
-    <div className="bg-[#0B0F15]">
+    <div className="bg-[#0B0F15] text-white ">
       {/* Line 1: kiri ke kanan */}
       <ScrollVelocity
         texts={[<SkillLine key="1" />]}

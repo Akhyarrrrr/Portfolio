@@ -37,7 +37,7 @@ export default function Hero() {
                 </div>
               </AnimatedContent>
 
-              <div className="flex flex-col items-start">
+              <div className="flex flex-col items-start text-white">
                 <SplitText
                   key={`hey-${lang}`}
                   text={t("hero.hey")}
@@ -66,7 +66,7 @@ export default function Hero() {
                 delay={75}
                 animateBy="words"
                 direction="top"
-                className="text-lg md:text-xl mb-8"
+                className="text-lg md:text-xl mb-8 text-white"
               />
 
               {/* CV + Socials */}
