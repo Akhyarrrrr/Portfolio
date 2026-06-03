@@ -29,6 +29,8 @@ export default function ProjectCRUD() {
     href: "",
     tech: [] as string[],
     imageUrl: "",
+    pinned: false,
+    order: 0,
   });
   const [techInput, setTechInput] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -97,9 +99,17 @@ export default function ProjectCRUD() {
     e.preventDefault();
     let imageUrl = form.imageUrl || "";
     if (file) imageUrl = await uploadToCloudinary(file);
-    const data = { ...form, tech: form.tech.filter((t) => !!t), imageUrl };
+    let data: any = { ...form, tech: form.tech.filter((t) => !!t), imageUrl };
     if (!form.title || !form.description || !form.tech.length)
       return setToast("Lengkapi data terlebih dahulu!");
+    // Validate pinned constraint
+    if (data.pinned && (data.order < 1 || data.order > 6)) {
+      alert("Order must be 1-6 when pinned!");
+      return;
+    }
+    if (!data.pinned) {
+      data = { ...data, order: undefined };
+    }
     if (editing) {
       await updateProject(editing, data);
       setToast("Project updated!");
@@ -115,6 +125,8 @@ export default function ProjectCRUD() {
       href: "",
       tech: [],
       imageUrl: "",
+      pinned: false,
+      order: 0,
     });
     setFile(null);
     setPreview(null);
@@ -126,6 +138,8 @@ export default function ProjectCRUD() {
   const handleEdit = (proj: any) => {
     setForm({
       ...proj,
+      pinned: Boolean(proj.pinned),
+      order: Number(proj.order ?? 0),
       tech: Array.isArray(proj.tech)
         ? proj.tech
         : typeof proj.tech === "string"
@@ -198,6 +212,40 @@ export default function ProjectCRUD() {
               rows={3}
               required
             />
+            <div className="flex flex-col sm:flex-row gap-4 rounded-xl bg-[#232537] px-4 py-3 border border-transparent">
+              <label className="flex items-center gap-3 text-sm font-semibold text-white/90">
+                <input
+                  type="checkbox"
+                  checked={form.pinned}
+                  onChange={(e) =>
+                    setForm((f) => ({
+                      ...f,
+                      pinned: e.target.checked,
+                      order: e.target.checked
+                        ? Math.min(Math.max(f.order || 1, 1), 6)
+                        : 0,
+                    }))
+                  }
+                  className="h-4 w-4 accent-[#61DCA3]"
+                />
+                Pinned/Featured?
+              </label>
+              <input
+                type="number"
+                placeholder="Order (1-6 only)"
+                value={form.order}
+                min="1"
+                max="6"
+                disabled={!form.pinned}
+                onChange={(e) =>
+                  setForm((f) => ({
+                    ...f,
+                    order: Number(e.target.value || 0),
+                  }))
+                }
+                className="flex-1 min-w-[160px] rounded-lg bg-[#17191f] px-3 py-2 text-white focus:ring-2 focus:ring-[#61dca3] border border-transparent outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </div>
             <select
               value={form.category}
               onChange={(e) =>
@@ -323,6 +371,8 @@ export default function ProjectCRUD() {
                     href: "",
                     tech: [],
                     imageUrl: "",
+                    pinned: false,
+                    order: 0,
                   });
                   setFile(null);
                   setPreview(null);
@@ -344,6 +394,7 @@ export default function ProjectCRUD() {
                 <th className="p-3">Image</th>
                 <th className="p-3">Title</th>
                 <th className="p-3">Category</th>
+                <th className="p-3">Pinned</th>
                 <th className="p-3">Tech</th>
                 <th className="p-3">Link</th>
                 <th className="p-3">Actions</th>
@@ -364,6 +415,15 @@ export default function ProjectCRUD() {
                   </td>
                   <td className="p-3 font-bold">{proj.title}</td>
                   <td className="p-3 capitalize">{proj.category}</td>
+                  <td className="p-3">
+                    {proj.pinned ? (
+                      <span className="rounded-full bg-[#61DCA3] px-2 py-1 text-xs font-bold text-[#0b0f15]">
+                        Pinned {proj.order ?? "?"}
+                      </span>
+                    ) : (
+                      <span className="text-gray-500">-</span>
+                    )}
+                  </td>
                   <td className="p-3 max-w-xs">
                     <div className="flex flex-wrap gap-1">
                       {(Array.isArray(proj.tech) ? proj.tech : []).map(
@@ -443,7 +503,7 @@ export default function ProjectCRUD() {
               ))}
               {!projects.length && (
                 <tr>
-                  <td colSpan={6} className="text-center py-12 text-gray-500">
+                  <td colSpan={7} className="text-center py-12 text-gray-500">
                     No projects found. Add one above!
                   </td>
                 </tr>

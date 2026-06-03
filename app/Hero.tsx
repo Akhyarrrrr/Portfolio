@@ -73,8 +73,8 @@ export default function Hero() {
               <div className="flex items-center gap-4 relative z-50 justify-between">
                 <div className="flex items-center gap-4 relative z-50">
                   <a
-                    href="/CV-Akhyar.pdf"
-                    download
+                    href="/api/cv"
+                    download="CV-Akhyar.pdf"
                     className="flex items-center gap-2 px-4 md:px-8 py-2 md:py-4 rounded-lg border border-[#61DCA3] text-[#61DCA3] hover:bg-[#61DCA3] hover:text-white transition duration-300 active:scale-95"
                   >
                     <span>{t("hero.download_cv")}</span>

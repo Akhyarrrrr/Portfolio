@@ -1,0 +1,364 @@
+GitHub CV fetch failed with status 404
+Warning: You're using `next/head` inside the `app` directory, please migrate to the Metadata API. See https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#step-3-migrating-nexthead for more details.
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/layout-router.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4154864739'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/render-from-template-context.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3127012483'
+}
+⨯ Error: Could not find the module "[project]/context/AuthContext.tsx#AuthProvider" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2217903116'
+}
+⨯ Error: Could not find the module "[project]/context/LanguageProvider.tsx#LanguageProvider" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2862178476'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/layout-router.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4125380844'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/render-from-template-context.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3197149196'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/client-page.js#ClientPageRoot" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2340101843'
+}
+⨯ Error: Could not find the module "[project]/app/page.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '388997951'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#OutletBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2080419596'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3130891404'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '379461452'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3191420627'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/layout-router.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4154864739'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/render-from-template-context.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3127012483'
+}
+⨯ Error: Could not find the module "[project]/context/AuthContext.tsx#AuthProvider" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2217903116'
+}
+⨯ Error: Could not find the module "[project]/context/LanguageProvider.tsx#LanguageProvider" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2862178476'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/layout-router.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4125380844'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/render-from-template-context.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3197149196'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/client-page.js#ClientPageRoot" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2340101843'
+}
+⨯ Error: Could not find the module "[project]/app/page.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '388997951'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#OutletBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2080419596'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3130891404'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '379461452'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3191420627'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/layout-router.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4154864739'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/render-from-template-context.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3127012483'
+}
+⨯ Error: Could not find the module "[project]/context/AuthContext.tsx#AuthProvider" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2217903116'
+}
+⨯ Error: Could not find the module "[project]/context/LanguageProvider.tsx#LanguageProvider" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2862178476'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/layout-router.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '4125380844'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/render-from-template-context.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3197149196'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3222623628'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/client/components/client-page.js#ClientPageRoot" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '2340101843'
+}
+⨯ Error: Could not find the module "[project]/app/page.tsx#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '388997951'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#OutletBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '2080419596'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3130891404'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '379461452'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3191420627'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '808367010'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '455188834'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3065601789'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3687538621'
+}
+[0m[7m Server [0m Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3065601789'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3065601789'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3065601789',
+  page: '/'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '808367010'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '455188834'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3065601789'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3687538621'
+}
+[0m[7m Server [0m Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3065601789'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3065601789'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3065601789',
+  page: '/'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#ViewportBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '3130891404'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/lib/framework/boundary-components.js#MetadataBoundary" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>) {
+  digest: '379461452'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '3191420627'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/esm/next-devtools/userspace/app/segment-explorer-node.js#SegmentViewNode" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>) {
+  digest: '616094995'
+}
+[0m[7m Server [0m Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3191420627'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3191420627'
+}
+⨯ Error: Could not find the module "[project]/node_modules/next/dist/client/components/builtin/global-error.js#default" in the React Client Manifest. This is probably a bug in the React Server Components bundler.
+    at stringify (<anonymous>:1:18) {
+  environmentName: 'Server',
+  digest: '3191420627',
+  page: '/'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'Y:\PROJECT\portfolio-next\.next\dev\cache\webpack\client-development\1.pack.gz'

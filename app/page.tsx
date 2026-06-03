@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
+import About from "./About";
 import Background from "./Background";
 import Project from "./Project";
 import Experience from "./Experience";
@@ -11,6 +12,7 @@ import Skills from "./Skills";
 import Contact from "./Contact";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
+import Chatbot from "./components/GroqChatbot/Chatbot";
 
 export default function Home() {
   // Smooth scroll to top on refresh
@@ -37,6 +39,9 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
 
+      {/* About Section */}
+      <About />
+
       {/* Experience Section */}
       <Experience />
 
@@ -57,6 +62,9 @@ export default function Home() {
 
       {/* Scroll to Top Button */}
       <ScrollToTop />
+
+      {/* Chatbot (only on home page) */}
+      <Chatbot />
     </div>
   );
 }

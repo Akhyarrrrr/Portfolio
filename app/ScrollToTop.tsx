@@ -33,7 +33,7 @@ export default function ScrollToTop() {
           transition={{ duration: 0.3 }}
           onClick={handleScroll}
           aria-label="Scroll to top"
-          className="fixed bottom-10 right-10 z-[1000] p-4 rounded-full
+          className="fixed right-8 bottom-8 z-40 p-4 rounded-full
                      bg-gradient-to-r from-[#61DCA3] to-[#61DCA3] 
                      text-white shadow-lg shadow-[#61DCA3]/30
                      hover:scale-110 hover:shadow-2xl

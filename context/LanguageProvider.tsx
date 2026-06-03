@@ -1,6 +1,10 @@
 "use client";
 import React, {
-  createContext, useContext, useEffect, useMemo, useState,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 
 type Lang = "en" | "id";
@@ -8,13 +12,20 @@ type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: string) => string };
 
 const dict = {
   en: {
-    nav: { home: "Home", experience: "Experience", project: "Project", contact: "Contact", language: "Language" },
+    nav: {
+      home: "Home",
+      about: "About",
+      experience: "Experience",
+      project: "Project",
+      contact: "Contact",
+      language: "Language",
+    },
     hero: {
       welcome: "Welcome to My Portfolio...",
       hey: "Hey, I'm",
       name: "Akhyar",
       tagline:
-        "Just finished my Informatics degree, and right now I'm really into building cool digital stuff from websites to mobile apps. I enjoy coding and love turning ideas into something real and useful. Got something in mind? Let's build it together!",
+        "Full-stack engineer building production systems. I manage infrastructure for 90+ academic journals and ship side projects that actually work. Currently exploring remote opportunities to solve real problems at scale.",
       download_cv: "Download CV",
     },
     experience: {
@@ -29,7 +40,7 @@ const dict = {
       filter_mobile: "Mobile",
       prev: "Prev",
       next: "Next",
-      view_github: "View on Github",
+      view_github: "View Project",
     },
     contact: {
       heading: "Let's Connect!",
@@ -44,13 +55,20 @@ const dict = {
     },
   },
   id: {
-    nav: { home: "Beranda", experience: "Pengalaman", project: "Proyek", contact: "Kontak", language: "Bahasa" },
+    nav: {
+      home: "Beranda",
+      about: "Tentang",
+      experience: "Pengalaman",
+      project: "Proyek",
+      contact: "Kontak",
+      language: "Bahasa",
+    },
     hero: {
       welcome: "Selamat datang di Portofolio Saya...",
       hey: "Hai, saya",
       name: "Akhyar",
       tagline:
-        "Baru lulus Informatika, dan sekarang lagi suka bikin hal-hal digital dari website sampai mobile apps. Aku suka ngoding dan menyalakan ide jadi sesuatu yang nyata dan berguna. Ada ide? Yuk bangun bareng!",
+        "Full-stack engineer yang build production systems. Aku manage infrastructure untuk 90+ jurnal akademik dan ship side projects yang benar-benar kerja. Sekarang lagi explore remote opportunities untuk solve real problems di scale yang lebih besar.",
       download_cv: "Unduh CV",
     },
     experience: {
@@ -104,8 +122,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const t = (key: string) => {
     const parts = key.split(".");
-    const val = parts.reduce<any>((o, k) => (o && k in o ? o[k] : undefined), dict[lang]);
-    const fb = parts.reduce<any>((o, k) => (o && k in o ? o[k] : undefined), dict.en);
+    const val = parts.reduce<any>(
+      (o, k) => (o && k in o ? o[k] : undefined),
+      dict[lang],
+    );
+    const fb = parts.reduce<any>(
+      (o, k) => (o && k in o ? o[k] : undefined),
+      dict.en,
+    );
     return (val ?? fb ?? key) as string;
   };
 

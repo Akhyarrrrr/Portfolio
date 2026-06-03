@@ -13,6 +13,9 @@ import {
   SiExpress,
   SiDocker,
   SiLinux,
+  SiSupabase,
+  SiVercel,
+  SiPostgresql,
 } from "react-icons/si";
 import ScrollVelocity from "./components/ScrollVelocity/ScrollVelocity";
 
@@ -45,6 +48,12 @@ const skills = [
   },
   { name: "Docker", iconText: <SiDocker className="text-white w-7 h-7" /> },
   { name: "Linux", iconText: <SiLinux className="text-white w-7 h-7" /> },
+  { name: "Supabase", iconText: <SiSupabase className="text-white w-7 h-7" /> },
+  { name: "Vercel", iconText: <SiVercel className="text-white w-7 h-7" /> },
+  {
+    name: "PostgreSQL",
+    iconText: <SiPostgresql className="text-white w-7 h-7" />,
+  },
 ];
 
 function SkillLine({ reverse = false }: { reverse?: boolean }) {

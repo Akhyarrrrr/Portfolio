@@ -35,6 +35,7 @@ export default function Navbar() {
   const nav = useMemo(
     () => ({
       home: t("nav.home"),
+      about: t("nav.about"),
       experience: t("nav.experience"),
       project: t("nav.project"),
       contact: t("nav.contact"),
@@ -60,6 +61,9 @@ export default function Navbar() {
         <nav className="hidden md:flex gap-6 text-white text-sm font-medium">
           <a href="#hero" className="hover:text-[#61DCA3] transition">
             {nav.home}
+          </a>
+          <a href="#about" className="hover:text-[#61DCA3] transition">
+            {nav.about}
           </a>
           <a href="#experience" className="hover:text-[#61DCA3] transition">
             {nav.experience}
@@ -129,6 +133,13 @@ export default function Navbar() {
             className="hover:text-[#61DCA3] transition"
           >
             {nav.home}
+          </a>
+          <a
+            href="#about"
+            onClick={closeMenu}
+            className="hover:text-[#61DCA3] transition"
+          >
+            {nav.about}
           </a>
           <a
             href="#experience"

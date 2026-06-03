@@ -98,7 +98,7 @@ export default function LoginPage() {
                 )}
               </button>
               <div className="mt-2 select-none text-center text-xs text-gray-400">
-                Hanya untuk admin:{" "}
+                Admin access only:{" "}
                 <b className="font-medium text-white">ahyar12324@gmail.com</b>
               </div>
             </div>

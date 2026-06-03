@@ -1,0 +1,20 @@
+
+> portfolio-next@0.1.0 dev
+> next dev --webpack
+
+▲ Next.js 16.1.6 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://10.117.13.64:3000
+- Environments: .env
+
+✓ Starting...
+✓ Ready in 2.5s
+○ Compiling /api/cv ...
+ GET /api/cv 200 in 3.8s (compile: 3.4s, render: 453ms)
+  Reload env: .env
+  Reload env: .env
+  Reload env: .env
+  Reload env: .env
+  Reload env: .env
+○ Compiling / ...
+○ Compiling /_error ...

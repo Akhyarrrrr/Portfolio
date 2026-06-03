@@ -30,6 +30,8 @@ type ProjectType = {
   tech: string[];
   imageUrl: string;
   href?: string;
+  pinned?: boolean;
+  order?: number; // 1-6 only when pinned=true
 };
 
 const techIcons: { [key: string]: { icon: React.JSX.Element; label: string } } =
@@ -82,6 +84,55 @@ const techIcons: { [key: string]: { icon: React.JSX.Element; label: string } } =
     express: {
       icon: <SiExpress className="text-white text-lg" />,
       label: "Express.js",
+    },
+    // Aliases for Firestore data normalization
+    "next.js": {
+      icon: <SiNextdotjs className="text-white text-lg" />,
+      label: "Next.js",
+    },
+    "tailwind css": {
+      icon: <SiTailwindcss className="text-cyan-400 text-lg" />,
+      label: "Tailwind CSS",
+    },
+    typescript: {
+      icon: <SiJavascript className="text-yellow-400 text-lg" />,
+      label: "TypeScript",
+    },
+    typescirpt: {
+      icon: <SiJavascript className="text-yellow-400 text-lg" />,
+      label: "TypeScript",
+    }, // typo fallback
+    supabase: {
+      icon: <SiFirebase className="text-green-400 text-lg" />,
+      label: "Supabase",
+    },
+    "face-api.js": {
+      icon: <FaReact className="text-sky-400 text-lg" />,
+      label: "Face API.js",
+    },
+    "tensorflow.js": {
+      icon: <FaReact className="text-indigo-400 text-lg" />,
+      label: "TensorFlow.js",
+    },
+    recharts: {
+      icon: <SiFirebase className="text-blue-400 text-lg" />,
+      label: "Recharts",
+    },
+    jspdf: {
+      icon: <FaHtml5 className="text-orange-500 text-lg" />,
+      label: "jsPDF",
+    },
+    "framer motion": {
+      icon: <FaReact className="text-sky-400 text-lg" />,
+      label: "Framer Motion",
+    },
+    "dnd-kit": {
+      icon: <SiExpress className="text-white text-lg" />,
+      label: "dnd-kit",
+    },
+    tiptap: {
+      icon: <FaReact className="text-sky-400 text-lg" />,
+      label: "Tiptap",
     },
   };
 
@@ -140,9 +191,21 @@ export default function Project() {
       filter === "all"
         ? projects
         : projects.filter((p) => p.category === filter);
-    return [...list].sort((a, b) =>
+
+    // Separate pinned and unpinned
+    const pinned = list.filter((p) => p.pinned ?? false);
+    const unpinned = list.filter((p) => !(p.pinned ?? false));
+
+    // Sort pinned by order (1-6, ascending)
+    pinned.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+    // Sort unpinned alphabetical
+    unpinned.sort((a, b) =>
       (a.title ?? a.title_en ?? "").localeCompare(b.title ?? b.title_en ?? "")
     );
+
+    // Combine: pinned first, then unpinned
+    return [...pinned, ...unpinned];
   }, [filter, projects]);
 
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage) || 1;
@@ -223,7 +286,12 @@ export default function Project() {
                 title={t("project.view_github")}
                 href={p.href}
               >
-                <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] bg-black rounded-xl border border-[#61DCA3]">
+                <div className="flex flex-col p-4 tracking-tight text-slate-100/50 w-[20rem] bg-black rounded-xl border border-[#61DCA3] relative">
+                  {p.pinned && (
+                    <div className="absolute top-3 right-3 bg-[#61DCA3] text-black rounded-full w-8 h-8 flex items-center justify-center font-bold text-lg">
+                      ⭐
+                    </div>
+                  )}
                   <h3 className="max-w-xs pb-2 font-bold text-base text-slate-100">
                     {title}
                   </h3>

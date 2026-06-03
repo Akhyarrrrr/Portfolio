@@ -45,7 +45,7 @@ export default function Footer() {
             <FaInstagram />
           </a>
           <a
-            href="mailto:ahyar12324@email.com"
+            href="mailto:ahyar12324@gmail.com"
             className="text-white/70 hover:text-[#61DCA3] transition text-2xl"
             aria-label="Email"
           >

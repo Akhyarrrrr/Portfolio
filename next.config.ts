@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  turbopack: {},
   webpack: (
     config: import("webpack").Configuration,
-    options: import("next/dist/server/config-shared").WebpackConfigContext
+    options: import("next/dist/server/config-shared").WebpackConfigContext,
   ) => {
     if (config.module && config.module.rules) {
       config.module.rules.push({
