@@ -112,7 +112,7 @@ export default function Chatbot() {
   if (!showChat) return null;
 
   return (
-    <div className="fixed bottom-24 right-5 sm:right-8 z-50 font-Poppins">
+    <div className="fixed bottom-24 right-4 md:right-8 z-50 font-Poppins">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -120,7 +120,7 @@ export default function Chatbot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.22 }}
-            className="absolute bottom-20 right-0 flex h-[30rem] w-[calc(100vw-2.5rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-[#61DCA3]/70 bg-[#0B0F15]/95 shadow-2xl shadow-black/50 backdrop-blur-xl sm:w-96 "
+            className="absolute bottom-full right-0 mb-2 flex h-[60vh] sm:h-[28rem] w-[calc(100vw-2rem)] sm:w-[28rem] flex-col overflow-hidden rounded-2xl border border-[#61DCA3]/70 bg-[#0B0F15]/95 shadow-2xl shadow-black/50 backdrop-blur-xl"
           >
             <div className="flex items-center justify-between border-b border-black/10 bg-[#61DCA3] px-4 py-3 text-black ">
               <div>
