@@ -173,7 +173,7 @@ export default function About() {
           <p className="mb-6 text-gray-300">{data.cta}</p>
           <a
             href="#contact"
-            className="inline-block rounded-lg border border-[#61DCA3] px-8 py-3 font-semibold text-[#61DCA3] transition duration-300 hover:bg-[#61DCA3] hover:text-black"
+            className="inline-block rounded-lg border border-[#61DCA3] px-8 py-3 font-semibold text-[#61DCA3] transition duration-300 hover:bg-[#61DCA3] hover:text-black cursor-pointer"
           >
             {lang === "en" ? "Get in Touch" : "Hubungi Saya"}
           </a>

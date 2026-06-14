@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { FaReact, FaHtml5, FaCss3Alt, FaGithub } from "react-icons/fa";
 import {
   SiTailwindcss,
   SiJavascript,
+  SiTypescript,
   SiNextdotjs,
   SiMysql,
   SiFirebase,
@@ -20,74 +22,83 @@ import {
 import ScrollVelocity from "./components/ScrollVelocity/ScrollVelocity";
 
 const skills = [
-  {
-    name: "JavaScript",
-    iconText: <SiJavascript className="text-white w-7 h-7" />,
-  },
-  { name: "HTML5", iconText: <FaHtml5 className="text-white w-7 h-7" /> },
-  { name: "CSS3", iconText: <FaCss3Alt className="text-white w-7 h-7" /> },
-  { name: "React", iconText: <FaReact className="text-white w-7 h-7" /> },
-  {
-    name: "Tailwind",
-    iconText: <SiTailwindcss className="text-white w-7 h-7" />,
-  },
-  { name: "GitHub", iconText: <FaGithub className="text-white w-7 h-7" /> },
-  { name: "Next.js", iconText: <SiNextdotjs className="text-white w-7 h-7" /> },
-  { name: "MySQL", iconText: <SiMysql className="text-white w-7 h-7" /> },
-  { name: "Firebase", iconText: <SiFirebase className="text-white w-7 h-7" /> },
-  { name: "Expo", iconText: <SiExpo className="text-white w-7 h-7" /> },
-  { name: "Kotlin", iconText: <SiKotlin className="text-white w-7 h-7" /> },
-  { name: "Laravel", iconText: <SiLaravel className="text-white w-7 h-7" /> },
-  {
-    name: "Express.js",
-    iconText: <SiExpress className="text-white w-7 h-7" />,
-  },
-  {
-    name: "React Native",
-    iconText: <FaReact className="text-white w-7 h-7" />,
-  },
-  { name: "Docker", iconText: <SiDocker className="text-white w-7 h-7" /> },
-  { name: "Linux", iconText: <SiLinux className="text-white w-7 h-7" /> },
-  { name: "Supabase", iconText: <SiSupabase className="text-white w-7 h-7" /> },
-  { name: "Vercel", iconText: <SiVercel className="text-white w-7 h-7" /> },
-  {
-    name: "PostgreSQL",
-    iconText: <SiPostgresql className="text-white w-7 h-7" />,
-  },
+  { name: "JavaScript",    icon: <SiJavascript   className="text-white w-7 h-7" /> },
+  { name: "TypeScript",    icon: <SiTypescript   className="text-white w-7 h-7" /> },
+  { name: "HTML5",         icon: <FaHtml5        className="text-white w-7 h-7" /> },
+  { name: "CSS3",          icon: <FaCss3Alt      className="text-white w-7 h-7" /> },
+  { name: "React",         icon: <FaReact        className="text-white w-7 h-7" /> },
+  { name: "Tailwind",      icon: <SiTailwindcss  className="text-white w-7 h-7" /> },
+  { name: "GitHub",        icon: <FaGithub       className="text-white w-7 h-7" /> },
+  { name: "Next.js",       icon: <SiNextdotjs    className="text-white w-7 h-7" /> },
+  { name: "MySQL",         icon: <SiMysql        className="text-white w-7 h-7" /> },
+  { name: "Firebase",      icon: <SiFirebase     className="text-white w-7 h-7" /> },
+  { name: "Expo",          icon: <SiExpo         className="text-white w-7 h-7" /> },
+  { name: "Kotlin",        icon: <SiKotlin       className="text-white w-7 h-7" /> },
+  { name: "Laravel",       icon: <SiLaravel      className="text-white w-7 h-7" /> },
+  { name: "Express.js",    icon: <SiExpress      className="text-white w-7 h-7" /> },
+  { name: "React Native",  icon: <FaReact        className="text-white w-7 h-7" /> },
+  { name: "Docker",        icon: <SiDocker       className="text-white w-7 h-7" /> },
+  { name: "Linux",         icon: <SiLinux        className="text-white w-7 h-7" /> },
+  { name: "Supabase",      icon: <SiSupabase     className="text-white w-7 h-7" /> },
+  { name: "Vercel",        icon: <SiVercel       className="text-white w-7 h-7" /> },
+  { name: "PostgreSQL",    icon: <SiPostgresql   className="text-white w-7 h-7" /> },
 ];
+
+function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-4 border border-gray-600 rounded-md px-6 py-4 hover:bg-[#61DCA3]/20 transition-colors duration-300 cursor-default">
+      <div className="w-10 h-10 bg-[#61DCA3] rounded flex items-center justify-center shrink-0">
+        {icon}
+      </div>
+      <span className="font-bold text-xl whitespace-nowrap">{name}</span>
+    </div>
+  );
+}
 
 function SkillLine({ reverse = false }: { reverse?: boolean }) {
   return (
     <div className={`flex gap-6 ${reverse ? "flex-row-reverse" : ""}`}>
-      {skills.map((skill, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-4 border border-gray-600 rounded-md px-6 py-4  hover:bg-[#61DCA3]/20 transition-all duration-300"
-        >
-          <div className="w-10 h-10 bg-[#61DCA3] rounded flex items-center justify-center">
-            {skill.iconText}
-          </div>
-          <span className="font-bold text-xl">{skill.name}</span>
-        </div>
+      {skills.map((skill) => (
+        <SkillBadge key={skill.name} name={skill.name} icon={skill.icon} />
       ))}
     </div>
   );
 }
 
 export default function SkillsTape() {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * Pause ScrollVelocity's RAF-driven animation when reduced motion is
+   * preferred. We inject a CSS class that sets animation-play-state and
+   * pointer-events on all motion.div children.
+   */
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = (reduced: boolean) => {
+      wrapper.style.setProperty("--motion-play", reduced ? "paused" : "running");
+    };
+    apply(mq.matches);
+    mq.addEventListener("change", (e) => apply(e.matches));
+    return () => mq.removeEventListener("change", (e) => apply(e.matches));
+  }, []);
+
   return (
-    <div className="bg-[#0B0F15] text-white ">
-      {/* Line 1: kiri ke kanan */}
+    <div
+      ref={wrapperRef}
+      className="bg-[#0B0F15] text-white [&_[style*='translateX']]:![animation-play-state:var(--motion-play,running)]"
+    >
       <ScrollVelocity
-        texts={[<SkillLine key="1" />]}
+        texts={[<SkillLine key="row-1" />]}
         velocity={50}
         numCopies={6}
         scrollerClassName="items-center gap-6"
       />
-
-      {/* Line 2: kanan ke kiri */}
       <ScrollVelocity
-        texts={[<SkillLine key="2" reverse />]}
+        texts={[<SkillLine key="row-2" reverse />]}
         velocity={-50}
         numCopies={6}
         scrollerClassName="items-center gap-6"

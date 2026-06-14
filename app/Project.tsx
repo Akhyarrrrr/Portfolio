@@ -5,6 +5,7 @@ import { FaReact, FaHtml5, FaCss3Alt } from "react-icons/fa";
 import {
   SiTailwindcss,
   SiJavascript,
+  SiTypescript,
   SiNextdotjs,
   SiMysql,
   SiFirebase,
@@ -95,13 +96,13 @@ const techIcons: { [key: string]: { icon: React.JSX.Element; label: string } } =
       label: "Tailwind CSS",
     },
     typescript: {
-      icon: <SiJavascript className="text-yellow-400 text-lg" />,
+      icon: <SiTypescript className="text-blue-400 text-lg" />,
       label: "TypeScript",
     },
     typescirpt: {
-      icon: <SiJavascript className="text-yellow-400 text-lg" />,
+      icon: <SiTypescript className="text-blue-400 text-lg" />,
       label: "TypeScript",
-    }, // typo fallback
+    }, // typo fallback — kept for Firestore backwards compat
     supabase: {
       icon: <SiFirebase className="text-green-400 text-lg" />,
       label: "Supabase",
