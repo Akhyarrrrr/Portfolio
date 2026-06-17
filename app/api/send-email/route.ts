@@ -1,18 +1,29 @@
 import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { from_name, from_email, message } = body;
+  let body: { from_name?: string; from_email?: string; message?: string };
 
-  console.log("REQ BODY:", { from_name, from_email, message });
-  console.log("ENV:", {
-    EMAIL_USER: process.env.EMAIL_USER,
-    EMAIL_RECEIVER: process.env.EMAIL_RECEIVER,
-  });
+  try {
+    body = await req.json();
+  } catch {
+    return new Response(JSON.stringify({ message: "Invalid request body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const { from_name, from_email, message } = body;
 
   if (!from_name || !from_email || !message) {
     return new Response(JSON.stringify({ message: "Missing fields" }), {
       status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS || !process.env.EMAIL_RECEIVER) {
+    return new Response(JSON.stringify({ message: "Email service is not configured" }), {
+      status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
@@ -40,10 +51,10 @@ export async function POST(req: Request) {
         headers: { "Content-Type": "application/json" },
       }
     );
-  } catch (error: any) {
-    console.error("Error sending email:", error.message, error);
+  } catch (error) {
+    console.error("Error sending email:", error);
     return new Response(
-      JSON.stringify({ message: error.message || "Something went wrong" }),
+      JSON.stringify({ message: "Something went wrong" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },

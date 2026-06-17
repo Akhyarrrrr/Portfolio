@@ -43,6 +43,7 @@ export default function DashboardHome() {
           <button
             onClick={async () => {
               await signOut();
+              document.cookie = "portfolio_session=; path=/; max-age=0; sameSite=lax";
               router.replace("/login");
             }}
             className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 shadow-md"

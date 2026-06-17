@@ -1,5 +1,11 @@
 import crypto from "node:crypto";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+
+const ADMIN_EMAIL =
+  process.env.ADMIN_EMAIL ??
+  process.env.NEXT_PUBLIC_ADMIN_EMAIL ??
+  "ahyar12324@gmail.com";
 
 /**
  * POST /api/upload
@@ -14,6 +20,13 @@ import { NextResponse } from "next/server";
  *   CLOUDINARY_API_SECRET
  */
 export async function POST(req: Request) {
+  const cookieStore = await cookies();
+  const session = cookieStore.get("portfolio_session")?.value ?? "";
+
+  if (session !== ADMIN_EMAIL) {
+    return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
+  }
+
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const apiKey = process.env.CLOUDINARY_API_KEY;
   const apiSecret = process.env.CLOUDINARY_API_SECRET;

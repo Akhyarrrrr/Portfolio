@@ -1,61 +1,46 @@
 "use client";
-import React from "react";
-import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
+
+import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+
+const SOCIALS = [
+  { href: "https://github.com/Akhyarrrrr", Icon: FaGithub, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/akhyarrr/", Icon: FaLinkedin, label: "LinkedIn" },
+  { href: "https://instagram.com/akhyaar._", Icon: FaInstagram, label: "Instagram" },
+  { href: "mailto:ahyar12324@gmail.com", Icon: FaEnvelope, label: "Email" },
+] as const;
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="w-full bg-[#0B0F15] border-t border-white/10 py-8">
-      <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
-        {/* Brand / Name */}
+    <footer className="w-full border-t border-white/8 bg-[#0B0F15]">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-10 md:flex-row">
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-white tracking-wide">
-            Akhyar
+          <span className="text-2xl font-extrabold tracking-tight text-white">Y.</span>
+          <div className="hidden h-5 w-px bg-white/15 md:block" />
+          <span className="hidden text-sm text-white/60 md:inline">
+            Akhyar's Portfolio
           </span>
-          <span className="text-white/40 text-sm hidden md:inline">
-            | Portfolio
-          </span>
         </div>
-        {/* Socials */}
-        <div className="flex gap-5">
-          <a
-            href="https://github.com/Akhyarrrrr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/70 hover:text-[#61DCA3] transition text-2xl"
-            aria-label="GitHub"
-          >
-            <FaGithub />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/akhyarrr/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/70 hover:text-[#61DCA3] transition text-2xl"
-            aria-label="LinkedIn"
-          >
-            <FaLinkedin />
-          </a>
-          <a
-            href="https://instagram.com/akhyaar._"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/70 hover:text-[#61DCA3] transition text-2xl"
-            aria-label="Instagram"
-          >
-            <FaInstagram />
-          </a>
-          <a
-            href="mailto:ahyar12324@gmail.com"
-            className="text-white/70 hover:text-[#61DCA3] transition text-2xl"
-            aria-label="Email"
-          >
-            <FaEnvelope />
-          </a>
+
+        <div className="flex gap-3">
+          {SOCIALS.map(({ href, Icon, label }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+              aria-label={label}
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-white/5 text-lg text-white/60 transition-all duration-200 hover:border-[#61DCA3]/40 hover:bg-[#61DCA3]/10 hover:text-[#61DCA3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#61DCA3]/60"
+            >
+              <Icon />
+            </a>
+          ))}
         </div>
-        {/* Copyright */}
-        <div className="text-white/40 text-sm text-center md:text-right">
-          © {new Date().getFullYear()} Akhyar. All rights reserved.
-        </div>
+
+        <p className="text-center text-xs text-white/60 md:text-right">
+          Copyright {year} Akhyar. All rights reserved.
+        </p>
       </div>
     </footer>
   );

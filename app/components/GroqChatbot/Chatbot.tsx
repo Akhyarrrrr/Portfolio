@@ -112,7 +112,7 @@ export default function Chatbot() {
   if (!showChat) return null;
 
   return (
-    <div className="fixed bottom-24 right-4 md:right-8 z-50 font-Poppins">
+    <div className="relative flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -120,7 +120,12 @@ export default function Chatbot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.22 }}
-            className="absolute bottom-full right-0 mb-2 flex h-[60vh] sm:h-[28rem] w-[calc(100vw-2rem)] sm:w-[28rem] flex-col overflow-hidden rounded-2xl border border-[#61DCA3]/70 bg-[#0B0F15]/95 shadow-2xl shadow-black/50 backdrop-blur-xl"
+            className="absolute bottom-full right-0 mb-3
+                       flex h-[60vh] sm:h-[28rem]
+                       w-[calc(100vw-2rem)] sm:w-[28rem]
+                       flex-col overflow-hidden rounded-2xl
+                       border border-[#61DCA3]/70
+                       bg-[#0B0F15]/95 shadow-2xl shadow-black/50 backdrop-blur-xl"
           >
             <div className="flex items-center justify-between border-b border-black/10 bg-[#61DCA3] px-4 py-3 text-black ">
               <div>
@@ -202,19 +207,20 @@ export default function Chatbot() {
         )}
       </AnimatePresence>
 
-      <motion.button
+        <motion.button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        whileHover={{ scale: 1.07 }}
-        whileTap={{ scale: 0.96 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
         aria-label={isOpen ? "Close chatbot" : "Open chatbot"}
-        className={`mb-6 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition ${
-          isOpen
-            ? "bg-white/10 text-white ring-1 ring-white/15"
-            : "bg-[#61DCA3] text-black shadow-[#61DCA3]/30 hover:shadow-xl hover:shadow-[#61DCA3]/40"
-        }`}
+        className={`flex h-12 w-12 items-center justify-center rounded-2xl
+                    shadow-lg transition-all duration-200 cursor-pointer
+                    ${isOpen
+                      ? "bg-white/8 text-white border border-white/10 hover:bg-white/12"
+                      : "bg-[#61DCA3] text-[#0B0F15] shadow-[0_4px_20px_rgba(97,220,163,0.4)] hover:shadow-[0_4px_28px_rgba(97,220,163,0.6)] hover:bg-[#4ecf96]"
+                    }`}
       >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
+        {isOpen ? <X size={20} /> : <MessageCircle size={20} />}
       </motion.button>
     </div>
   );

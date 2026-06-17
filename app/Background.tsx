@@ -2,12 +2,12 @@ import Squares from "./components/Squares/Squares";
 
 export default function Background() {
   return (
-    <div className="absolute top-0 right-0 left-0 bottom-0 w-full h-full">
+    <div aria-hidden className="pointer-events-none fixed inset-0 h-[100dvh] w-full">
       <Squares
-        speed={0.2}
+        speed={0.16}
         squareSize={40}
         direction="diagonal"
-        borderColor="#FFFFFF"
+        borderColor="rgba(255,255,255,0.16)"
         hoverFillColor="#61DCA3"
       />
     </div>

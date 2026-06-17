@@ -91,6 +91,19 @@ export default function ProjectCRUD() {
       return setToast("Order must be 1–6 when pinned!");
     }
 
+    if (form.pinned) {
+      const duplicatePinnedOrder = projects.find(
+        (project) =>
+          project.id !== editing &&
+          project.pinned &&
+          Number(project.order) === Number(form.order),
+      );
+
+      if (duplicatePinnedOrder) {
+        return setToast(`Order ${form.order} already used by ${duplicatePinnedOrder.title ?? "another project"}!`);
+      }
+    }
+
     let imageUrl = form.imageUrl ?? "";
     if (file) imageUrl = await uploadToCloudinary(file);
 
@@ -98,7 +111,8 @@ export default function ProjectCRUD() {
       ...form,
       tech: form.tech?.filter(Boolean) ?? [],
       imageUrl,
-      order: form.pinned ? form.order : undefined,
+      pinned: Boolean(form.pinned),
+      order: form.pinned ? Number(form.order ?? 0) : 0,
     };
 
     if (editing) {
@@ -129,6 +143,35 @@ export default function ProjectCRUD() {
     setFile(null);
     setTechInput("");
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleTogglePinned = async (proj: ProjectType) => {
+    try {
+      if (proj.pinned) {
+        await updateProject(proj.id, { pinned: false, order: 0 });
+        setToast("Project unpinned!");
+      } else {
+        const usedOrders = new Set(
+          projects
+            .filter((project) => project.pinned)
+            .map((project) => Number(project.order))
+            .filter((order) => order >= 1 && order <= 6),
+        );
+        const nextOrder = [1, 2, 3, 4, 5, 6].find((order) => !usedOrders.has(order));
+
+        if (!nextOrder) {
+          return setToast("All pinned slots 1-6 are already used!");
+        }
+
+        await updateProject(proj.id, { pinned: true, order: nextOrder });
+        setToast(`Project pinned as ${nextOrder}!`);
+      }
+
+      getProjects().then(setProjects);
+    } catch (error) {
+      console.error("Failed to update pinned state", error);
+      setToast("Failed to update pinned state!");
+    }
   };
 
   if (user === undefined) return <div className="text-white p-8">Loading...</div>;
@@ -372,6 +415,9 @@ export default function ProjectCRUD() {
                   <td className="p-3">
                     <div className="flex gap-4">
                       <button className="text-blue-400 hover:underline font-semibold cursor-pointer" onClick={() => handleEdit(proj)}>Edit</button>
+                      <button className="text-[#61DCA3] hover:underline font-semibold cursor-pointer" onClick={() => handleTogglePinned(proj)}>
+                        {proj.pinned ? "Unpin" : "Pin"}
+                      </button>
                       <button className="text-red-400 hover:underline font-semibold cursor-pointer" onClick={() => setShowDelete({ id: proj.id, title: proj.title ?? "" })}>Delete</button>
                     </div>
                   </td>

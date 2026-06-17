@@ -5,7 +5,6 @@ import { Fragment, useEffect, useRef } from "react";
 const words = [
   "Full Stack Developer",
   "Creative Coder",
-  "React & Express",
   "Mobile & Web",
   "Problem Solver",
   "Tailwind Enthusiast",
@@ -43,14 +42,14 @@ export default function Tape() {
         <div className="flex [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             ref={trackRef}
-            className="flex flex-none gap-4 pr-4 py-6"
+            className="flex flex-none gap-5 pr-5 py-6"
             style={{ animation: "move-left 30s linear infinite" }}
           >
             {[...new Array(2)].fill(0).map((_, idx) => (
               <Fragment key={idx}>
                 {words.map((word) => (
-                  <div key={word} className="inline-flex gap-4 items-center">
-                    <span className="text-[#0B0F15] uppercase font-extrabold text-lg select-none">
+                  <div key={word} className="inline-flex items-center gap-5">
+                    <span className="select-none text-lg font-extrabold uppercase tracking-[0.08em] text-[#0B0F15]">
                       {word}
                     </span>
                     <img

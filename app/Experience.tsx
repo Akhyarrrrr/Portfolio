@@ -1,9 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import Image from "next/image";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import { getExperiences } from "@/lib/firestoreCrud";
 import { useLanguage, RichText } from "../context/LanguageProvider";
 
@@ -11,79 +15,128 @@ type ExperienceType = {
   id: string;
   title: string;
   company: string;
-  year: string; // contoh: "2023 - Present"
-  logo: string; // URL logo
+  year: string;
+  logo: string;
   description: string;
 };
 
-// skeleton kecil
+/* ─── Skeleton ──────────────────────────────────────────────── */
 const SkeletonLine = ({ className = "" }: { className?: string }) => (
-  <div className={`animate-pulse rounded bg-white/10 ${className}`} />
+  <div className={`animate-pulse rounded bg-white/8 ${className}`} />
 );
 const SkeletonCircle = ({ className = "" }: { className?: string }) => (
-  <div className={`animate-pulse rounded-full bg-white/10 ${className}`} />
+  <div className={`animate-pulse rounded-full bg-white/8 ${className}`} />
 );
 
-function ExperienceSkeletonRow({ index }: { index: number }) {
+function DesktopSkeletonRow({ index }: { index: number }) {
   const isEven = index % 2 === 0;
   return (
-    <div className="relative flex items-start justify-between w-full">
-      {/* Left */}
-      <div
-        className="w-[45%] order-1"
-        data-aos="fade-left"
-        data-aos-duration="2000"
-      >
-        <div
-          className={`flex flex-col ${
-            isEven ? "items-end text-right" : "items-start text-left"
-          }`}
-        >
-          {isEven ? (
-            <div className="flex flex-col items-end gap-2">
-              <SkeletonLine className="h-5 w-56" />
-              <SkeletonLine className="h-4 w-40" />
-              <SkeletonLine className="h-3 w-28" />
-              <SkeletonCircle className="h-16 w-16 mt-2" />
-            </div>
-          ) : (
-            <div className="space-y-2">
-              <SkeletonLine className="h-4 w-full" />
-              <SkeletonLine className="h-4 w-[90%]" />
-              <SkeletonLine className="h-4 w-[80%]" />
-            </div>
-          )}
-        </div>
+    <div className="hidden md:flex relative items-start justify-between w-full">
+      <div className="w-[45%]">
+        {isEven ? (
+          <div className="flex flex-col items-end gap-2">
+            <SkeletonLine className="h-5 w-56" />
+            <SkeletonLine className="h-4 w-40" />
+            <SkeletonLine className="h-3 w-28" />
+            <SkeletonCircle className="h-14 w-14 mt-2" />
+          </div>
+        ) : (
+          <div className="space-y-2">
+            <SkeletonLine className="h-4 w-full" />
+            <SkeletonLine className="h-4 w-[88%]" />
+            <SkeletonLine className="h-4 w-[75%]" />
+          </div>
+        )}
       </div>
-      {/* Right */}
-      <div
-        className="w-[45%] order-2"
-        data-aos="fade-right"
-        data-aos-duration="2000"
-      >
-        <div className="flex flex-col items-start">
-          {isEven ? (
-            <div className="space-y-2">
-              <SkeletonLine className="h-4 w-full" />
-              <SkeletonLine className="h-4 w-[92%]" />
-              <SkeletonLine className="h-4 w-[80%]" />
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              <SkeletonLine className="h-5 w-56" />
-              <SkeletonLine className="h-4 w-40" />
-              <SkeletonLine className="h-3 w-28" />
-              <SkeletonCircle className="h-16 w-16 mt-2" />
-            </div>
-          )}
-        </div>
+      <div className="w-[45%]">
+        {isEven ? (
+          <div className="space-y-2">
+            <SkeletonLine className="h-4 w-full" />
+            <SkeletonLine className="h-4 w-[90%]" />
+            <SkeletonLine className="h-4 w-[78%]" />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            <SkeletonLine className="h-5 w-56" />
+            <SkeletonLine className="h-4 w-40" />
+            <SkeletonLine className="h-3 w-28" />
+            <SkeletonCircle className="h-14 w-14 mt-2" />
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
+function MobileSkeletonCard() {
+  return (
+    <div className="flex md:hidden items-start gap-4 pl-10">
+      <div className="flex-1 rounded-2xl border border-white/8 bg-white/[0.03] p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <SkeletonCircle className="h-11 w-11 shrink-0" />
+          <div className="flex-1 space-y-2">
+            <SkeletonLine className="h-4 w-36" />
+            <SkeletonLine className="h-3 w-24" />
+          </div>
+        </div>
+        <SkeletonLine className="h-3 w-full mb-1" />
+        <SkeletonLine className="h-3 w-[88%]" />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Animation variants ────────────────────────────────────── */
+const fadeLeft: Variants = {
+  hidden: { opacity: 0, x: -36 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.55 } },
+};
+const fadeRight: Variants = {
+  hidden: { opacity: 0, x: 36 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.55 } },
+};
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
+/* ─── Section heading helper ────────────────────────────────── */
+function SectionHeading({
+  badge,
+  children,
+  sub,
+}: {
+  badge: string;
+  children: React.ReactNode;
+  sub: string;
+}) {
+  return (
+    <motion.div
+      className="text-center mb-16"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-60px" }}
+      variants={fadeUp}
+    >
+      <div className="inline-flex items-center gap-2 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-4 py-1.5 mb-4">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#61DCA3]" />
+        <span className="text-xs text-[#61DCA3] font-medium uppercase tracking-widest">
+          {badge}
+        </span>
+      </div>
+      <h2 className="text-4xl font-extrabold text-white tracking-tight [&_span]:text-[#61DCA3]">
+        {children}
+      </h2>
+      <p className="mt-4 text-white/50 max-w-xl mx-auto text-sm leading-relaxed">
+        {sub}
+      </p>
+    </motion.div>
+  );
+}
+
+/* ─── Main ──────────────────────────────────────────────────── */
 export default function Experience() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [experiences, setExperiences] = useState<ExperienceType[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -105,11 +158,11 @@ export default function Experience() {
       try {
         const exps = await getExperiences();
         const sorted = [...exps].sort((a, b) => {
-          const getLastYear = (y: string) => {
-            const nums = String(y).match(/\d{4}/g);
-            return nums ? parseInt(nums[nums.length - 1]) : 0;
+          const last = (y: string) => {
+            const m = String(y).match(/\d{4}/g);
+            return m ? +m[m.length - 1] : 0;
           };
-          return getLastYear(b.year) - getLastYear(a.year);
+          return last(b.year) - last(a.year);
         });
         if (mounted) setExperiences(sorted as ExperienceType[]);
       } catch (e) {
@@ -118,142 +171,187 @@ export default function Experience() {
         if (mounted) setLoading(false);
       }
     })();
-    AOS.init({ duration: 800, once: true });
     return () => {
       mounted = false;
     };
   }, []);
 
-  // siapkan skeleton count biar grid stabil
-  const skeletonRows = Array.from({ length: 4 }).map((_, i) => (
-    <ExperienceSkeletonRow key={`sk-${i}`} index={i} />
-  ));
+  const badge = lang === "id" ? "Perjalanan Saya" : "My Journey";
 
   return (
     <section
-      className="relative z-10 w-full py-32 px-6 md:px-16 lg:px-32 bg-[#0B0F15]"
       id="experience"
+      className="relative z-10 w-full bg-[#0B0F15] px-4 py-28 sm:px-6"
     >
-      <div
-        className="text-center mb-2 md:mb-20"
-        data-aos="fade-down"
-        data-aos-duration="2000"
-      >
-        <h2 className="text-4xl font-extrabold text-white tracking-tight">
-          <RichText i18nKey="experience.heading" />
-        </h2>
-        <p className="mt-4 text-gray-400 max-w-xl mx-auto text-sm">
-          {t("experience.sub")}
-        </p>
-      </div>
+      <SectionHeading badge={badge} sub={t("experience.sub")}>
+        <RichText i18nKey="experience.heading" />
+      </SectionHeading>
 
       <div
         ref={containerRef}
-        className="relative w-full max-w-6xl mx-auto py-16 px-4 sm:px-6 lg:px-8 mt-10"
+        className="relative mx-auto w-full max-w-6xl py-12"
       >
-        {/* Vertical line */}
+        {/* Desktop timeline line */}
         <motion.div
-          className="absolute left-1/2 top-0 bottom-0 w-1 bg-[linear-gradient(to_bottom,#61DCA3,#4BB98E,#3E9F7B)] transform -translate-x-1/2"
-          style={{ scaleY, transformOrigin: "top" }}
+          className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px
+                     bg-gradient-to-b from-[#61DCA3] via-[#4BB98E] to-transparent
+                     -translate-x-1/2 origin-top"
+          style={{ scaleY }}
         />
-        {/* Animated dot */}
+        {/* Glowing dot */}
         <motion.div
-          className="absolute left-1/2 w-4 h-4 rounded-full bg-[#61DCA3] shadow-[0_0_15px_5px_rgba(97,220,163,0.5)] transform -translate-x-1/2"
+          className="hidden md:block absolute left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2
+                     rounded-full bg-[#61DCA3] shadow-[0_0_12px_4px_rgba(97,220,163,0.55)]"
           style={{ top: dotTop }}
         />
 
-        <div className="relative space-y-24">
-          {/* Loading state: skeleton */}
-          {loading && skeletonRows}
+        {/* Mobile left line */}
+        <div className="md:hidden absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-[#61DCA3]/50 to-transparent" />
 
-          {/* Loaded items */}
-          {!loading &&
-            experiences.map((exp, index) => (
-              <div
-                key={exp.id}
-                className="relative flex items-start justify-between w-full"
-              >
-                {/* Left Column */}
-                <div
-                  className="w-[45%] order-1"
-                  data-aos="fade-left"
-                  data-aos-duration="2000"
-                >
-                  <div
-                    className={`flex flex-col ${
-                      index % 2 === 0
-                        ? "items-end text-right"
-                        : "items-start text-left"
-                    }`}
-                  >
-                    {index % 2 === 0 ? (
-                      <div className="flex flex-col items-end text-right">
-                        <h3 className="font-bold text-gray-100 text-[clamp(18px,2vw,24px)] leading-tight">
-                          {exp.title}
-                        </h3>
-                        <div className="text-[clamp(14px,1.6vw,18px)] text-[#61DCA3]">
-                          {exp.company}
-                        </div>
-                        <span className="text-[clamp(12px,1.5vw,18px)] text-gray-400 tracking-[0.4em]">
-                          {exp.year}
-                        </span>
-                        <div className="w-16 h-16 relative flex items-center justify-center mt-2">
-                          <Image
-                            src={exp.logo}
-                            alt={`${exp.company} logo`}
-                            fill
-                            className="object-contain rounded-full border-4 border-[#61DCA3] shadow-md bg-white"
-                            unoptimized
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-gray-300 text-md leading-relaxed text-justify">
-                        {exp.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Right Column */}
-                <div
-                  className="w-[45%] order-2"
-                  data-aos="fade-right"
-                  data-aos-duration="2000"
-                >
-                  <div className="flex flex-col items-start text-left">
-                    {index % 2 === 0 ? (
-                      <p className="text-gray-300 text-md leading-relaxed text-justify">
-                        {exp.description}
-                      </p>
-                    ) : (
-                      <div className="flex flex-col items-start text-left">
-                        <h3 className="font-bold text-gray-100 text-[clamp(18px,2vw,24px)] leading-tight">
-                          {exp.title}
-                        </h3>
-                        <div className="text-[clamp(14px,1.6vw,18px)] text-[#61DCA3]">
-                          {exp.company}
-                        </div>
-                        <span className="text-[clamp(12px,1.5vw,18px)] text-gray-400 tracking-[0.4em]">
-                          {exp.year}
-                        </span>
-                        <div className="w-16 h-16 relative flex items-center justify-center mt-2">
-                          <Image
-                            src={exp.logo}
-                            alt={`${exp.company} logo`}
-                            fill
-                            className="object-contain rounded-full border-4 border-[#61DCA3] shadow-md bg-white"
-                            unoptimized
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+        <div className="relative space-y-20">
+          {/* ── Skeleton ── */}
+          {loading &&
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i}>
+                <DesktopSkeletonRow index={i} />
+                <MobileSkeletonCard />
               </div>
             ))}
 
-          {/* Kalau kosong setelah load, cukup biarkan tanpa teks "no experience" (clean look) */}
+          {/* ── Loaded ── */}
+          {!loading &&
+            experiences.map((exp, index) => (
+              <div key={exp.id}>
+                {/* Desktop split layout */}
+                <div className="hidden md:flex relative items-start justify-between w-full gap-8">
+                  {/* Centre dot on timeline */}
+                  <div
+                    className="absolute left-1/2 top-1 -translate-x-1/2 w-2.5 h-2.5
+                                rounded-full bg-[#61DCA3] ring-4 ring-[#0B0F15] z-10"
+                  />
+
+                  {/* Left */}
+                  <motion.div
+                    className="w-[46%] flex justify-end"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={fadeLeft}
+                  >
+                    {index % 2 === 0 ? (
+                      <div className="flex flex-col items-end text-right gap-1">
+                        <h3 className="font-bold text-white text-xl leading-tight">
+                          {exp.title}
+                        </h3>
+                        <span className="text-[#61DCA3] text-sm font-medium">
+                          {exp.company}
+                        </span>
+                        <span className="text-white/40 text-xs tracking-widest">
+                          {exp.year}
+                        </span>
+                        <div className="w-12 h-12 relative mt-2">
+                          <Image
+                            src={exp.logo}
+                            alt={`${exp.company} logo`}
+                            fill
+                            className="object-contain rounded-full border-2 border-[#61DCA3]/50 bg-white shadow"
+                            unoptimized
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-white/60 text-sm leading-relaxed text-right max-w-xs">
+                        {exp.description}
+                      </p>
+                    )}
+                  </motion.div>
+
+                  {/* Right */}
+                  <motion.div
+                    className="w-[46%] flex justify-start"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={fadeRight}
+                  >
+                    {index % 2 === 0 ? (
+                      <p className="text-white/60 text-sm leading-relaxed max-w-xs">
+                        {exp.description}
+                      </p>
+                    ) : (
+                      <div className="flex flex-col items-start gap-1">
+                        <h3 className="font-bold text-white text-xl leading-tight">
+                          {exp.title}
+                        </h3>
+                        <span className="text-[#61DCA3] text-sm font-medium">
+                          {exp.company}
+                        </span>
+                        <span className="text-white/40 text-xs tracking-widest">
+                          {exp.year}
+                        </span>
+                        <div className="w-12 h-12 relative mt-2">
+                          <Image
+                            src={exp.logo}
+                            alt={`${exp.company} logo`}
+                            fill
+                            className="object-contain rounded-full border-2 border-[#61DCA3]/50 bg-white shadow"
+                            unoptimized
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                </div>
+
+                {/* Mobile card */}
+                <motion.div
+                  className="flex md:hidden items-start gap-4 pl-10"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-30px" }}
+                  variants={fadeUp}
+                >
+                  {/* Dot */}
+                  <div
+                    className="absolute left-[17px] w-2.5 h-2.5 rounded-full bg-[#61DCA3]
+                                ring-4 ring-[#0B0F15] mt-4 z-10"
+                  />
+                  {/* Card */}
+                  <div
+                    className="flex-1 rounded-2xl border border-white/8 bg-white/[0.03]
+                                hover:border-[#61DCA3]/30 transition-colors duration-300 p-5"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-11 h-11 relative shrink-0">
+                        <Image
+                          src={exp.logo}
+                          alt={`${exp.company} logo`}
+                          fill
+                          className="object-contain rounded-full border-2 border-[#61DCA3]/40 bg-white"
+                          unoptimized
+                        />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-white text-sm leading-tight">
+                          {exp.title}
+                        </h3>
+                        <span className="text-[#61DCA3] text-xs">
+                          {exp.company}
+                        </span>
+                        <br />
+                        <span className="text-white/35 text-[10px] tracking-widest">
+                          {exp.year}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-white/55 text-xs leading-relaxed">
+                      {exp.description}
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            ))}
+
           {!loading && experiences.length === 0 && <div className="h-8" />}
         </div>
       </div>

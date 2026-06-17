@@ -33,16 +33,16 @@ const Squares: React.FC<SquaresProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let reducedMotion = reducedMotionQuery.matches;
 
     const resizeCanvas = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
       numSquaresX.current = Math.ceil(canvas.width / squareSize) + 1;
       numSquaresY.current = Math.ceil(canvas.height / squareSize) + 1;
+      drawGrid();
     };
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
 
     const drawGrid = () => {
       if (!ctx) return;
@@ -87,7 +87,20 @@ const Squares: React.FC<SquaresProps> = ({
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
+    const stopAnimation = () => {
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+        requestRef.current = null;
+      }
+    };
+
     const updateAnimation = () => {
+      if (reducedMotion || document.hidden) {
+        stopAnimation();
+        drawGrid();
+        return;
+      }
+
       const effectiveSpeed = Math.max(speed, 0.1);
       switch (direction) {
         case "right":
@@ -120,10 +133,26 @@ const Squares: React.FC<SquaresProps> = ({
       requestRef.current = requestAnimationFrame(updateAnimation);
     };
 
+    const startAnimation = () => {
+      if (!requestRef.current && !reducedMotion && !document.hidden) {
+        requestRef.current = requestAnimationFrame(updateAnimation);
+      }
+    };
+
     const handleMouseMove = (event: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       const mouseX = event.clientX - rect.left;
       const mouseY = event.clientY - rect.top;
+
+      if (
+        mouseX < 0 ||
+        mouseY < 0 ||
+        mouseX > rect.width ||
+        mouseY > rect.height
+      ) {
+        hoveredSquareRef.current = null;
+        return;
+      }
 
       const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
@@ -148,15 +177,36 @@ const Squares: React.FC<SquaresProps> = ({
       hoveredSquareRef.current = null;
     };
 
-    canvas.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mouseleave", handleMouseLeave);
-    requestRef.current = requestAnimationFrame(updateAnimation);
+    const handleVisibility = () => {
+      if (document.hidden) stopAnimation();
+      else startAnimation();
+    };
+
+    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
+      reducedMotion = event.matches;
+      if (reducedMotion) {
+        stopAnimation();
+        drawGrid();
+      } else {
+        startAnimation();
+      }
+    };
+
+    window.addEventListener("resize", resizeCanvas, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("visibilitychange", handleVisibility);
+    reducedMotionQuery.addEventListener("change", handleReducedMotionChange);
+    resizeCanvas();
+    startAnimation();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mouseleave", handleMouseLeave);
+      stopAnimation();
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      reducedMotionQuery.removeEventListener("change", handleReducedMotionChange);
     };
   }, [direction, speed, borderColor, hoverFillColor, squareSize]);
 

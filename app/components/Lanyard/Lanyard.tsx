@@ -39,10 +39,12 @@ export default function Lanyard({
   transparent = true,
 }: LanyardProps) {
   return (
-    <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
+    <div className="relative z-0 flex h-full w-full items-center justify-center overflow-visible">
       <Canvas
         camera={{ position, fov }}
+        dpr={[1, 1.5]}
         gl={{ alpha: transparent }}
+        style={{ width: "100%", height: "100%" }}
         onCreated={({ gl }) =>
           gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
         }
@@ -92,7 +94,6 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
-  // Using "any" for refs since the exact types depend on Rapier's internals
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -116,6 +117,10 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   const { nodes, materials } = useGLTF(cardGLB) as any;
   const texture = useTexture(lanyard);
   const { width, height } = useThree((state) => state.size);
+  const compactScene = width < 768;
+  const anchorX = width < 430 ? -0.58 : width < 640 ? -0.42 : width < 900 ? -0.2 : 0;
+  const anchorY = width < 430 ? 4.1 : width < 640 ? 4.02 : width < 900 ? 3.98 : 4;
+  const cardScale = width < 430 ? 2.06 : width < 640 ? 2.18 : width < 900 ? 2.24 : 2.25;
   const [curve] = useState(
     () =>
       new THREE.CatmullRomCurve3([
@@ -158,7 +163,6 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
       });
     }
     if (fixed.current) {
-      // Calculate trailing effect based on speed
       [j1, j2].forEach((ref) => {
         if (!ref.current.lerped)
           ref.current.lerped = new THREE.Vector3().copy(
@@ -173,13 +177,11 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
-      // Calculate curve
       curve.points[0].copy(j3.current.translation());
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
       band.current.geometry.setPoints(curve.getPoints(32));
-      // Tilt the card back
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
@@ -191,7 +193,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      <group position={[anchorX, anchorY, 0]}>
         <RigidBody
           ref={fixed}
           {...segmentProps}
@@ -233,7 +235,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={2.25}
+            scale={cardScale}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
@@ -278,7 +280,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           useMap
           map={texture}
           repeat={[-4, 1]}
-          lineWidth={1}
+          lineWidth={compactScene ? 0.96 : 1}
         />
       </mesh>
     </>

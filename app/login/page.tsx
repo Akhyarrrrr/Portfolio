@@ -8,13 +8,17 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaSpinner } from "react-icons/fa";
 
+const ADMIN_EMAIL =
+  process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "ahyar12324@gmail.com";
+
 export default function LoginPage() {
   const router = useRouter();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user?.email === "ahyar12324@gmail.com") {
+    if (user?.email === ADMIN_EMAIL) {
+      document.cookie = `portfolio_session=${ADMIN_EMAIL}; path=/; max-age=604800; sameSite=lax`;
       router.replace("/dashboard");
     }
   }, [user, router]);
@@ -24,13 +28,16 @@ export default function LoginPage() {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      if (result.user.email !== "ahyar12324@gmail.com") {
+      if (result.user.email !== ADMIN_EMAIL) {
         await signOut(auth);
+        document.cookie = "portfolio_session=; path=/; max-age=0; sameSite=lax";
         alert("Hanya akun admin yang diizinkan!");
       } else {
+        document.cookie = `portfolio_session=${ADMIN_EMAIL}; path=/; max-age=604800; sameSite=lax`;
         router.replace("/dashboard");
       }
     } catch (err) {
+      console.error("Login failed", err);
       alert("Gagal login! Coba lagi.");
     } finally {
       setLoading(false);
@@ -99,7 +106,7 @@ export default function LoginPage() {
               </button>
               <div className="mt-2 select-none text-center text-xs text-gray-400">
                 Admin access only:{" "}
-                <b className="font-medium text-white">ahyar12324@gmail.com</b>
+                <b className="font-medium text-white">{ADMIN_EMAIL}</b>
               </div>
             </div>
           </div>
