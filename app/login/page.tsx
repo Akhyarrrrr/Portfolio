@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "../../lib/firebase";
+import { auth } from "@/lib/firebase";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaSpinner } from "react-icons/fa";
@@ -63,7 +63,7 @@ export default function LoginPage() {
           </div>
           <div className="relative z-20 flex h-40 w-40 animate-pop-in items-center justify-center h-56 w-56 md:h-64 md:w-64 lg:h-80 lg:w-80">
             <DotLottieReact
-              src="https://lottie.host/3a3a6bfa-c42d-42be-aebe-fbd87507d3d6/LCJHZoKvgu.lottie"
+              src="/assets/icons/login.lottie"
               loop
               autoplay
               style={{

@@ -1,22 +1,18 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   turbopack: {},
-  webpack: (
-    config: import("webpack").Configuration,
-    options: import("next/dist/server/config-shared").WebpackConfigContext,
-  ) => {
-    if (config.module && config.module.rules) {
-      config.module.rules.push({
-        test: /\.(glb|gltf)$/i,
-        type: "asset/resource",
-        generator: {
-          filename: "static/media/[name].[hash][ext]",
-        },
-      });
-    }
+  webpack(config) {
+    config.module?.rules?.push({
+      test: /\.(glb|gltf)$/i,
+      type: "asset/resource",
+      generator: {
+        filename: "static/media/[name].[hash][ext]",
+      },
+    });
 
     return config;
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

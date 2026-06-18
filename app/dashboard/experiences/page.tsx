@@ -7,12 +7,15 @@ import {
   deleteExperience,
   type ExperienceType,
   type ExperienceInput,
-} from "../../../lib/firestoreCrud";
-import { useAuth } from "../../../context/AuthContext";
-import { uploadToCloudinary } from "../../../lib/cloudinary";
+} from "@/lib/firestoreCrud";
+import { useAuth } from "@/context/AuthContext";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 import { useRouter } from "next/navigation";
-import { FiArrowLeft, FiUploadCloud } from "react-icons/fi";
+import { FiUploadCloud } from "react-icons/fi";
 import { FaUserTie } from "react-icons/fa";
+import DashboardHeader from "../_components/DashboardHeader";
+import DashboardToast from "../_components/DashboardToast";
+import DeleteDialog from "../_components/DeleteDialog";
 
 const emptyForm: ExperienceInput = {
   title: "",
@@ -105,33 +108,12 @@ export default function ExperienceCRUD() {
   return (
     <div className="min-h-screen flex bg-[#0b0f15] text-white">
       <main className="flex-1 w-full px-4 sm:px-6 md:px-10 py-8">
-        {/* Header */}
-        <div className="flex flex-row items-start sm:items-center justify-between mb-8 gap-4">
-          <div className="flex items-center gap-4">
-            <div className="bg-gradient-to-br from-[#61DCA3] to-emerald-500 p-3 rounded-lg">
-              <FaUserTie className="text-xl md:text-3xl" />
-            </div>
-            <h1 className="text-xl md:text-3xl font-bold tracking-tight">Manage Experience</h1>
-          </div>
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 cursor-pointer"
-          >
-            <FiArrowLeft />
-            <span>Back</span>
-          </button>
-        </div>
-
-        {/* Toast */}
-        {toast && (
-          <div
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg bg-[#232537] text-[#61dca3] font-bold border border-[#61dca3] text-lg"
-            role="status"
-            aria-live="polite"
-          >
-            {toast}
-          </div>
-        )}
+        <DashboardHeader
+          icon={<FaUserTie className="text-xl md:text-3xl" />}
+          title="Manage Experience"
+          onBack={() => router.push("/dashboard")}
+        />
+        <DashboardToast message={toast} />
 
         {/* Form */}
         <form
@@ -271,38 +253,19 @@ export default function ExperienceCRUD() {
           </table>
         </div>
 
-        {/* Delete modal */}
         {showDelete && (
-          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" role="dialog" aria-modal="true" aria-labelledby="del-exp-title">
-            <div className="bg-[#181a21] rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center border border-gray-700">
-              <div className="text-5xl mb-4" aria-hidden>⚠️</div>
-              <h2 id="del-exp-title" className="font-bold text-xl mb-2">Delete Experience?</h2>
-              <p className="mb-6 text-gray-400">
-                Are you sure you want to delete{" "}
-                <span className="font-semibold text-white">{showDelete.title}</span>?{" "}
-                This action is irreversible.
-              </p>
-              <div className="flex justify-center gap-4">
-                <button
-                  className="px-6 py-2 rounded-lg bg-[#61dca3] text-[#0b0f15] font-bold hover:bg-[#3fc78d] transition cursor-pointer"
-                  onClick={async () => {
-                    await deleteExperience(showDelete.id);
-                    setToast("Experience deleted!");
-                    setShowDelete(null);
-                    getExperiences().then(setExperiences);
-                  }}
-                >
-                  Yes, Delete
-                </button>
-                <button
-                  className="px-6 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition cursor-pointer"
-                  onClick={() => setShowDelete(null)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
+          <DeleteDialog
+            titleId="del-exp-title"
+            heading="Delete Experience?"
+            itemName={showDelete.title}
+            onCancel={() => setShowDelete(null)}
+            onConfirm={async () => {
+              await deleteExperience(showDelete.id);
+              setToast("Experience deleted!");
+              setShowDelete(null);
+              getExperiences().then(setExperiences);
+            }}
+          />
         )}
       </main>
     </div>

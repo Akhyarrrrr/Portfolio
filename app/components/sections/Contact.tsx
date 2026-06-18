@@ -3,7 +3,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import React, { useRef, useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
-import { useLanguage } from "../context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 
 const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 36, scale: 0.98 },

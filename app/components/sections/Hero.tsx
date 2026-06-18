@@ -1,8 +1,8 @@
 "use client";
-import Lanyard from "./components/Lanyard/Lanyard";
+import Lanyard from "../Lanyard/Lanyard";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiChevronDown, HiDownload } from "react-icons/hi";
-import { useLanguage } from "../context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 import { motion } from "framer-motion";
 
 export default function Hero() {

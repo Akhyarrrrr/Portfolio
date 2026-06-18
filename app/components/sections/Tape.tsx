@@ -30,10 +30,13 @@ export default function Tape() {
     const apply = (reduced: boolean) => {
       track.style.animationPlayState = reduced ? "paused" : "running";
     };
+    const handleMotionChange = (event: MediaQueryListEvent) => {
+      apply(event.matches);
+    };
 
     apply(mq.matches);
-    mq.addEventListener("change", (e) => apply(e.matches));
-    return () => mq.removeEventListener("change", (e) => apply(e.matches));
+    mq.addEventListener("change", handleMotionChange);
+    return () => mq.removeEventListener("change", handleMotionChange);
   }, []);
 
   return (

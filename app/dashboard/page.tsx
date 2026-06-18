@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { FaProjectDiagram, FaUserTie } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DashboardHome() {
   const router = useRouter();

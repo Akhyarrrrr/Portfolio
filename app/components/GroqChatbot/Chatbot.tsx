@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, Send, X } from "lucide-react";
-import { useLanguage } from "../../../context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 
 type Message = {
   id: string;
@@ -11,16 +11,22 @@ type Message = {
   content: string;
 };
 
+function getWelcomeMessage(lang: "en" | "id"): Message {
+  return {
+    id: "welcome",
+    role: "assistant",
+    content:
+      lang === "id"
+        ? "Hai! Aku asisten portfolio Akhyar. Tanya apa saja tentang project, skill, atau pengalamannya."
+        : "Hey! I'm Akhyar's portfolio assistant. Ask me anything about his projects, skills, or experience.",
+  };
+}
+
 export default function Chatbot() {
   const { lang } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "welcome",
-      role: "assistant",
-      content:
-        "Hey! I'm Akhyar's portfolio assistant. Ask me anything about his projects, skills, or experience.",
-    },
+  const [messages, setMessages] = useState<Message[]>(() => [
+    getWelcomeMessage(lang),
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,16 +34,7 @@ export default function Chatbot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMessages([
-      {
-        id: "welcome",
-        role: "assistant",
-        content:
-          lang === "id"
-            ? "Hai! Aku asisten portfolio Akhyar. Tanya apa saja tentang project, skill, atau pengalamannya."
-            : "Hey! I'm Akhyar's portfolio assistant. Ask me anything about his projects, skills, or experience.",
-      },
-    ]);
+    setMessages([getWelcomeMessage(lang)]);
   }, [lang]);
 
   useEffect(() => {
@@ -46,7 +43,7 @@ export default function Chatbot() {
     };
 
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

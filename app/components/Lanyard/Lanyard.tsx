@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Canvas, extend, useThree, useFrame } from "@react-three/fiber";
+import {
+  Canvas,
+  extend,
+  useFrame,
+  useThree,
+  type ThreeEvent,
+} from "@react-three/fiber";
 import {
   useGLTF,
   useTexture,
@@ -13,9 +19,10 @@ import {
   CuboidCollider,
   Physics,
   RigidBody,
+  type RapierRigidBody,
   useRopeJoint,
   useSphericalJoint,
-  RigidBodyProps,
+  type RigidBodyProps,
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 import * as THREE from "three";
@@ -24,6 +31,33 @@ extend({ MeshLineGeometry, MeshLineMaterial });
 
 const cardGLB = "/assets/lanyard/card.glb";
 const lanyard = "/assets/lanyard/lanyard.png";
+
+type MeshLineMesh = THREE.Mesh & {
+  geometry: {
+    setPoints: (points: THREE.Vector3[]) => void;
+  };
+};
+
+type LerpedRigidBody = RapierRigidBody & {
+  lerped?: THREE.Vector3;
+};
+
+type PointerCaptureTarget = EventTarget & {
+  releasePointerCapture: (pointerId: number) => void;
+  setPointerCapture: (pointerId: number) => void;
+};
+
+type LanyardGLTF = {
+  nodes: {
+    card: THREE.Mesh;
+    clip: THREE.Mesh;
+    clamp: THREE.Mesh;
+  };
+  materials: {
+    base: THREE.MeshPhysicalMaterial;
+    metal: THREE.MeshStandardMaterial;
+  };
+};
 
 interface LanyardProps {
   position?: [number, number, number];
@@ -94,27 +128,27 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
-  const band = useRef<any>(null);
-  const fixed = useRef<any>(null);
-  const j1 = useRef<any>(null);
-  const j2 = useRef<any>(null);
-  const j3 = useRef<any>(null);
-  const card = useRef<any>(null);
+  const band = useRef<MeshLineMesh>(null);
+  const fixed = useRef<RapierRigidBody>(null!);
+  const j1 = useRef<RapierRigidBody>(null!);
+  const j2 = useRef<RapierRigidBody>(null!);
+  const j3 = useRef<RapierRigidBody>(null!);
+  const card = useRef<RapierRigidBody>(null!);
 
   const vec = new THREE.Vector3();
   const ang = new THREE.Vector3();
   const rot = new THREE.Vector3();
   const dir = new THREE.Vector3();
 
-  const segmentProps: any = {
-    type: "dynamic" as RigidBodyProps["type"],
+  const segmentProps: RigidBodyProps = {
+    type: "dynamic",
     canSleep: true,
     colliders: false,
     angularDamping: 2,
     linearDamping: 2,
   };
 
-  const { nodes, materials } = useGLTF(cardGLB) as any;
+  const { nodes, materials } = useGLTF(cardGLB) as unknown as LanyardGLTF;
   const texture = useTexture(lanyard);
   const { width, height } = useThree((state) => state.size);
   const compactScene = width < 768;
@@ -162,29 +196,39 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
         z: vec.z - dragged.z,
       });
     }
-    if (fixed.current) {
+    if (
+      band.current &&
+      fixed.current &&
+      j1.current &&
+      j2.current &&
+      j3.current &&
+      card.current
+    ) {
       [j1, j2].forEach((ref) => {
-        if (!ref.current.lerped)
-          ref.current.lerped = new THREE.Vector3().copy(
-            ref.current.translation()
-          );
+        const body = ref.current as LerpedRigidBody;
+        if (!body.lerped) {
+          body.lerped = new THREE.Vector3().copy(body.translation());
+        }
         const clampedDistance = Math.max(
           0.1,
-          Math.min(1, ref.current.lerped.distanceTo(ref.current.translation()))
+          Math.min(1, body.lerped.distanceTo(body.translation()))
         );
-        ref.current.lerped.lerp(
-          ref.current.translation(),
+        body.lerped.lerp(
+          body.translation(),
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
       curve.points[0].copy(j3.current.translation());
-      curve.points[1].copy(j2.current.lerped);
-      curve.points[2].copy(j1.current.lerped);
+      curve.points[1].copy((j2.current as LerpedRigidBody).lerped!);
+      curve.points[2].copy((j1.current as LerpedRigidBody).lerped!);
       curve.points[3].copy(fixed.current.translation());
       band.current.geometry.setPoints(curve.getPoints(32));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
-      card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
+      card.current.setAngvel(
+        { x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z },
+        true,
+      );
     }
   });
 
@@ -197,13 +241,13 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
         <RigidBody
           ref={fixed}
           {...segmentProps}
-          type={"fixed" as RigidBodyProps["type"]}
+          type="fixed"
         />
         <RigidBody
           position={[0.5, 0, 0]}
           ref={j1}
           {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
+          type="dynamic"
         >
           <BallCollider args={[0.1]} />
         </RigidBody>
@@ -211,7 +255,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           position={[1, 0, 0]}
           ref={j2}
           {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
+          type="dynamic"
         >
           <BallCollider args={[0.1]} />
         </RigidBody>
@@ -219,7 +263,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           position={[1.5, 0, 0]}
           ref={j3}
           {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
+          type="dynamic"
         >
           <BallCollider args={[0.1]} />
         </RigidBody>
@@ -227,11 +271,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           position={[2, 0, 0]}
           ref={card}
           {...segmentProps}
-          type={
-            dragged
-              ? ("kinematicPosition" as RigidBodyProps["type"])
-              : ("dynamic" as RigidBodyProps["type"])
-          }
+          type={dragged ? "kinematicPosition" : "dynamic"}
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
@@ -239,12 +279,14 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
-            onPointerUp={(e: any) => {
-              e.target.releasePointerCapture(e.pointerId);
+            onPointerUp={(e: ThreeEvent<PointerEvent>) => {
+              const target = e.target as PointerCaptureTarget;
+              target.releasePointerCapture(e.pointerId);
               drag(false);
             }}
-            onPointerDown={(e: any) => {
-              e.target.setPointerCapture(e.pointerId);
+            onPointerDown={(e: ThreeEvent<PointerEvent>) => {
+              const target = e.target as PointerCaptureTarget;
+              target.setPointerCapture(e.pointerId);
               drag(
                 new THREE.Vector3()
                   .copy(e.point)

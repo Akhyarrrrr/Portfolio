@@ -1,6 +1,7 @@
 "use client";
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -9,6 +10,7 @@ import React, {
 
 type Lang = "en" | "id";
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: string) => string };
+type TranslationNode = string | { readonly [key: string]: TranslationNode };
 
 const dict = {
   en: {
@@ -101,10 +103,23 @@ const dict = {
 
 const C = createContext<Ctx | null>(null);
 
+function resolveTranslation(source: TranslationNode, key: string) {
+  let current: TranslationNode | undefined = source;
+
+  for (const part of key.split(".")) {
+    if (!current || typeof current === "string" || !(part in current)) {
+      return undefined;
+    }
+
+    current = current[part];
+  }
+
+  return typeof current === "string" ? current : undefined;
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>("en");
 
-  // load awal
   useEffect(() => {
     try {
       const saved = localStorage.getItem("lang") as Lang | null;
@@ -112,7 +127,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   }, []);
 
-  // sinkron ke <html lang> + persist
   useEffect(() => {
     if (typeof document !== "undefined") document.documentElement.lang = lang;
     try {
@@ -120,20 +134,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   }, [lang]);
 
-  const t = (key: string) => {
-    const parts = key.split(".");
-    const val = parts.reduce<any>(
-      (o, k) => (o && k in o ? o[k] : undefined),
-      dict[lang],
-    );
-    const fb = parts.reduce<any>(
-      (o, k) => (o && k in o ? o[k] : undefined),
-      dict.en,
-    );
-    return (val ?? fb ?? key) as string;
-  };
+  const t = useCallback(
+    (key: string) =>
+      resolveTranslation(dict[lang], key) ??
+      resolveTranslation(dict.en, key) ??
+      key,
+    [lang],
+  );
 
-  const value = useMemo(() => ({ lang, setLang, t }), [lang]);
+  const value = useMemo(() => ({ lang, setLang, t }), [lang, t]);
 
   return <C.Provider value={value}>{children}</C.Provider>;
 }
@@ -144,7 +153,6 @@ export function useLanguage() {
   return ctx;
 }
 
-// Untuk heading yang butuh <span> berwarna
 export function RichText({ i18nKey }: { i18nKey: string }) {
   const { t } = useLanguage();
   return <span dangerouslySetInnerHTML={{ __html: t(i18nKey) }} />;

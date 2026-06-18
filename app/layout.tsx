@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-// @ts-ignore: CSS module declarations may not be available in this project setup
 import "./globals.css";
-import { AuthProvider } from "../context/AuthContext";
-import { LanguageProvider } from "../context/LanguageProvider";
+import { AuthProvider } from "@/context/AuthContext";
+import { LanguageProvider } from "@/context/LanguageProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],

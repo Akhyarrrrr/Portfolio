@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, type Variants } from "framer-motion";
 import { Briefcase, Code2, Users, Zap } from "lucide-react";
-import { useLanguage } from "../context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 
 /* ─── i18n data ─────────────────────────────────────────────── */
 const aboutData = {

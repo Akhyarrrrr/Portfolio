@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Globe, Check } from "lucide-react";
-import { useLanguage } from "../context/LanguageProvider";
+import { useLanguage } from "@/context/LanguageProvider";
 
 const NAV_LINKS = [
   { key: "nav.home",       href: "#hero"       },

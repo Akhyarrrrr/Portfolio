@@ -8,17 +8,8 @@ import {
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
-import { getExperiences } from "@/lib/firestoreCrud";
-import { useLanguage, RichText } from "../context/LanguageProvider";
-
-type ExperienceType = {
-  id: string;
-  title: string;
-  company: string;
-  year: string;
-  logo: string;
-  description: string;
-};
+import { getExperiences, type ExperienceType } from "@/lib/firestoreCrud";
+import { useLanguage, RichText } from "@/context/LanguageProvider";
 
 /* ─── Skeleton ──────────────────────────────────────────────── */
 const SkeletonLine = ({ className = "" }: { className?: string }) => (
@@ -100,6 +91,11 @@ const fadeUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
+function getLastYear(year: string) {
+  const matches = year.match(/\d{4}/g);
+  return matches ? Number(matches[matches.length - 1]) : 0;
+}
+
 /* ─── Section heading helper ────────────────────────────────── */
 function SectionHeading({
   badge,
@@ -157,14 +153,10 @@ export default function Experience() {
     (async () => {
       try {
         const exps = await getExperiences();
-        const sorted = [...exps].sort((a, b) => {
-          const last = (y: string) => {
-            const m = String(y).match(/\d{4}/g);
-            return m ? +m[m.length - 1] : 0;
-          };
-          return last(b.year) - last(a.year);
-        });
-        if (mounted) setExperiences(sorted as ExperienceType[]);
+        const sorted = [...exps].sort(
+          (a, b) => getLastYear(b.year) - getLastYear(a.year),
+        );
+        if (mounted) setExperiences(sorted);
       } catch (e) {
         console.error("Failed to fetch experiences", e);
       } finally {

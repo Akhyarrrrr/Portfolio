@@ -2,36 +2,12 @@
 
 import { useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
-import { FaReact, FaHtml5, FaCss3Alt, FaGithub } from "react-icons/fa";
-import {
-  SiTailwindcss, SiJavascript, SiTypescript, SiNextdotjs,
-  SiMysql, SiFirebase, SiExpo, SiKotlin, SiLaravel,
-  SiExpress, SiDocker, SiLinux, SiSupabase, SiVercel, SiPostgresql,
-} from "react-icons/si";
-import ScrollVelocity from "./components/ScrollVelocity/ScrollVelocity";
+import ScrollVelocity from "../ScrollVelocity/ScrollVelocity";
+import { featuredSkills } from "@/lib/tech-stack";
 
-const skills = [
-  { name: "JavaScript",   icon: <SiJavascript  className="text-white w-6 h-6" /> },
-  { name: "TypeScript",   icon: <SiTypescript  className="text-white w-6 h-6" /> },
-  { name: "HTML5",        icon: <FaHtml5       className="text-white w-6 h-6" /> },
-  { name: "CSS3",         icon: <FaCss3Alt     className="text-white w-6 h-6" /> },
-  { name: "React",        icon: <FaReact       className="text-white w-6 h-6" /> },
-  { name: "Tailwind",     icon: <SiTailwindcss className="text-white w-6 h-6" /> },
-  { name: "GitHub",       icon: <FaGithub      className="text-white w-6 h-6" /> },
-  { name: "Next.js",      icon: <SiNextdotjs   className="text-white w-6 h-6" /> },
-  { name: "MySQL",        icon: <SiMysql       className="text-white w-6 h-6" /> },
-  { name: "Firebase",     icon: <SiFirebase    className="text-white w-6 h-6" /> },
-  { name: "Expo",         icon: <SiExpo        className="text-white w-6 h-6" /> },
-  { name: "Kotlin",       icon: <SiKotlin      className="text-white w-6 h-6" /> },
-  { name: "Laravel",      icon: <SiLaravel     className="text-white w-6 h-6" /> },
-  { name: "Express.js",   icon: <SiExpress     className="text-white w-6 h-6" /> },
-  { name: "React Native", icon: <FaReact       className="text-white w-6 h-6" /> },
-  { name: "Docker",       icon: <SiDocker      className="text-white w-6 h-6" /> },
-  { name: "Linux",        icon: <SiLinux       className="text-white w-6 h-6" /> },
-  { name: "Supabase",     icon: <SiSupabase    className="text-white w-6 h-6" /> },
-  { name: "Vercel",       icon: <SiVercel      className="text-white w-6 h-6" /> },
-  { name: "PostgreSQL",   icon: <SiPostgresql  className="text-white w-6 h-6" /> },
-  
+const skillRows = [
+  featuredSkills.slice(0, Math.ceil(featuredSkills.length / 2)),
+  featuredSkills.slice(Math.ceil(featuredSkills.length / 2)),
 ];
 
 function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
@@ -51,7 +27,9 @@ function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
 function SkillLine({ reverse = false }: { reverse?: boolean }) {
   return (
     <div className={`flex gap-4 ${reverse ? "flex-row-reverse" : ""}`}>
-      {skills.map((s) => <SkillBadge key={s.name} name={s.name} icon={s.icon} />)}
+      {skillRows[reverse ? 1 : 0].map((skill) => (
+        <SkillBadge key={skill.label} name={skill.label} icon={skill.icon} />
+      ))}
     </div>
   );
 }
@@ -71,9 +49,13 @@ export default function SkillsTape() {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const apply = (reduced: boolean) =>
       wrapper.style.setProperty("--motion-play", reduced ? "paused" : "running");
+    const handleMotionChange = (event: MediaQueryListEvent) => {
+      apply(event.matches);
+    };
+
     apply(mq.matches);
-    mq.addEventListener("change", (e) => apply(e.matches));
-    return () => mq.removeEventListener("change", (e) => apply(e.matches));
+    mq.addEventListener("change", handleMotionChange);
+    return () => mq.removeEventListener("change", handleMotionChange);
   }, []);
 
   return (
@@ -94,7 +76,7 @@ export default function SkillsTape() {
           Tools I <span className="text-[#61DCA3]">Work With</span>
         </h2>
         <p className="mt-3 text-white/40 text-sm max-w-md mx-auto">
-          Technologies I use to build, ship, and scale production systems.
+          Core tools I already use, plus a broader stack foundation for what I am exploring next.
         </p>
       </motion.div>
 

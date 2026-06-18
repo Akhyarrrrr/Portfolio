@@ -1,65 +1,31 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
-import Navbar from "./Navbar";
-import Hero from "./Hero";
-import Background from "./Background";
-import Footer from "./Footer";
+import LazyMount from "./components/common/LazyMount";
+import Background from "./components/layout/Background";
+import Footer from "./components/layout/Footer";
+import Navbar from "./components/layout/Navbar";
+import Hero from "./components/sections/Hero";
 
-const About = dynamic(() => import("./About"));
-const Experience = dynamic(() => import("./Experience"));
-const Tape = dynamic(() => import("./Tape"));
-const Project = dynamic(() => import("./Project"));
-const Skills = dynamic(() => import("./Skills"));
-const Contact = dynamic(() => import("./Contact"));
-const ScrollToTop = dynamic(() => import("./ScrollToTop"), { ssr: false });
+const About = dynamic(() => import("./components/sections/About"));
+const Experience = dynamic(() => import("./components/sections/Experience"));
+const Tape = dynamic(() => import("./components/sections/Tape"));
+const Project = dynamic(() => import("./components/sections/Project"));
+const Skills = dynamic(() => import("./components/sections/Skills"));
+const Contact = dynamic(() => import("./components/sections/Contact"));
+const ScrollToTop = dynamic(() => import("./components/layout/ScrollToTop"), {
+  ssr: false,
+});
 const Chatbot = dynamic(() => import("./components/GroqChatbot/Chatbot"), {
   ssr: false,
 });
 
-function LazyMount({
-  children,
-  minHeight = 720,
-}: {
-  children: ReactNode;
-  minHeight?: number;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    if (mounted) return;
-
-    const node = ref.current;
-    if (!node || !("IntersectionObserver" in window)) {
-      setMounted(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        setMounted(true);
-        observer.disconnect();
-      },
-      { rootMargin: "900px 0px" },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [mounted]);
-
-  return (
-    <div ref={ref} style={!mounted ? { minHeight } : undefined}>
-      {mounted ? children : null}
-    </div>
-  );
-}
-
 export default function Home() {
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (window.location.hash) return;
+
     const t = setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
       history.replaceState(null, "", "/");
@@ -83,22 +49,22 @@ export default function Home() {
         <Navbar />
         <main>
           <Hero />
-          <LazyMount minHeight={920}>
+          <LazyMount id="about" minHeight={920}>
             <About />
           </LazyMount>
-          <LazyMount minHeight={980}>
+          <LazyMount id="experience" minHeight={980}>
             <Experience />
           </LazyMount>
           <LazyMount minHeight={180}>
             <Tape />
           </LazyMount>
-          <LazyMount minHeight={1180}>
+          <LazyMount id="project" minHeight={1180}>
             <Project />
           </LazyMount>
-          <LazyMount minHeight={720}>
+          <LazyMount id="skills" minHeight={720}>
             <Skills />
           </LazyMount>
-          <LazyMount minHeight={880}>
+          <LazyMount id="contact" minHeight={880}>
             <Contact />
           </LazyMount>
         </main>
