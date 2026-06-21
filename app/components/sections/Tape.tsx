@@ -2,26 +2,20 @@
 
 import { Fragment, useEffect, useRef } from "react";
 
-const words = [
-  "Full Stack Developer",
-  "Creative Coder",
-  "Mobile & Web",
-  "Problem Solver",
-  "Tailwind Enthusiast",
-  "Modern UI/UX",
-  "Tech Explorer",
-  "Open Source Lover",
-  "Build with Passion",
+const achievements = [
+  "90+ Academic Journals Managed",
+  "1,690+ Annual Submissions",
+  "99.9% Platform Uptime",
+  "6+ Projects Shipped",
+  "Zero-Data-Loss Migration",
+  "CI/CD & Dockerized Deploys",
+  "AI-Powered Face Recognition",
+  "Production-Ready Systems",
 ];
 
 export default function Tape() {
   const trackRef = useRef<HTMLDivElement>(null);
 
-  /**
-   * Pause the CSS animation when the user has requested reduced motion.
-   * We do this in JS so the element is still rendered (accessible),
-   * but the scrolling ticker stops.
-   */
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
@@ -50,10 +44,10 @@ export default function Tape() {
           >
             {[...new Array(2)].fill(0).map((_, idx) => (
               <Fragment key={idx}>
-                {words.map((word) => (
-                  <div key={word} className="inline-flex items-center gap-5">
+                {achievements.map((achievement) => (
+                  <div key={achievement} className="inline-flex items-center gap-5">
                     <span className="select-none text-lg font-extrabold uppercase tracking-[0.08em] text-[#0B0F15]">
-                      {word}
+                      {achievement}
                     </span>
                     <img
                       src="/assets/icons/star.svg"

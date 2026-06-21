@@ -1,19 +1,25 @@
 import type { ReactNode } from "react";
 import {
+  BarChart3,
+  BrainCircuit,
+  Cpu,
   Database,
   CreditCard,
+  FileText,
+  GripHorizontal,
+  Pencil,
+  ScanFace,
   Sparkles,
   TerminalSquare,
   type LucideProps,
 } from "lucide-react";
-import {
-  BiLogoCPlusPlus,
-  BiLogoJava,
-  BiLogoUnity,
-  BiLogoVisualStudio,
-} from "react-icons/bi";
+import { BiLogoCPlusPlus, BiLogoJava, BiLogoUnity, BiLogoVisualStudio } from "react-icons/bi";
 import { FaCss3Alt, FaGithub, FaGitAlt, FaHtml5, FaReact } from "react-icons/fa";
 import {
+  SiAdonisjs,
+  SiAlpinedotjs,
+  SiAndroidstudio,
+  SiAwslambda,
   SiCheerio,
   SiClerk,
   SiCloudinary,
@@ -23,13 +29,18 @@ import {
   SiExpress,
   SiFigma,
   SiFirebase,
+  SiFramer,
+  SiGithubactions,
   SiGnubash,
   SiGo,
+  SiGooglecloud,
   SiGraphql,
   SiJavascript,
   SiKotlin,
   SiLaravel,
   SiLinux,
+  SiLivewire,
+  SiMariadb,
   SiMongodb,
   SiMysql,
   SiNestjs,
@@ -44,6 +55,7 @@ import {
   SiRust,
   SiSupabase,
   SiTailwindcss,
+  SiTensorflow,
   SiTypescript,
   SiVercel,
 } from "react-icons/si";
@@ -62,62 +74,81 @@ type TechBadgeMeta = {
   icon?: ReactNode;
 };
 
-const iconClassName = "h-4 w-4 text-current";
+const icn = "h-4 w-4 text-current";
 
-function renderLucideIcon(Icon: (props: LucideProps) => ReactNode) {
-  return <Icon className={iconClassName} strokeWidth={2} />;
+function L(Icon: (props: LucideProps) => ReactNode) {
+  return <Icon className={icn} strokeWidth={2} />;
 }
 
 const techCatalog: TechDefinition[] = [
-  { key: "javascript", label: "JavaScript", aliases: ["js"], icon: <SiJavascript className={`${iconClassName} text-yellow-400`} /> },
-  { key: "typescript", label: "TypeScript", aliases: ["ts", "typescirpt"], icon: <SiTypescript className={`${iconClassName} text-blue-400`} /> },
-  { key: "html5", label: "HTML5", aliases: ["html"], icon: <FaHtml5 className={`${iconClassName} text-orange-500`} /> },
-  { key: "css3", label: "CSS3", aliases: ["css"], icon: <FaCss3Alt className={`${iconClassName} text-blue-500`} /> },
-  { key: "react", label: "React", aliases: ["reactjs"], icon: <FaReact className={`${iconClassName} text-sky-400`} /> },
-  { key: "nextjs", label: "Next.js", aliases: ["next", "next js"], icon: <SiNextdotjs className={`${iconClassName} text-white`} /> },
-  { key: "tailwindcss", label: "Tailwind CSS", aliases: ["tailwind", "tailwindcss"], icon: <SiTailwindcss className={`${iconClassName} text-cyan-400`} /> },
-  { key: "nodejs", label: "Node.js", aliases: ["node", "node js"], icon: <SiNodedotjs className={`${iconClassName} text-green-400`} /> },
-  { key: "expressjs", label: "Express.js", aliases: ["express", "express js"], icon: <SiExpress className={`${iconClassName} text-white`} /> },
-  { key: "nestjs", label: "NestJS", aliases: ["nest", "nest js"], icon: <SiNestjs className={`${iconClassName} text-rose-400`} /> },
-  { key: "golang", label: "Go", aliases: ["go"], icon: <SiGo className={`${iconClassName} text-cyan-300`} /> },
-  { key: "python", label: "Python", icon: <SiPython className={`${iconClassName} text-yellow-300`} /> },
-  { key: "php", label: "PHP", icon: <SiPhp className={`${iconClassName} text-indigo-300`} /> },
-  { key: "laravel", label: "Laravel", icon: <SiLaravel className={`${iconClassName} text-red-500`} /> },
-  { key: "kotlin", label: "Kotlin", icon: <SiKotlin className={`${iconClassName} text-purple-400`} /> },
-  { key: "java", label: "Java", icon: <BiLogoJava className={`${iconClassName} text-orange-400`} /> },
-  { key: "csharp", label: "C#", aliases: ["c#"], icon: <TbBrandCSharp className={`${iconClassName} text-violet-300`} /> },
-  { key: "cplusplus", label: "C++", aliases: ["c++"], icon: <BiLogoCPlusPlus className={`${iconClassName} text-sky-300`} /> },
-  { key: "rust", label: "Rust", icon: <SiRust className={`${iconClassName} text-orange-300`} /> },
-  { key: "postgresql", label: "PostgreSQL", aliases: ["postgres", "postgre", "postgre sql"], icon: <SiPostgresql className={`${iconClassName} text-sky-300`} /> },
-  { key: "mysql", label: "MySQL", icon: <SiMysql className={`${iconClassName} text-blue-300`} /> },
-  { key: "mongodb", label: "MongoDB", icon: <SiMongodb className={`${iconClassName} text-green-400`} /> },
-  { key: "redis", label: "Redis", icon: <SiRedis className={`${iconClassName} text-rose-400`} /> },
-  { key: "firebase", label: "Firebase", icon: <SiFirebase className={`${iconClassName} text-yellow-300`} /> },
-  { key: "supabase", label: "Supabase", icon: <SiSupabase className={`${iconClassName} text-green-400`} /> },
-  { key: "neon", label: "Neon Postgres", aliases: ["neon postgres", "neon database"], icon: renderLucideIcon(Database) },
-  { key: "prisma", label: "Prisma", icon: <SiPrisma className={`${iconClassName} text-white`} /> },
-  { key: "drizzle", label: "Drizzle ORM", aliases: ["drizzle orm"], icon: <SiDrizzle className={`${iconClassName} text-lime-300`} /> },
-  { key: "graphql", label: "GraphQL", icon: <SiGraphql className={`${iconClassName} text-pink-400`} /> },
-  { key: "restapi", label: "REST API", aliases: ["rest", "api"], icon: <TbApi className={`${iconClassName} text-cyan-300`} /> },
-  { key: "docker", label: "Docker", icon: <SiDocker className={`${iconClassName} text-sky-400`} /> },
-  { key: "linux", label: "Linux", icon: <SiLinux className={`${iconClassName} text-amber-200`} /> },
-  { key: "vercel", label: "Vercel", icon: <SiVercel className={`${iconClassName} text-white`} /> },
-  { key: "railway", label: "Railway", icon: <SiRailway className={`${iconClassName} text-white`} /> },
-  { key: "cloudinary", label: "Cloudinary", icon: <SiCloudinary className={`${iconClassName} text-blue-300`} /> },
-  { key: "clerk", label: "Clerk", icon: <SiClerk className={`${iconClassName} text-purple-300`} /> },
-  { key: "groq", label: "Groq AI", aliases: ["groq ai"], icon: renderLucideIcon(Sparkles) },
-  { key: "cheerio", label: "Cheerio", icon: <SiCheerio className={`${iconClassName} text-lime-300`} /> },
-  { key: "expo", label: "Expo", icon: <SiExpo className={`${iconClassName} text-white`} /> },
-  { key: "reactnative", label: "React Native", aliases: ["react native"], icon: <FaReact className={`${iconClassName} text-indigo-400`} /> },
-  { key: "github", label: "GitHub", icon: <FaGithub className={`${iconClassName} text-white`} /> },
-  { key: "git", label: "Git", icon: <FaGitAlt className={`${iconClassName} text-orange-400`} /> },
-  { key: "figma", label: "Figma", icon: <SiFigma className={`${iconClassName} text-pink-400`} /> },
-  { key: "unity", label: "Unity", icon: <BiLogoUnity className={`${iconClassName} text-white`} /> },
-  { key: "visualstudio", label: "Visual Studio", aliases: ["visual studio code", "vscode"], icon: <BiLogoVisualStudio className={`${iconClassName} text-blue-400`} /> },
-  { key: "midtrans", label: "Midtrans", icon: renderLucideIcon(CreditCard) },
-  { key: "openai", label: "OpenAI", icon: renderLucideIcon(Sparkles) },
-  { key: "terminal", label: "CLI", aliases: ["bash", "shell", "terminal", "gnu bash"], icon: <SiGnubash className={`${iconClassName} text-white`} /> },
+  { key: "javascript", label: "JavaScript", aliases: ["js"], icon: <SiJavascript className={`${icn} text-yellow-400`} /> },
+  { key: "typescript", label: "TypeScript", aliases: ["ts", "typescirpt"], icon: <SiTypescript className={`${icn} text-blue-400`} /> },
+  { key: "html5", label: "HTML5", aliases: ["html"], icon: <FaHtml5 className={`${icn} text-orange-500`} /> },
+  { key: "css3", label: "CSS3", aliases: ["css"], icon: <FaCss3Alt className={`${icn} text-blue-500`} /> },
+  { key: "react", label: "React", aliases: ["reactjs"], icon: <FaReact className={`${icn} text-sky-400`} /> },
+  { key: "nextjs", label: "Next.js", aliases: ["next", "next js"], icon: <SiNextdotjs className={`${icn} text-white`} /> },
+  { key: "tailwindcss", label: "Tailwind CSS", aliases: ["tailwind", "tailwindcss"], icon: <SiTailwindcss className={`${icn} text-cyan-400`} /> },
+  { key: "nodejs", label: "Node.js", aliases: ["node", "node js"], icon: <SiNodedotjs className={`${icn} text-green-400`} /> },
+  { key: "expressjs", label: "Express.js", aliases: ["express", "express js"], icon: <SiExpress className={`${icn} text-white`} /> },
+  { key: "nestjs", label: "NestJS", aliases: ["nest", "nest js"], icon: <SiNestjs className={`${icn} text-rose-400`} /> },
+  { key: "golang", label: "Go", aliases: ["go"], icon: <SiGo className={`${icn} text-cyan-300`} /> },
+  { key: "python", label: "Python", icon: <SiPython className={`${icn} text-yellow-300`} /> },
+  { key: "php", label: "PHP", icon: <SiPhp className={`${icn} text-indigo-300`} /> },
+  { key: "laravel", label: "Laravel", icon: <SiLaravel className={`${icn} text-red-500`} /> },
+  { key: "kotlin", label: "Kotlin", icon: <SiKotlin className={`${icn} text-purple-400`} /> },
+  { key: "java", label: "Java", icon: <BiLogoJava className={`${icn} text-orange-400`} /> },
+  { key: "csharp", label: "C#", aliases: ["c#"], icon: <TbBrandCSharp className={`${icn} text-violet-300`} /> },
+  { key: "cplusplus", label: "C++", aliases: ["c++"], icon: <BiLogoCPlusPlus className={`${icn} text-sky-300`} /> },
+  { key: "rust", label: "Rust", icon: <SiRust className={`${icn} text-orange-300`} /> },
+  { key: "postgresql", label: "PostgreSQL", aliases: ["postgres", "postgre", "postgre sql"], icon: <SiPostgresql className={`${icn} text-sky-300`} /> },
+  { key: "mysql", label: "MySQL", icon: <SiMysql className={`${icn} text-blue-300`} /> },
+  { key: "mongodb", label: "MongoDB", icon: <SiMongodb className={`${icn} text-green-400`} /> },
+  { key: "redis", label: "Redis", icon: <SiRedis className={`${icn} text-rose-400`} /> },
+  { key: "firebase", label: "Firebase", icon: <SiFirebase className={`${icn} text-yellow-300`} /> },
+  { key: "supabase", label: "Supabase", icon: <SiSupabase className={`${icn} text-green-400`} /> },
+  { key: "neon", label: "Neon Postgres", aliases: ["neon postgres", "neon database"], icon: L(Database) },
+  { key: "prisma", label: "Prisma", icon: <SiPrisma className={`${icn} text-white`} /> },
+  { key: "drizzle", label: "Drizzle ORM", aliases: ["drizzle orm"], icon: <SiDrizzle className={`${icn} text-lime-300`} /> },
+  { key: "graphql", label: "GraphQL", icon: <SiGraphql className={`${icn} text-pink-400`} /> },
+  { key: "restapi", label: "REST API", aliases: ["rest", "api"], icon: <TbApi className={`${icn} text-cyan-300`} /> },
+  { key: "docker", label: "Docker", icon: <SiDocker className={`${icn} text-sky-400`} /> },
+  { key: "linux", label: "Linux", icon: <SiLinux className={`${icn} text-amber-200`} /> },
+  { key: "vercel", label: "Vercel", icon: <SiVercel className={`${icn} text-white`} /> },
+  { key: "railway", label: "Railway", icon: <SiRailway className={`${icn} text-white`} /> },
+  { key: "cloudinary", label: "Cloudinary", icon: <SiCloudinary className={`${icn} text-blue-300`} /> },
+  { key: "clerk", label: "Clerk", icon: <SiClerk className={`${icn} text-purple-300`} /> },
+  { key: "groq", label: "Groq AI", aliases: ["groq ai"], icon: L(Sparkles) },
+  { key: "cheerio", label: "Cheerio", icon: <SiCheerio className={`${icn} text-lime-300`} /> },
+  { key: "expo", label: "Expo", icon: <SiExpo className={`${icn} text-white`} /> },
+  { key: "reactnative", label: "React Native", aliases: ["react native"], icon: <FaReact className={`${icn} text-indigo-400`} /> },
+  { key: "github", label: "GitHub", icon: <FaGithub className={`${icn} text-white`} /> },
+  { key: "git", label: "Git", icon: <FaGitAlt className={`${icn} text-orange-400`} /> },
+  { key: "figma", label: "Figma", icon: <SiFigma className={`${icn} text-pink-400`} /> },
+  { key: "unity", label: "Unity", icon: <BiLogoUnity className={`${icn} text-white`} /> },
+  { key: "visualstudio", label: "Visual Studio", aliases: ["visual studio code", "vscode"], icon: <BiLogoVisualStudio className={`${icn} text-blue-400`} /> },
+  { key: "midtrans", label: "Midtrans", icon: L(CreditCard) },
+  { key: "openai", label: "OpenAI", icon: L(Sparkles) },
+  { key: "terminal", label: "CLI", aliases: ["bash", "shell", "terminal", "gnu bash"], icon: <SiGnubash className={`${icn} text-white`} /> },
+  { key: "framermotion", label: "Framer Motion", aliases: ["framer", "framer motion"], icon: <SiFramer className={`${icn} text-white`} /> },
+  { key: "tensorflow", label: "TensorFlow", aliases: ["tensorflow.js", "tensorflow js", "tfjs", "tensor flow"], icon: <SiTensorflow className={`${icn} text-orange-400`} /> },
+  { key: "faceapi", label: "face-api.js", aliases: ["face api", "face api js", "faceapi.js", "faceapijs"], icon: L(ScanFace) },
+  { key: "recharts", label: "Recharts", aliases: ["recharts.js"], icon: L(BarChart3) },
+  { key: "jspdf", label: "jsPDF", aliases: ["jspdf.js", "js pdf"], icon: L(FileText) },
+  { key: "pgvector", label: "pgvector", aliases: ["pg vector"], icon: L(BrainCircuit) },
+  { key: "dndkit", label: "dnd-kit", aliases: ["dnd kit", "dndkit"], icon: L(GripHorizontal) },
+  { key: "tiptap", label: "Tiptap", icon: L(Pencil) },
+  { key: "androidstudio", label: "Android Studio", aliases: ["android studio"], icon: <SiAndroidstudio className={`${icn} text-green-400`} /> },
+  { key: "webworkers", label: "Web Workers", aliases: ["web workers", "web worker"], icon: L(Cpu) },
+  { key: "githubactions", label: "GitHub Actions", aliases: ["github actions", "gh actions"], icon: <SiGithubactions className={`${icn} text-blue-400`} /> },
+  { key: "adonisjs", label: "AdonisJS", aliases: ["adonis", "adonis js"], icon: <SiAdonisjs className={`${icn} text-violet-400`} /> },
+  { key: "gcp", label: "Google Cloud", aliases: ["gcp", "google cloud platform"], icon: <SiGooglecloud className={`${icn} text-blue-300`} /> },
+  { key: "aws", label: "AWS", aliases: ["amazon web services", "amazon"], icon: <SiAwslambda className={`${icn} text-orange-400`} /> },
+  { key: "mariadb", label: "MariaDB", aliases: ["maria db"], icon: <SiMariadb className={`${icn} text-amber-400`} /> },
+  { key: "alpinejs", label: "Alpine.js", aliases: ["alpine", "alpine js", "alpine.js"], icon: <SiAlpinedotjs className={`${icn} text-sky-500`} /> },
+  { key: "livewire", label: "Livewire", aliases: ["livewire laravel"], icon: <SiLivewire className={`${icn} text-pink-400`} /> },
 ];
+
+// ── Lookup ─────────────────────────────────────────────────────
 
 const techMap = new Map<string, TechDefinition>();
 
@@ -132,60 +163,43 @@ function normalizeTechKey(value: string) {
 }
 
 for (const tech of techCatalog) {
-  const keys = [tech.key, tech.label, ...(tech.aliases ?? [])];
-
-  for (const key of keys) {
+  for (const key of [tech.key, tech.label, ...(tech.aliases ?? [])]) {
     techMap.set(normalizeTechKey(key), tech);
   }
 }
 
 export const featuredSkills = [
-  "Next.js",
-  "Tailwind CSS",
-  "TypeScript",
-  "React",
-  "Node.js",
-  "Go",
-  "Python",
-  "PostgreSQL",
-  "Drizzle ORM",
-  "Clerk",
-  "Neon Postgres",
-  "Groq AI",
-  "Cheerio",
-  "Firebase",
-  "Supabase",
-  "Docker",
-  "Vercel",
-  "GitHub",
-  "Figma",
-  "Linux",
-].map((skill) => getTechMeta(skill) ?? { label: skill });
+  "Next.js", "Tailwind CSS", "TypeScript", "React", "Node.js", "Go", "Python",
+  "PostgreSQL", "Drizzle ORM", "Firebase", "Supabase", "Docker", "Vercel", "GitHub", "Figma", "Linux",
+].map((s) => getTechMeta(s) ?? { label: s });
 
-export const techSuggestions = techCatalog.map((tech) => tech.label);
+export const techCategories = {
+  Frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "HTML5", "CSS3"],
+  Backend: ["Node.js", "Express.js", "NestJS", "Go", "Python", "PHP", "Laravel", "GraphQL", "REST API"],
+  Database: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase", "Supabase", "Prisma", "Drizzle ORM"],
+  "DevOps & Tools": ["Docker", "Linux", "Git", "GitHub", "Vercel", "Railway", "Cloudinary", "Figma"],
+  Mobile: ["React Native", "Expo", "Kotlin", "Java"],
+} as const;
+
+export type TechCategory = keyof typeof techCategories;
+
+export function getTechsByCategory() {
+  return Object.entries(techCategories).map(([category, labels]) => ({
+    category: category as TechCategory,
+    techs: labels.map((l) => getTechMeta(l)).filter((t): t is NonNullable<typeof t> => t != null),
+  }));
+}
+
+export const techSuggestions = techCatalog.map((t) => t.label);
 
 export function getTechMeta(value: string): TechBadgeMeta | undefined {
-  const tech = techMap.get(normalizeTechKey(value));
-
-  if (!tech) {
-    return undefined;
-  }
-
-  return {
-    key: tech.key,
-    label: tech.label,
-    icon: tech.icon,
-  };
+  return techMap.get(normalizeTechKey(value));
 }
 
 export function getTechDisplayLabel(value: string) {
-  const normalized = value.trim();
-
-  if (!normalized) {
-    return "";
-  }
-
-  return getTechMeta(normalized)?.label ?? normalized.replace(/[_-]+/g, " ");
+  const n = value.trim();
+  if (!n) return "";
+  return getTechMeta(n)?.label ?? n.replace(/[_-]+/g, " ");
 }
 
 export function normalizeTechValue(value: string) {
@@ -196,36 +210,6 @@ export function isSameTech(a: string, b: string) {
   return normalizeTechKey(a) === normalizeTechKey(b);
 }
 
-export function getTechInitials(value: string) {
-  const label = getTechDisplayLabel(value);
-
-  if (!label) {
-    return "NA";
-  }
-
-  if (label === "C#" || label === "C++") {
-    return label;
-  }
-
-  return label
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-}
-
-export function getFallbackTechIcon(value: string) {
-  const label = value.trim().toLowerCase();
-
-  if (label.includes("api")) {
-    return <TbApi className={`${iconClassName} text-cyan-300`} />;
-  }
-
-  if (label.includes("ai")) {
-    return renderLucideIcon(Sparkles);
-  }
-
-  return renderLucideIcon(TerminalSquare);
+export function getFallbackTechIcon(_value: string) {
+  return L(TerminalSquare);
 }

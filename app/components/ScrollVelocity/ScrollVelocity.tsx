@@ -103,7 +103,6 @@ function VelocityText({
   });
 
   useAnimationFrame((_, delta) => {
-    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
     const scrollFactor = velocityFactor.get();
 
     if (scrollFactor < 0) {
@@ -112,7 +111,9 @@ function VelocityText({
       directionFactor.current = 1;
     }
 
-    moveBy += directionFactor.current * moveBy * scrollFactor;
+    const baseMovement = directionFactor.current * baseVelocity * (delta / 1000);
+    const scrollEffect = directionFactor.current * baseVelocity * scrollFactor * (delta / 1000);
+    const moveBy = baseMovement + scrollEffect;
     baseX.set(baseX.get() + moveBy);
   });
 
@@ -122,7 +123,7 @@ function VelocityText({
       style={parallaxStyle}
     >
       <motion.div
-        className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[5rem]`}
+        className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[3rem]`}
         style={{ x, ...scrollerStyle }}
       >
         {Array.from({ length: numCopies }, (_, index) => (

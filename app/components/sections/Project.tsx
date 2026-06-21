@@ -1,17 +1,16 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, type Variants } from "framer-motion";
-import { ExternalLink, Pin } from "lucide-react";
+import { ExternalLink, GithubIcon, Pin } from "lucide-react";
 import { useLanguage, RichText } from "@/context/LanguageProvider";
 import type { ProjectType } from "@/lib/firestoreCrud";
 import {
   getFallbackTechIcon,
   getTechDisplayLabel,
-  getTechInitials,
   getTechMeta,
 } from "@/lib/tech-stack";
-import { PinContainer } from "../ui/3d-pin";
 
 type ProjectCategoryFilter = "all" | "web" | "mobile";
 type ProjectLanguage = "en" | "id";
@@ -61,19 +60,13 @@ const projectCard: Variants = {
 function TechBadge({ tech }: { tech: string }) {
   const meta = getTechMeta(tech);
   const label = getTechDisplayLabel(tech);
-  const initials = getTechInitials(tech);
 
   return (
     <span
       title={label}
       className="inline-flex h-7 min-w-7 items-center justify-center gap-1 rounded-lg border border-white/10 bg-white/[0.04] px-1.5 text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
     >
-      {meta?.icon ? meta.icon : getFallbackTechIcon(tech)}
-      {!meta?.icon && (
-        <span className="text-[8px] font-semibold uppercase tracking-[0.08em] text-white/70">
-          {initials}
-        </span>
-      )}
+      {meta?.icon ?? getFallbackTechIcon(tech)}
     </span>
   );
 }
@@ -130,26 +123,23 @@ function sortProjects(projects: ProjectType[], filter: ProjectCategoryFilter) {
   return [...pinned, ...unpinned];
 }
 
-export default function Project() {
+export default function Project({
+  projects: initialProjects,
+  onSelectProject,
+}: {
+  projects: ProjectType[];
+  onSelectProject?: (slug: string) => void;
+}) {
+  const router = useRouter();
   const { lang, t } = useLanguage();
   const [filter, setFilter] = useState<ProjectCategoryFilter>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
-  const [projects, setProjects] = useState<ProjectType[]>([]);
+  const [projects] = useState<ProjectType[]>(initialProjects);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { getProjects } = await import("@/lib/firestoreCrud");
-        const data = await getProjects();
-        setProjects(data ?? []);
-      } catch (error) {
-        console.error("Failed to fetch projects", error);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -270,65 +260,147 @@ export default function Project() {
               const visibleTech = techList.slice(0, maxVisibleTech);
               const hiddenTech = techList.slice(maxVisibleTech);
 
+              const detailHref = project.slug ? `/projects/${project.slug}` : null;
+              const externalHref = project.liveUrl || project.githubUrl || project.href;
+              const githubHref = project.githubUrl || project.href;
+              const liveUrl = project.liveUrl;
+              const primaryHref = detailHref || externalHref || null;
+
+              const openPrimaryAction = () => {
+                if (!primaryHref) return;
+                if (onSelectProject && project.slug) {
+                  onSelectProject(project.slug);
+                  return;
+                }
+                if (detailHref) {
+                  router.push(detailHref);
+                } else {
+                  window.open(primaryHref, "_blank", "noopener,noreferrer");
+                }
+              };
+
+              const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+                if ((e.target as HTMLElement).closest("a")) return;
+                openPrimaryAction();
+              };
+
+              const handleCardKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.target !== e.currentTarget) return;
+                if (e.key !== "Enter" && e.key !== " ") return;
+                e.preventDefault();
+                openPrimaryAction();
+              };
+
               return (
                 <motion.div
                   key={project.id}
                   variants={projectCard}
                   className="flex justify-center"
                 >
-                  <PinContainer
-                    title={t("project.view_github")}
-                    href={project.href}
-                    containerClassName="block h-[24rem] w-96 max-w-full"
-                  >
-                    <div className="relative flex h-[22rem] w-[20rem] basis-full flex-col overflow-hidden rounded-xl border border-[#61DCA3]/70 bg-black p-4 tracking-tight text-slate-100/50 shadow-[0_16px_40px_rgba(0,0,0,0.35)] transition-colors duration-300 hover:border-[#61DCA3] sm:basis-1/2">
-                      {project.pinned && (
-                        <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/15 px-2 py-0.5">
-                          <Pin size={10} className="text-[#61DCA3]" />
-                          <span className="text-[10px] font-semibold text-[#61DCA3]">
-                            Featured
-                          </span>
-                        </div>
-                      )}
-
-                      <h3 className="mb-1.5 max-w-[13rem] line-clamp-1 text-base font-bold leading-6 text-slate-100">
-                        {title}
-                      </h3>
-                      <p className="mb-3 line-clamp-2 text-xs leading-5 text-slate-500">
-                        {description}
-                      </p>
-
-                      <div className="mb-3 flex flex-wrap gap-1.5">
-                        {visibleTech.map((tech, index) => (
-                          <TechBadge key={`${project.id}-t-${index}`} tech={tech} />
-                        ))}
-                        {hiddenTech.length > 0 && (
-                          <MoreTechBadge
-                            count={hiddenTech.length}
-                            hiddenTech={hiddenTech}
-                          />
-                        )}
-                      </div>
-
+                  <div className="group/card block h-[24rem] w-96 max-w-full [perspective:1000px]">
+                    <div
+                      role={primaryHref ? "link" : undefined}
+                      tabIndex={primaryHref ? 0 : undefined}
+                      aria-label={primaryHref ? `${title} details` : undefined}
+                      onClick={handleCardClick}
+                      onKeyDown={handleCardKeyDown}
+                      className={`block h-full w-full ${primaryHref ? "cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#61DCA3]/70" : ""}`}
+                    >
                       <div
-                        className="mt-2 h-40 w-full flex-none overflow-hidden rounded-lg bg-cover bg-center"
-                        style={{ backgroundImage: `url(${project.imageUrl})` }}
-                      />
-
-                      {project.href && (
-                        <div className="mt-2 flex items-center gap-1.5 text-[10px] text-white/35">
-                          <ExternalLink size={10} />
-                          <span className="truncate">
-                            {project.href.replace(/^https?:\/\//, "")}
-                          </span>
+                        className="relative flex h-full w-[20rem] mx-auto flex-col overflow-hidden rounded-xl
+                                      border border-[#61DCA3]/40 bg-black p-4
+                                      shadow-[0_8px_30px_rgba(0,0,0,0.4)]
+                                      transition-all duration-500 ease-out
+                                      [transform-style:preserve-3d]
+                                      group-hover/card:[transform:rotateX(3deg)_rotateY(-3deg)]
+                                      group-hover/card:border-[#61DCA3]/80
+                                      group-hover/card:shadow-[0_0_30px_rgba(97,220,163,0.15),0_16px_48px_rgba(0,0,0,0.5)]"
+                      >
+                        {/* Badges */}
+                        <div className="absolute top-3 left-3 right-3 z-10 flex justify-between">
+                          <div className="flex gap-2">
+                            {detailHref && (
+                              <span className="rounded-full border border-[#61DCA3]/20 bg-[#61DCA3]/10 px-2 py-0.5 text-[10px] font-semibold text-[#61DCA3]">
+                                Case Study
+                              </span>
+                            )}
+                          </div>
+                          {project.pinned && (
+                            <span className="flex items-center gap-1 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/15 px-2 py-0.5 text-[10px] font-semibold text-[#61DCA3]">
+                              <Pin size={10} />
+                              Featured
+                            </span>
+                          )}
                         </div>
-                      )}
+
+                        <h3 className="mt-6 mb-1.5 line-clamp-1 text-base font-bold leading-6 text-slate-100">
+                          {title}
+                        </h3>
+                        <p className="mb-3 line-clamp-2 text-xs leading-5 text-slate-500">
+                          {description}
+                        </p>
+
+                        <div className="mb-3 flex flex-wrap gap-1.5">
+                          {visibleTech.map((tech, index) => (
+                            <TechBadge key={`${project.id}-t-${index}`} tech={tech} />
+                          ))}
+                          {hiddenTech.length > 0 && (
+                            <MoreTechBadge count={hiddenTech.length} hiddenTech={hiddenTech} />
+                          )}
+                        </div>
+
+                        <div
+                          className="flex-1 w-full overflow-hidden rounded-lg bg-cover bg-center"
+                          style={{ backgroundImage: `url(${project.imageUrl})` }}
+                        />
+
+                        {/* View Details indicator + Source/Live — inside card */}
+                        <div className="mt-3 flex items-center justify-between gap-2">
+                          {/* Detail link */}
+                          <span className="flex items-center gap-1 text-[10px] font-semibold text-[#61DCA3] transition-colors group-hover/card:text-white">
+                            {detailHref ? "View Details" : externalHref ? "Visit Project" : ""}
+                            <span className="transition-transform group-hover/card:translate-x-1">→</span>
+                          </span>
+
+                          {/* Source / Live buttons */}
+                          <div className="flex gap-1.5" onClick={(e) => e.stopPropagation()}>
+                            {githubHref && (
+                              <a
+                                href={githubHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold text-white/50 transition hover:border-[#61DCA3]/50 hover:bg-[#61DCA3]/10 hover:text-white"
+                              >
+                                <GithubIcon size={11} />
+                                Source
+                              </a>
+                            )}
+                            {liveUrl && (
+                              <a
+                                href={liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1 rounded-md border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-2.5 py-1 text-[10px] font-semibold text-[#61DCA3] transition hover:bg-[#61DCA3]/20"
+                              >
+                                <ExternalLink size={11} />
+                                Live
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </PinContainer>
+                  </div>
                 </motion.div>
               );
             })}
         </motion.div>
+
+        {!loading && pageData.length === 0 && (
+          <p className="py-20 text-center text-sm text-white/30">
+            {t("project.noProjects")}
+          </p>
+        )}
 
         {!loading && totalPages > 1 && (
           <div className="mt-14 flex items-center justify-center gap-2 text-sm">

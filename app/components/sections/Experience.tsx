@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import {
   motion,
   useScroll,
@@ -8,7 +8,7 @@ import {
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
-import { getExperiences, type ExperienceType } from "@/lib/firestoreCrud";
+import { type ExperienceType } from "@/lib/firestoreCrud";
 import { useLanguage, RichText } from "@/context/LanguageProvider";
 
 /* ─── Skeleton ──────────────────────────────────────────────── */
@@ -131,10 +131,26 @@ function SectionHeading({
 }
 
 /* ─── Main ──────────────────────────────────────────────────── */
-export default function Experience() {
+export default function Experience({
+  experiences: rawExperiences,
+}: {
+  experiences: ExperienceType[];
+}) {
   const { t, lang } = useLanguage();
-  const [experiences, setExperiences] = useState<ExperienceType[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const experiences = useMemo(
+    () =>
+      [...rawExperiences].sort(
+        (a, b) => getLastYear(b.year) - getLastYear(a.year),
+      ),
+    [rawExperiences],
+  );
+
+  // ponytail: let data load naturally — artificial delay makes the app feel slower
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -147,26 +163,6 @@ export default function Experience() {
     restDelta: 0.01,
   });
   const dotTop = useTransform(scaleY, [0, 1], ["0%", "100%"]);
-
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      try {
-        const exps = await getExperiences();
-        const sorted = [...exps].sort(
-          (a, b) => getLastYear(b.year) - getLastYear(a.year),
-        );
-        if (mounted) setExperiences(sorted);
-      } catch (e) {
-        console.error("Failed to fetch experiences", e);
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    })();
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   const badge = lang === "id" ? "Perjalanan Saya" : "My Journey";
 
@@ -241,15 +237,23 @@ export default function Experience() {
                         <span className="text-white/40 text-xs tracking-widest">
                           {exp.year}
                         </span>
-                        <div className="w-12 h-12 relative mt-2">
-                          <Image
-                            src={exp.logo}
-                            alt={`${exp.company} logo`}
-                            fill
-                            className="object-contain rounded-full border-2 border-[#61DCA3]/50 bg-white shadow"
-                            unoptimized
-                          />
-                        </div>
+                        {exp.logo ? (
+                          <div className="w-12 h-12 relative mt-2">
+                            <Image
+                              src={exp.logo}
+                              alt={`${exp.company} logo`}
+                              fill
+                              className="object-contain rounded-full border-2 border-[#61DCA3]/50 bg-white shadow"
+                              unoptimized
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-12 h-12 mt-2 rounded-full border-2 border-[#61DCA3]/30 bg-white/5 flex items-center justify-center">
+                            <span className="text-[#61DCA3] text-xs font-bold">
+                              {exp.company?.charAt(0) ?? "?"}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <p className="text-white/60 text-sm leading-relaxed text-right max-w-xs">
@@ -281,15 +285,23 @@ export default function Experience() {
                         <span className="text-white/40 text-xs tracking-widest">
                           {exp.year}
                         </span>
-                        <div className="w-12 h-12 relative mt-2">
-                          <Image
-                            src={exp.logo}
-                            alt={`${exp.company} logo`}
-                            fill
-                            className="object-contain rounded-full border-2 border-[#61DCA3]/50 bg-white shadow"
-                            unoptimized
-                          />
-                        </div>
+                        {exp.logo ? (
+                          <div className="w-12 h-12 relative mt-2">
+                            <Image
+                              src={exp.logo}
+                              alt={`${exp.company} logo`}
+                              fill
+                              className="object-contain rounded-full border-2 border-[#61DCA3]/50 bg-white shadow"
+                              unoptimized
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-12 h-12 mt-2 rounded-full border-2 border-[#61DCA3]/30 bg-white/5 flex items-center justify-center">
+                            <span className="text-[#61DCA3] text-xs font-bold">
+                              {exp.company?.charAt(0) ?? "?"}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </motion.div>
@@ -344,7 +356,11 @@ export default function Experience() {
               </div>
             ))}
 
-          {!loading && experiences.length === 0 && <div className="h-8" />}
+          {!loading && experiences.length === 0 && (
+            <p className="py-20 text-center text-sm text-white/30">
+              No experience entries yet.
+            </p>
+          )}
         </div>
       </div>
     </section>

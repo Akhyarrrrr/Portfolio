@@ -75,7 +75,15 @@ export async function POST(req: Request) {
     { method: "POST", body: uploadForm }
   );
 
-  const data = await res.json();
+  let data: { secure_url?: string; error?: { message?: string } };
+  try {
+    data = await res.json();
+  } catch {
+    return NextResponse.json(
+      { message: "Cloudinary returned an unexpected response." },
+      { status: 502 },
+    );
+  }
 
   if (!res.ok) {
     return NextResponse.json(

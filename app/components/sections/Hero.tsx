@@ -1,9 +1,16 @@
 "use client";
-import Lanyard from "../Lanyard/Lanyard";
+import dynamic from "next/dynamic";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiChevronDown, HiDownload } from "react-icons/hi";
 import { useLanguage } from "@/context/LanguageProvider";
 import { motion } from "framer-motion";
+
+const Lanyard = dynamic(() => import("../Lanyard/Lanyard"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full animate-pulse rounded-2xl bg-white/5" />
+  ),
+});
 
 export default function Hero() {
   const { t, lang } = useLanguage();

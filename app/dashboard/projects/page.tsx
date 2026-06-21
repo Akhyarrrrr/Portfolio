@@ -28,11 +28,28 @@ const emptyForm: ProjectInput = {
   title: "",
   description: "",
   category: "",
+  slug: "",
   href: "",
+  githubUrl: "",
+  liveUrl: "",
   tech: [],
   imageUrl: "",
   pinned: false,
   order: 0,
+  problemStatement: "",
+  problemStatement_id: "",
+  solutionApproach: "",
+  solutionApproach_id: "",
+  impact: "",
+  impact_id: "",
+  techRationale: "",
+  techRationale_id: "",
+  keyFeatures: [],
+  year: "",
+  duration: "",
+  role: "",
+  learnings: "",
+  learnings_id: "",
 };
 
 export default function ProjectCRUD() {
@@ -59,7 +76,11 @@ export default function ProjectCRUD() {
       return;
     }
 
-    getProjects().then(setProjects);
+    let cancelled = false;
+    getProjects()
+      .then((data) => { if (!cancelled) setProjects(data); })
+      .catch(() => { if (!cancelled) setToast("Failed to load projects."); });
+    return () => { cancelled = true; };
   }, [user, router]);
 
   useEffect(() => {
@@ -173,7 +194,12 @@ export default function ProjectCRUD() {
 
     let imageUrl = form.imageUrl ?? "";
     if (file) {
-      imageUrl = await uploadToCloudinary(file);
+      try {
+        imageUrl = await uploadToCloudinary(file);
+      } catch {
+        setToast("Image upload failed!");
+        return;
+      }
     }
 
     const data: ProjectInput = {
@@ -201,13 +227,30 @@ export default function ProjectCRUD() {
       title: project.title ?? "",
       description: project.description ?? "",
       category: project.category ?? "",
+      slug: project.slug ?? "",
       href: project.href ?? "",
+      githubUrl: project.githubUrl ?? "",
+      liveUrl: project.liveUrl ?? "",
       tech: Array.isArray(project.tech)
         ? project.tech.map((tech) => getTechDisplayLabel(tech))
         : [],
       imageUrl: project.imageUrl ?? "",
       pinned: Boolean(project.pinned),
       order: Number(project.order ?? 0),
+      problemStatement: project.problemStatement ?? "",
+      problemStatement_id: project.problemStatement_id ?? "",
+      solutionApproach: project.solutionApproach ?? "",
+      solutionApproach_id: project.solutionApproach_id ?? "",
+      impact: project.impact ?? "",
+      impact_id: project.impact_id ?? "",
+      techRationale: project.techRationale ?? "",
+      techRationale_id: project.techRationale_id ?? "",
+      keyFeatures: Array.isArray(project.keyFeatures) ? project.keyFeatures : [],
+      year: project.year ?? "",
+      duration: project.duration ?? "",
+      role: project.role ?? "",
+      learnings: project.learnings ?? "",
+      learnings_id: project.learnings_id ?? "",
     });
     setEditing(project.id);
     setPreview(project.imageUrl ?? null);
@@ -273,6 +316,7 @@ export default function ProjectCRUD() {
           <div className="flex flex-col gap-4 lg:col-span-2">
             <input
               placeholder="Title"
+              aria-label="Project title"
               value={form.title ?? ""}
               onChange={(event) =>
                 setForm((current) => ({
@@ -283,6 +327,34 @@ export default function ProjectCRUD() {
               className="w-full rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
               required
             />
+
+            <div className="flex gap-2">
+              <input
+                placeholder="Slug (e.g. my-project) — auto-generated from title"
+                value={form.slug ?? ""}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    slug: event.target.value,
+                  }))
+                }
+                className="flex-1 rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+              />
+              <button
+                type="button"
+                className="cursor-pointer rounded-xl bg-[#232537] px-4 py-2 text-xs font-semibold text-[#61DCA3] transition hover:bg-[#2a2d3a]"
+                onClick={() => {
+                  const base = (form.title_en || form.title || "")
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/^-|-$/g, "")
+                    .slice(0, 60);
+                  setForm((current) => ({ ...current, slug: base }));
+                }}
+              >
+                Auto
+              </button>
+            </div>
 
             <textarea
               placeholder="Description"
@@ -352,53 +424,47 @@ export default function ProjectCRUD() {
               <option value="mobile">Mobile</option>
             </select>
 
-            <div className="min-h-[44px] rounded-xl bg-[#232537] px-3 py-2 focus-within:ring-2 focus-within:ring-[#61dca3]">
-              <div className="flex flex-wrap items-center gap-2">
-                {(form.tech ?? []).map((tech, index) => (
-                  <span
-                    key={`${tech}-${index}`}
-                    className="flex items-center gap-2 rounded-full bg-[#61dca3] px-3 py-1 text-sm font-bold text-[#0b0f15]"
-                  >
-                    {tech}
-                    <button
-                      type="button"
-                      className="ml-1 cursor-pointer text-lg font-bold text-[#0b0f15] hover:text-red-700 focus:outline-none"
-                      onClick={() => handleRemoveTech(index)}
-                      aria-label={`Remove ${tech}`}
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
+            <TechMultiSelect
+              selectedTechs={form.tech ?? []}
+              suggestions={techSuggestions}
+              onAdd={(tech) => addTechToForm(tech)}
+              onRemove={(index) => handleRemoveTech(index)}
+            />
 
-                <input
-                  type="text"
-                  placeholder="Add tech then Enter..."
-                  value={techInput}
-                  onChange={(event) => setTechInput(event.target.value)}
-                  onKeyDown={handleTechKey}
-                  onBlur={() => addTechToForm(techInput)}
-                  className="min-w-[100px] flex-1 bg-transparent py-1 text-white outline-none"
-                  list="tech-list"
-                />
-              </div>
-              <datalist id="tech-list">
-                {techSuggestions.map((tech) => (
-                  <option key={tech} value={tech} />
-                ))}
-              </datalist>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input
+                placeholder="GitHub URL"
+                value={form.githubUrl ?? ""}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    githubUrl: event.target.value,
+                  }))
+                }
+                className="w-full rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+              />
+
+              <input
+                placeholder="Live URL"
+                value={form.liveUrl ?? ""}
+                onChange={(event) =>
+                  setForm((current) => ({
+                    ...current,
+                    liveUrl: event.target.value,
+                  }))
+                }
+                className="w-full rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+              />
             </div>
 
-            <input
-              placeholder="Github / Live link"
-              value={form.href ?? ""}
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  href: event.target.value,
-                }))
+            {/* Case study toggle */}
+            <CaseStudyFields
+              form={form}
+              setForm={setForm}
+              keyFeatures={form.keyFeatures ?? []}
+              onKeyFeaturesChange={(features) =>
+                setForm((current) => ({ ...current, keyFeatures: features }))
               }
-              className="w-full rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
             />
           </div>
 
@@ -589,6 +655,395 @@ export default function ProjectCRUD() {
           />
         )}
       </main>
+    </div>
+  );
+}
+
+// ── Tech Multi-Select ────────────────────────────────────────────
+
+function TechMultiSelect({
+  selectedTechs,
+  suggestions,
+  onAdd,
+  onRemove,
+}: {
+  selectedTechs: string[];
+  suggestions: string[];
+  onAdd: (tech: string) => void;
+  onRemove: (index: number) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (!containerRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  const q = query.toLowerCase().trim();
+  const filtered = q
+    ? suggestions.filter((s) => s.toLowerCase().includes(q))
+    : suggestions;
+
+  const addTech = (tech: string) => {
+    onAdd(tech);
+    setQuery("");
+  };
+
+  const handleKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && query.trim()) {
+      e.preventDefault();
+      const match = suggestions.find(
+        (s) => s.toLowerCase() === query.trim().toLowerCase(),
+      );
+      if (match) addTech(match);
+      else addTech(query.trim()); // custom tech
+    }
+    if (e.key === "Escape") setOpen(false);
+    if (e.key === "Backspace" && !query && selectedTechs.length > 0) {
+      onRemove(selectedTechs.length - 1);
+    }
+  };
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Selected badges + input */}
+      <div
+        className="min-h-[44px] rounded-xl bg-[#232537] px-3 py-2 focus-within:ring-2 focus-within:ring-[#61dca3] cursor-text"
+        onClick={() => setOpen(true)}
+      >
+        <div className="flex flex-wrap items-center gap-2">
+          {selectedTechs.map((tech, i) => (
+            <span
+              key={`${tech}-${i}`}
+              className="flex items-center gap-1.5 rounded-full bg-[#61dca3] px-2.5 py-0.5 text-xs font-bold text-[#0b0f15]"
+            >
+              {tech}
+              <button
+                type="button"
+                className="cursor-pointer font-bold hover:text-red-700"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove(i);
+                }}
+              >
+                &times;
+              </button>
+            </span>
+          ))}
+          <input
+            type="text"
+            placeholder={selectedTechs.length ? "" : "Search tech..."}
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              if (!open) setOpen(true);
+            }}
+            onFocus={() => setOpen(true)}
+            onKeyDown={handleKey}
+            className="min-w-[120px] flex-1 bg-transparent py-1 text-sm text-white outline-none placeholder:text-white/30"
+          />
+        </div>
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-48 overflow-y-auto rounded-xl border border-white/10 bg-[#1c1e27] py-1 shadow-2xl">
+          {filtered.length === 0 && query.trim() && (
+            <div className="px-4 py-3 text-sm text-white/40">
+              Press Enter to add &ldquo;{query.trim()}&rdquo; as custom tech
+            </div>
+          )}
+          {filtered.map((tech) => {
+            const selected = selectedTechs.some(
+              (t) => t.toLowerCase() === tech.toLowerCase(),
+            );
+            return (
+              <button
+                key={tech}
+                type="button"
+                className={`flex w-full items-center gap-3 px-4 py-2 text-sm transition ${
+                  selected
+                    ? "bg-[#61DCA3]/10 text-[#61DCA3]"
+                    : "text-white/70 hover:bg-white/5 hover:text-white"
+                }`}
+                onClick={() => {
+                  if (selected) {
+                    const idx = selectedTechs.findIndex(
+                      (t) => t.toLowerCase() === tech.toLowerCase(),
+                    );
+                    if (idx >= 0) onRemove(idx);
+                  } else {
+                    addTech(tech);
+                  }
+                }}
+              >
+                <span
+                  className={`flex h-4 w-4 items-center justify-center rounded border text-[10px] ${
+                    selected
+                      ? "border-[#61DCA3] bg-[#61DCA3] text-black"
+                      : "border-white/20"
+                  }`}
+                >
+                  {selected ? "✓" : ""}
+                </span>
+                {tech}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Case Study Fields (collapsible) ──────────────────────────────
+
+function CaseStudyFields({
+  form,
+  setForm,
+  keyFeatures,
+  onKeyFeaturesChange,
+}: {
+  form: ProjectInput;
+  setForm: React.Dispatch<React.SetStateAction<ProjectInput>>;
+  keyFeatures: string[];
+  onKeyFeaturesChange: (features: string[]) => void;
+}) {
+  const [show, setShow] = useState(false);
+  const [tab, setTab] = useState<"en" | "id">("en");
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    overview: true,
+    story: true,
+  });
+
+  if (!show) {
+    return (
+      <button
+        type="button"
+        className="cursor-pointer rounded-xl border border-dashed border-white/10 bg-transparent px-4 py-3 text-sm text-white/40 transition hover:border-[#61DCA3]/40 hover:text-[#61DCA3]"
+        onClick={() => setShow(true)}
+      >
+        + Add Case Study Details (Problem, Solution, Impact...)
+      </button>
+    );
+  }
+
+  const update = (field: string, value: string) =>
+    setForm((current) => ({ ...current, [field]: value }));
+
+  const toggleSection = (key: string) =>
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  // Map tab to field suffix
+  const sfx = tab === "id" ? "_id" : "";
+  const fields = {
+    problem: `problemStatement${sfx}`,
+    solution: `solutionApproach${sfx}`,
+    impact: `impact${sfx}`,
+    techRationale: `techRationale${sfx}`,
+    learnings: `learnings${sfx}`,
+  };
+
+  return (
+    <div className="rounded-xl bg-[#1c1e27] p-5 flex flex-col gap-4 border border-white/5">
+      {/* Header + tabs + hide */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <span className="text-sm font-semibold text-[#61DCA3]">Case Study</span>
+        {/* Tabs */}
+        <div className="flex rounded-lg bg-[#232537] p-0.5">
+          {(["en", "id"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`cursor-pointer rounded-md px-3 py-1.5 text-xs font-semibold transition ${
+                tab === t
+                  ? "bg-[#61DCA3] text-[#0b0f15]"
+                  : "text-white/40 hover:text-white"
+              }`}
+            >
+              {t === "en" ? "EN" : "ID"}
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          className="cursor-pointer text-xs text-gray-400 hover:text-white sm:ml-auto"
+          onClick={() => setShow(false)}
+        >
+          Hide
+        </button>
+      </div>
+
+      {/* Accordion: Overview */}
+      <AccordionSection
+        label="Overview"
+        open={openSections.overview}
+        onToggle={() => toggleSection("overview")}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <input type="text" placeholder="Year (e.g. 2024)"
+            value={form.year ?? ""} onChange={(e) => update("year", e.target.value)}
+            className="rounded-lg border border-transparent bg-[#232537] px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-[#61dca3]" />
+          <input type="text" placeholder="Duration (e.g. 3 months)"
+            value={form.duration ?? ""} onChange={(e) => update("duration", e.target.value)}
+            className="rounded-lg border border-transparent bg-[#232537] px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-[#61dca3]" />
+          <input type="text" placeholder="Role (e.g. Solo Developer)"
+            value={form.role ?? ""} onChange={(e) => update("role", e.target.value)}
+            className="rounded-lg border border-transparent bg-[#232537] px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-[#61dca3]" />
+        </div>
+      </AccordionSection>
+
+      {/* Accordion: Story */}
+      <AccordionSection
+        label="Story"
+        open={openSections.story}
+        onToggle={() => toggleSection("story")}
+      >
+        <div className="flex flex-col gap-3">
+          <FieldTextarea
+            label={`Problem (${tab.toUpperCase()})`}
+            value={form[fields.problem as keyof ProjectInput] as string ?? ""}
+            onChange={(v) => update(fields.problem, v)}
+            rows={3}
+          />
+          <FieldTextarea
+            label={`Solution (${tab.toUpperCase()})`}
+            value={form[fields.solution as keyof ProjectInput] as string ?? ""}
+            onChange={(v) => update(fields.solution, v)}
+            rows={3}
+          />
+          <FieldTextarea
+            label={`Impact (${tab.toUpperCase()})`}
+            value={form[fields.impact as keyof ProjectInput] as string ?? ""}
+            onChange={(v) => update(fields.impact, v)}
+            rows={2}
+          />
+          <FieldTextarea
+            label={`Tech Rationale (${tab.toUpperCase()})`}
+            value={form[fields.techRationale as keyof ProjectInput] as string ?? ""}
+            onChange={(v) => update(fields.techRationale, v)}
+            rows={2}
+          />
+          <FieldTextarea
+            label={`Learnings (${tab.toUpperCase()})`}
+            value={form[fields.learnings as keyof ProjectInput] as string ?? ""}
+            onChange={(v) => update(fields.learnings, v)}
+            rows={2}
+          />
+        </div>
+      </AccordionSection>
+
+      {/* Key Features */}
+      <CaseStudyFeatureInput
+        features={keyFeatures}
+        onChange={onKeyFeaturesChange}
+      />
+    </div>
+  );
+}
+
+// ── Accordion helper ───────────────────────────────────────────
+
+function AccordionSection({
+  label,
+  open,
+  onToggle,
+  children,
+}: {
+  label: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-lg border border-white/5">
+      <button
+        type="button"
+        className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs font-semibold text-white/50 uppercase tracking-widest hover:text-white/80 transition cursor-pointer"
+        onClick={onToggle}
+      >
+        <span className={`transition-transform ${open ? "rotate-90" : ""}`}>
+          ▸
+        </span>
+        {label}
+      </button>
+      {open && <div className="px-3 pb-3">{children}</div>}
+    </div>
+  );
+}
+
+// ── Textarea helper ───────────────────────────────────────────
+
+function FieldTextarea({
+  label,
+  value,
+  onChange,
+  rows = 3,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  rows?: number;
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-[10px] text-white/30 uppercase tracking-widest">{label}</span>
+      <textarea
+        rows={rows}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full resize-none rounded-lg border border-transparent bg-[#232537] px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+      />
+    </div>
+  );
+}
+
+// ── Key Features input ────────────────────────────────────────
+
+function CaseStudyFeatureInput({
+  features,
+  onChange,
+}: {
+  features: string[];
+  onChange: (features: string[]) => void;
+}) {
+  const [input, setInput] = useState("");
+
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-[10px] text-white/30 uppercase tracking-widest">Key Features</span>
+      <div className="min-h-[36px] rounded-lg bg-[#232537] px-3 py-2 focus-within:ring-2 focus-within:ring-[#61dca3]">
+        <div className="flex flex-wrap items-center gap-2">
+          {features.map((feat, i) => (
+            <span key={i} className="flex items-center gap-1.5 rounded-full bg-[#61dca3] px-2.5 py-0.5 text-xs font-bold text-[#0b0f15]">
+              {feat}
+              <button type="button" className="cursor-pointer font-bold hover:text-red-700"
+                onClick={() => onChange(features.filter((_, j) => j !== i))}>
+                &times;
+              </button>
+            </span>
+          ))}
+          <input type="text" placeholder="Add feature then Enter..."
+            value={input} onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (["Enter", ","].includes(e.key) && input.trim()) {
+                e.preventDefault();
+                onChange([...features, input.trim()]);
+                setInput("");
+              }
+            }}
+            className="min-w-[120px] flex-1 bg-transparent py-1 text-sm text-white outline-none"
+          />
+        </div>
+      </div>
     </div>
   );
 }

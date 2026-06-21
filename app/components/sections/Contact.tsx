@@ -38,7 +38,10 @@ export default function Contact() {
       });
       if (res.ok) { setStatus("success"); formRef.current?.reset(); }
       else setStatus("error");
-    } catch { setStatus("error"); }
+    } catch (error) {
+      console.error("Contact form submission failed:", error);
+      setStatus("error");
+    }
   };
 
   const badge = lang === "id" ? "Kontak" : "Contact";

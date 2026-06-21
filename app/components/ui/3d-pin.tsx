@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -28,14 +29,28 @@ export const PinContainer = ({
     setTransform("translate(-50%,-50%) rotateX(0deg) scale(1)");
   };
 
-  return (
+  const isInternal = href?.startsWith("/");
+
+  const sharedClass = cn(
+    "relative group/pin z-50 cursor-pointer",
+    containerClassName
+  );
+
+  const wrapperProps = {
+    className: sharedClass,
+    onMouseEnter,
+    onMouseLeave,
+  };
+
+  return isInternal ? (
+    <Link href={href!} {...wrapperProps}>
+      <PinInner transform={transform} className={className} title={title} href={href}>
+        {children}
+      </PinInner>
+    </Link>
+  ) : (
     <a
-      className={cn(
-        "relative group/pin z-50 cursor-pointer",
-        containerClassName
-      )}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      {...wrapperProps}
       href={href || "/"}
       onClick={(event) => {
         if (!href) event.preventDefault();
@@ -43,6 +58,28 @@ export const PinContainer = ({
       target={href ? "_blank" : undefined}
       rel={href ? "noopener noreferrer" : undefined}
     >
+      <PinInner transform={transform} className={className} title={title} href={href}>
+        {children}
+      </PinInner>
+    </a>
+  );
+};
+
+function PinInner({
+  children,
+  transform,
+  className,
+  title,
+  href,
+}: {
+  children: React.ReactNode;
+  transform: string;
+  className?: string;
+  title?: string;
+  href?: string;
+}) {
+  return (
+    <>
       <div
         style={{
           perspective: "1000px",
@@ -61,9 +98,9 @@ export const PinContainer = ({
       </div>
 
       <PinPerspective title={title} href={href} />
-    </a>
+    </>
   );
-};
+}
 
 export const PinPerspective = ({
   title,

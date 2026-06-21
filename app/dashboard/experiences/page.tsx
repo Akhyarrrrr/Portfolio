@@ -41,7 +41,11 @@ export default function ExperienceCRUD() {
   useEffect(() => {
     if (user === undefined) return;
     if (!user) { router.replace("/login"); return; }
-    getExperiences().then(setExperiences);
+    let cancelled = false;
+    getExperiences()
+      .then((data) => { if (!cancelled) setExperiences(data); })
+      .catch(() => { if (!cancelled) setToast("Failed to load experiences."); });
+    return () => { cancelled = true; };
   }, [user, router]);
 
   useEffect(() => {
@@ -72,7 +76,14 @@ export default function ExperienceCRUD() {
     }
 
     let logo = form.logo ?? "";
-    if (file) logo = await uploadToCloudinary(file);
+    if (file) {
+      try {
+        logo = await uploadToCloudinary(file);
+      } catch {
+        setToast("Image upload failed!");
+        return;
+      }
+    }
 
     const data: ExperienceInput = { ...form, logo };
 

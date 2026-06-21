@@ -66,6 +66,9 @@ export default function DashboardHome() {
           {options.map((opt, i) => (
             <motion.div
               key={opt.href}
+              role="button"
+              tabIndex={0}
+              aria-label={opt.title}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
@@ -75,6 +78,12 @@ export default function DashboardHome() {
               }}
               whileHover={{ scale: 1.03, y: -5 }}
               onClick={() => router.push(opt.href)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  router.push(opt.href);
+                }
+              }}
               className={`cursor-pointer w-full bg-gradient-to-br ${opt.color} rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 flex flex-col justify-between border-2 border-transparent ${opt.borderColor}`}
               style={{ minHeight: 240 }}
             >

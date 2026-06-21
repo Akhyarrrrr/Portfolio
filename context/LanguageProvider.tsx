@@ -43,6 +43,7 @@ const dict = {
       prev: "Prev",
       next: "Next",
       view_github: "View Project",
+      noProjects: "No projects found in this category.",
     },
     contact: {
       heading: "Let's Connect!",
@@ -86,6 +87,7 @@ const dict = {
       prev: "Sebelumnya",
       next: "Berikutnya",
       view_github: "Lihat di Github",
+      noProjects: "Tidak ada proyek di kategori ini.",
     },
     contact: {
       heading: "Ayo Terhubung!",

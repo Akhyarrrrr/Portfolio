@@ -1,75 +1,83 @@
-# Yar's Portfolio
+# Akhyar's Portfolio
 
-Modern personal portfolio built with Next.js, TypeScript, Tailwind CSS, Firebase, and a custom admin dashboard for managing portfolio content.
+Personal portfolio built with Next.js 16, TypeScript, Tailwind CSS, Firebase, and a custom admin dashboard.
 
 ## Overview
 
-This project is a full personal portfolio system, not just a landing page. It includes a public-facing portfolio website, an authenticated dashboard for content management, file upload support, contact email delivery, CV download handling, and a Groq-powered chatbot experience.
+Public portfolio website with authenticated dashboard for content management, contact form, CV download, and a Groq-powered chatbot. The homepage fetches data server-side; project detail pages support individual case-study URLs with structured data.
 
 ## Features
 
-- Responsive portfolio homepage with animated sections
-- Bilingual content support
-- Protected admin login flow with Firebase Auth
-- CRUD dashboard for projects and experiences
+- Server-rendered homepage with animated client sections
+- Individual project detail pages (`/projects/[slug]`) with related projects
+- Bilingual content (EN/ID)
+- Firebase Auth — Google login gated to admin email
+- Dashboard CRUD for projects and experiences
 - Featured project pinning with custom ordering
-- Project image upload flow
-- Contact form email delivery
-- Downloadable CV endpoint with remote GitHub fallback
+- Image upload to Cloudinary
+- Contact form via Nodemailer + Gmail SMTP
+- CV download with remote GitHub fallback
 - Portfolio chatbot powered by Groq
-- Shared tech-stack registry for clean badges, labels, and suggestions
+- Shared tech-stack registry for badges, labels, and autocomplete
+- JSON-LD structured data (Person, SoftwareApplication)
+- Splash screen intro animation
+- SEO: sitemap.xml, robots.txt, per-page metadata, OG images
 
 ## Tech Stack
 
-### Core
-
-- Next.js 16
-- React 19
-- TypeScript
-- Tailwind CSS 4
-
-### UI and Motion
-
-- Framer Motion
-- React Icons
-- Lucide React
-- Three.js
-- React Three Fiber
-- Drei
-- Rapier
-
-### Backend and Services
-
-- Firebase Auth
-- Firestore
-- Cloudinary
-- Nodemailer
-- Groq SDK
+| Layer | Packages |
+|---|---|
+| Core | Next.js 16, React 19, TypeScript, Tailwind CSS 4 |
+| Motion | Framer Motion, Lottie (dotlottie-react) |
+| 3D | Three.js, React Three Fiber, Drei, Rapier, meshline |
+| Data | Firebase Auth, Firestore (client + admin), Cloudinary |
+| Server | Nodemailer, Groq SDK |
+| UI | React Icons, Lucide React, clsx, tailwind-merge |
 
 ## Project Structure
 
 ```text
 app/
-  api/                      API routes for chatbot, CV, upload, and email
+  api/                       Route handlers (chatbot, cv, send-email, upload)
   components/
-    common/                 Shared utility components
-    layout/                 Navbar, footer, background, scroll tools
-    sections/               Homepage sections
-    GroqChatbot/            Floating chatbot UI
-    ui/                     Visual UI primitives
+    layout/                  Navbar, footer, background, scroll-to-top
+    sections/                Homepage sections (Hero, Skills, Project, Experience, Contact, Tape)
+    projects/                ProjectModal for detail overlay
+    schema/                  JsonLd component
+    splash/                  SplashScreen intro
+    ui/                      Reusable primitives (3d-pin, SectionHeading, TechInitials, etc.)
   dashboard/
-    _components/            Shared dashboard UI pieces
-    experiences/            Experience management page
-    projects/               Project management page
-context/                    Auth and language providers
-lib/                        Firebase, Firestore, Cloudinary, tech registry, utilities
-public/                     Static assets
-types/                      Local type declarations
+    _components/             Shared dashboard UI
+    projects/                Project CRUD page
+    experiences/             Experience CRUD page
+  projects/[slug]/           Dynamic project detail page (SSR + static params)
+  login/                     Firebase Google Auth
+context/                     AuthContext, LanguageProvider (i18n)
+lib/                         Firebase, Firestore CRUD, Firestore server, Cloudinary, tech-stack, schema generator
+public/                      Static assets
 ```
 
-## Environment Variables
+## Pages
 
-Create a `.env.local` file in the project root:
+| Route | Description |
+|---|---|
+| `/` | Landing — SSR data fetch, lazy-mounted animated sections |
+| `/projects/[slug]` | Individual project case study with related projects |
+| `/login` | Firebase Google Auth, restricted to admin email |
+| `/dashboard` | Admin hub (client-side auth gate) |
+| `/dashboard/projects` | Project CRUD |
+| `/dashboard/experiences` | Experience CRUD |
+
+## API Routes
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/chatbot` | POST | Groq AI chatbot (`llama-3.1-8b-instant`) |
+| `/api/cv` | GET | CV PDF download |
+| `/api/send-email` | POST | Contact form email via Nodemailer |
+| `/api/upload` | POST | Protected image upload to Cloudinary |
+
+## Environment Variables
 
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
@@ -84,6 +92,8 @@ NEXT_PUBLIC_FIREBASE_APP_ID=
 NEXT_PUBLIC_ADMIN_EMAIL=
 ADMIN_EMAIL=
 
+FIREBASE_SERVICE_ACCOUNT_KEY=   # Base64-encoded service account JSON (server-side Firestore)
+
 GROQ_API_KEY=
 
 EMAIL_USER=
@@ -94,89 +104,35 @@ CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 
-GITHUB_CV_TOKEN=
-GITHUB_CV_RAW_URL=
+GITHUB_CV_TOKEN=                # Optional — remote CV fallback
+GITHUB_CV_RAW_URL=              # Optional — remote CV fallback
 ```
-
-Notes:
-
-- `NEXT_PUBLIC_ADMIN_EMAIL` is used on the client login flow.
-- `ADMIN_EMAIL` is used by protected server routes and can match the same account.
-- `GITHUB_CV_RAW_URL` is optional. If the remote CV fetch fails, the app falls back to the local PDF in `public/`.
-- The current client-side upload helper still contains default Cloudinary constants in [lib/cloudinary.ts](/Y:/PROJECT/portfolio-next/lib/cloudinary.ts:1). Those can be moved into environment variables later if you want fully env-based configuration.
-
-## Local Development
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Run the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-## Scripts
-
-```bash
-npm run dev
-npm run build
-npm run start
-npm run lint
-```
-
-`npm run lint` currently runs TypeScript type checking via `tsc --noEmit`.
-
-## Admin Workflow
-
-1. Login through `/login` using the allowed Firebase account.
-2. Open `/dashboard`.
-3. Manage projects and experiences from the dashboard pages.
-4. Add tech tags, pin featured projects, and upload portfolio images.
-
-## API Routes
-
-- `POST /api/chatbot` - respond to portfolio questions through Groq
-- `GET /api/cv` - download the CV PDF
-- `POST /api/send-email` - send contact form messages
-- `POST /api/upload` - protected image upload endpoint
 
 ## Content Model
 
 ### Project
 
-- `title`
-- `title_en`
-- `title_id`
-- `description`
-- `desc_en`
-- `desc_id`
-- `category`
-- `tech[]`
-- `imageUrl`
-- `href`
-- `pinned`
-- `order`
+`title`, `title_en`, `title_id`, `slug`, `description`, `desc_en`, `desc_id`, `category`, `tech[]`, `imageUrl`, `githubUrl`, `liveUrl`, `pinned`, `order`, `problemStatement`, `problemStatement_id`, `solutionApproach`, `solutionApproach_id`, `impact`, `impact_id`, `techRationale`, `techRationale_id`, `keyFeatures[]`, `screenshots[]`, `year`, `duration`, `role`, `learnings`, `learnings_id`
 
 ### Experience
 
-- `title`
-- `company`
-- `year`
-- `logo`
-- `description`
+`title`, `company`, `year`, `logo`, `description`
 
-## Quality Notes
+## Scripts
 
-- Lazy-mounted homepage sections are configured to keep anchor navigation working correctly.
-- Tech badges, project labels, and dashboard suggestions now use one shared catalog for consistency.
-- Optional integrations such as email, chatbot, and remote CV fetching fail gracefully when configuration is incomplete.
+```bash
+npm run dev      # Next.js dev server (webpack)
+npm run build    # Production build
+npm run start    # Start production server
+npm run lint     # TypeScript type-check (tsc --noEmit)
+```
+
+## Admin Workflow
+
+1. Login at `/login` with the allowed Google account.
+2. Navigate to `/dashboard`.
+3. Manage projects and experiences — add tech tags, pin featured items, upload images.
 
 ## Deployment
 
-This project is well-suited for Vercel deployment, but it can run on any platform that supports Next.js with the required environment variables configured.
+Optimized for Vercel. Runs on any platform supporting Next.js with the required environment variables.
