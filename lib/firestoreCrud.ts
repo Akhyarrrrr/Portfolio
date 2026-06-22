@@ -11,6 +11,22 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+// ── revalidation helper ──────────────────────────────────────────
+// ponytail: fire-and-forget; if revalidation fails, ISR fallback
+// revalidate period covers it. Add retries/debounce if it matters.
+
+async function triggerRevalidate(paths: string[] = ["/"]) {
+  try {
+    await fetch("/api/revalidate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paths }),
+    });
+  } catch {
+    // non-blocking — ISR fallback handles staleness
+  }
+}
+
 const PROJECT_COLLECTION = "project";
 const EXPERIENCE_COLLECTION = "experience";
 
@@ -127,7 +143,9 @@ export async function getProjects(): Promise<ProjectType[]> {
 
 export async function addProject(data: ProjectInput) {
   try {
-    return await addDoc(collection(db, PROJECT_COLLECTION), data);
+    const result = await addDoc(collection(db, PROJECT_COLLECTION), data);
+    triggerRevalidate(["/", data.slug ? `/projects/${data.slug}` : "/"].filter(Boolean));
+    return result;
   } catch (error) {
     console.error("addProject failed:", error);
     throw error;
@@ -136,7 +154,9 @@ export async function addProject(data: ProjectInput) {
 
 export async function updateProject(id: string, data: Partial<ProjectInput>) {
   try {
-    return await updateDoc(doc(db, PROJECT_COLLECTION, id), data);
+    const result = await updateDoc(doc(db, PROJECT_COLLECTION, id), data);
+    triggerRevalidate();
+    return result;
   } catch (error) {
     console.error("updateProject failed:", error);
     throw error;
@@ -145,7 +165,9 @@ export async function updateProject(id: string, data: Partial<ProjectInput>) {
 
 export async function deleteProject(id: string) {
   try {
-    return await deleteDoc(doc(db, PROJECT_COLLECTION, id));
+    const result = await deleteDoc(doc(db, PROJECT_COLLECTION, id));
+    triggerRevalidate();
+    return result;
   } catch (error) {
     console.error("deleteProject failed:", error);
     throw error;
@@ -170,7 +192,9 @@ export async function getExperiences(): Promise<ExperienceType[]> {
 
 export async function addExperience(data: ExperienceInput) {
   try {
-    return await addDoc(collection(db, EXPERIENCE_COLLECTION), data);
+    const result = await addDoc(collection(db, EXPERIENCE_COLLECTION), data);
+    triggerRevalidate();
+    return result;
   } catch (error) {
     console.error("addExperience failed:", error);
     throw error;
@@ -182,7 +206,9 @@ export async function updateExperience(
   data: Partial<ExperienceInput>,
 ) {
   try {
-    return await updateDoc(doc(db, EXPERIENCE_COLLECTION, id), data);
+    const result = await updateDoc(doc(db, EXPERIENCE_COLLECTION, id), data);
+    triggerRevalidate();
+    return result;
   } catch (error) {
     console.error("updateExperience failed:", error);
     throw error;
@@ -191,7 +217,9 @@ export async function updateExperience(
 
 export async function deleteExperience(id: string) {
   try {
-    return await deleteDoc(doc(db, EXPERIENCE_COLLECTION, id));
+    const result = await deleteDoc(doc(db, EXPERIENCE_COLLECTION, id));
+    triggerRevalidate();
+    return result;
   } catch (error) {
     console.error("deleteExperience failed:", error);
     throw error;
