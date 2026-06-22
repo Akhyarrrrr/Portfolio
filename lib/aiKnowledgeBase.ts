@@ -39,47 +39,73 @@ Feb 2024 - Jun 2024: Android Development at Bangkit Academy
       presence: {
         name: "Presence",
         url: "https://presence-yar.vercel.app",
-        description: `Workforce attendance platform with an AI-powered face recognition kiosk and admin dashboard.
-Features include real-time face recognition, liveness detection with head-movement checks, server-side face matching using pgvector, shift scheduling, real-time attendance monitoring, Recharts analytics, PDF report export with jsPDF, and responsive design.
-Tech stack: Next.js 16, TypeScript, Tailwind CSS, Framer Motion, Supabase PostgreSQL, pgvector, TensorFlow.js, face-api.js, Web Workers, and Vercel.
-Status: Fully production-ready and live.`,
+        description: `Workforce attendance system built around a face-recognition kiosk and admin dashboard. It handles liveness checks, vector matching with pgvector, shift scheduling, attendance monitoring, analytics, and PDF reports. Tech stack: Next.js 16, Supabase, PostgreSQL/pgvector, TensorFlow.js, face-api.js, Tailwind CSS, and Vercel.`,
       },
       taskflow: {
         name: "Taskflow",
         url: "https://taskflow-yar.vercel.app",
-        description: `Kanban-style task management application with real-time collaboration.
-Features include drag-and-drop task management using dnd-kit, authentication, authorization, real-time synchronization, priority labels, due date tracking, and a clean responsive UI.
-Tech stack: Next.js 16, TypeScript, Tailwind CSS, Supabase PostgreSQL, dnd-kit, and Vercel.
-Status: Production-ready and live.`,
+        description: `Kanban task manager for turning scattered work into a clear board. It includes Supabase auth, row-level security, drag-and-drop tasks, priorities, deadlines, and a responsive dark UI. Tech stack: Next.js 16, TypeScript, Supabase, dnd-kit, Tailwind CSS, and Vercel.`,
       },
       writly: {
         name: "Writly",
         url: "https://writly-yar.vercel.app",
-        description: `Minimal, elegant blog platform with rich-text editing and an admin dashboard.
-Features include Tiptap rich-text editor, admin dashboard, static site generation for SEO, image upload support, and responsive design.
-Tech stack: Next.js, TypeScript, Tailwind CSS, Supabase, Tiptap, and Vercel.
-Status: Production-ready with published articles.`,
+        description: `Minimal publishing platform with a proper writing flow instead of a static blog. It supports public articles, filtering, admin management, draft/publish states, image handling, and a Tiptap rich-text editor. Tech stack: Next.js, TypeScript, Supabase, Tiptap, Tailwind CSS, and Vercel.`,
       },
       ilmana: {
         name: "Ilmana Initiative",
         url: "https://ilmanainitiative.com",
-        description: `Production web platform for a social organization with content management and responsive design.
-Tech stack: React.js, Tailwind CSS, Express.js, Node.js, and MySQL.
-Status: Live and actively maintained.`,
+        description: `Science learning platform for Ilmana Initiative, covering student authentication, learning modules, pretest/posttest flow, material pages, admin content management, and a Gemini-powered learning chat. Built with React, Vite, Express, MySQL, JWT, and Tailwind CSS.`,
+      },
+      lacakkarirku: {
+        name: "LacakKarirku",
+        url: "https://lacakkarirku.vercel.app",
+        description: `AI job-tracking platform that reads CV PDFs, extracts profile data, searches multiple job sources, scores vacancy matches, and turns applications into dashboard work. Built with Next.js, Clerk, Neon Postgres, Drizzle ORM, Groq AI, Cheerio, and Vercel Cron.`,
+      },
+      nutricycle: {
+        name: "NutriCycle",
+        url: "https://nutricycle.up.railway.app",
+        description: `Laravel platform for organic waste pickup and recycled animal-feed products. It includes user/admin/petugas roles, pickup requests, product catalog, cart and checkout, Midtrans payments, Cloudinary uploads, points, and operational dashboards.`,
+      },
+      simbima: {
+        name: "SIMBIMA",
+        url: "https://simbima.up.railway.app",
+        description: `Academic supervision management system for thesis guidance. It handles advisor requests, lecturer quotas, student/lecturer/admin dashboards, progress notes, readiness status, imports, notifications, and reporting. Built with Laravel and MySQL.`,
+      },
+      forterzzz: {
+        name: "Forterzzz",
+        description: `Responsive company profile website for Forterzzz, a web service team. The site focuses on service presentation, portfolio credibility, contact flow, and motion-rich landing interactions using React, Vite, Tailwind CSS, and EmailJS.`,
+      },
+      portfolioNext: {
+        name: "Portfolio Next",
+        url: "https://yarrr-portfolio.vercel.app",
+        description: `Akhyar's current portfolio, rebuilt as a bilingual Next.js site with Firestore-managed projects, case-study pages, tech-stack filtering, Cloudinary images, dashboard CRUD, SEO, and an AI assistant powered by Groq.`,
+      },
+      portfolioTailwind: {
+        name: "Portfolio Tailwind",
+        url: "https://akhyarrrrr.github.io/portfolio-tailwind-css",
+        description: `Earlier portfolio iteration built with Tailwind CSS, dark mode, typed text, responsive sections, EmailJS contact handling, and SweetAlert feedback. It shows the step from static layout toward a more polished personal site.`,
+      },
+      portfolioBasic: {
+        name: "Portfolio Basic",
+        url: "https://akhyarrrrr.github.io/Portfolio-HtmlCssJs",
+        description: `First portfolio version built with plain HTML, CSS, and JavaScript. It kept the scope simple: personal profile, project showcase, responsive layout, and enough JavaScript to make the page feel interactive.`,
+      },
+      weddingInvitation: {
+        name: "Wedding Invitation Web",
+        url: "https://humamrikainvitation.netlify.app",
+        description: `Custom digital wedding invitation built with Laravel Blade and Tailwind CSS. It includes couple profile sections, event details, countdown, gallery, background audio, story content, and map links for guests.`,
+      },
+      employeeLeave: {
+        name: "Employee Leave System",
+        description: `Web-based leave management system built during Akhyar's BMKG Aceh Besar internship. It replaced manual leave tracking with request management, approval flow, real-time status visibility, and PDF generation using React, Tailwind CSS, Express, and MySQL.`,
       },
       rwikistat: {
         name: "RWikiStat",
-        description: `Statistics learning app published on the Apple App Store.
-Features include cross-platform support for iOS, Android, and web, in-app R code execution, discussion forum, Figma UI/UX design, and usability testing with 22 students with an 88.26% UMUX score.
-Tech stack: React Native, Expo, Figma, and Firebase.
-Status: Published on App Store and actively maintained.`,
+        description: `Cross-platform statistics learning product with web, backend, forum, and mobile app surfaces. Akhyar contributed to the iOS/mobile side with React Native and Expo, plus UI work in Figma. The project was tested with 22 students and reached an 88.26% UMUX usability score.`,
       },
       mediguide: {
         name: "MediGuide",
-        description: `AI-powered virtual health assistant built as a Bangkit Academy capstone.
-Features include interactive medical chatbot and disease/health condition information.
-Tech stack: Kotlin, Android Studio, and Figma.
-Status: Capstone project built by a cross-functional team of 6.`,
+        description: `AI-powered virtual health assistant built as a Bangkit Academy capstone project by a cross-functional team of six. Akhyar contributed on the Android side using Kotlin, Android Studio, and Figma, with features around health information and chatbot interaction.`,
       },
     },
     education: `Bachelor of Informatics (Computer Science)
@@ -144,47 +170,73 @@ Feb 2024 - Jun 2024: Android Development di Bangkit Academy
       presence: {
         name: "Presence",
         url: "https://presence-yar.vercel.app",
-        description: `Platform attendance tenaga kerja dengan AI-powered face recognition kiosk dan admin dashboard.
-Fitur mencakup real-time face recognition, liveness detection dengan head-movement checks, server-side face matching menggunakan pgvector, shift scheduling, real-time attendance monitoring, analytics dengan Recharts, export PDF dengan jsPDF, dan responsive design.
-Tech stack: Next.js 16, TypeScript, Tailwind CSS, Framer Motion, Supabase PostgreSQL, pgvector, TensorFlow.js, face-api.js, Web Workers, dan Vercel.
-Status: Production-ready dan live.`,
+        description: `Sistem absensi tenaga kerja dengan face-recognition kiosk dan admin dashboard. Fitur utamanya mencakup liveness check, vector matching dengan pgvector, shift scheduling, monitoring absensi, analytics, dan export laporan PDF. Tech stack: Next.js 16, Supabase, PostgreSQL/pgvector, TensorFlow.js, face-api.js, Tailwind CSS, dan Vercel.`,
       },
       taskflow: {
         name: "Taskflow",
         url: "https://taskflow-yar.vercel.app",
-        description: `Aplikasi task management Kanban-style dengan real-time collaboration.
-Fitur mencakup drag-and-drop task management menggunakan dnd-kit, authentication, authorization, real-time synchronization, priority labels, due date tracking, dan UI responsif yang clean.
-Tech stack: Next.js 16, TypeScript, Tailwind CSS, Supabase PostgreSQL, dnd-kit, dan Vercel.
-Status: Production-ready dan live.`,
+        description: `Aplikasi task manager Kanban untuk merapikan pekerjaan yang tersebar menjadi board yang jelas. Fiturnya mencakup Supabase auth, row-level security, drag-and-drop task, priority, deadline, dan dark UI yang responsif. Tech stack: Next.js 16, TypeScript, Supabase, dnd-kit, Tailwind CSS, dan Vercel.`,
       },
       writly: {
         name: "Writly",
         url: "https://writly-yar.vercel.app",
-        description: `Platform blog minimal dan elegan dengan rich-text editing serta admin dashboard.
-Fitur mencakup Tiptap rich-text editor, admin dashboard, static site generation untuk SEO, image upload support, dan responsive design.
-Tech stack: Next.js, TypeScript, Tailwind CSS, Supabase, Tiptap, dan Vercel.
-Status: Production-ready dengan published articles.`,
+        description: `Platform publishing minimal dengan alur menulis yang lebih serius daripada blog statis. Fiturnya mencakup artikel publik, filter, admin management, draft/publish state, image handling, dan rich-text editor Tiptap. Tech stack: Next.js, TypeScript, Supabase, Tiptap, Tailwind CSS, dan Vercel.`,
       },
       ilmana: {
         name: "Ilmana Initiative",
         url: "https://ilmanainitiative.com",
-        description: `Platform web production untuk social organization dengan content management dan responsive design.
-Tech stack: React.js, Tailwind CSS, Express.js, Node.js, dan MySQL.
-Status: Live dan actively maintained.`,
+        description: `Platform belajar sains untuk Ilmana Initiative, mencakup autentikasi siswa, modul belajar, alur pretest/posttest, halaman materi, admin content management, dan chat belajar berbasis Gemini. Dibangun dengan React, Vite, Express, MySQL, JWT, dan Tailwind CSS.`,
+      },
+      lacakkarirku: {
+        name: "LacakKarirku",
+        url: "https://lacakkarirku.vercel.app",
+        description: `Platform job tracking berbasis AI yang membaca CV PDF, mengekstrak data profil, mencari lowongan dari beberapa sumber, memberi match score, dan mengubah proses apply menjadi dashboard kerja yang rapi. Dibangun dengan Next.js, Clerk, Neon Postgres, Drizzle ORM, Groq AI, Cheerio, dan Vercel Cron.`,
+      },
+      nutricycle: {
+        name: "NutriCycle",
+        url: "https://nutricycle.up.railway.app",
+        description: `Platform Laravel untuk pickup sampah organik dan produk pakan ternak hasil daur ulang. Fiturnya mencakup role user/admin/petugas, request pickup, katalog produk, cart dan checkout, pembayaran Midtrans, upload Cloudinary, points, dan dashboard operasional.`,
+      },
+      simbima: {
+        name: "SIMBIMA",
+        url: "https://simbima.up.railway.app",
+        description: `Sistem manajemen bimbingan akademik untuk proses skripsi. SIMBIMA menangani request dosen pembimbing, kuota dosen, dashboard mahasiswa/dosen/admin, catatan progress, status kesiapan, import data, notifikasi, dan reporting. Dibangun dengan Laravel dan MySQL.`,
+      },
+      forterzzz: {
+        name: "Forterzzz",
+        description: `Website company profile responsif untuk Forterzzz, tim jasa pembuatan web. Fokusnya ada di penyajian layanan, kredibilitas portfolio, alur kontak, dan interaksi landing page yang dinamis memakai React, Vite, Tailwind CSS, dan EmailJS.`,
+      },
+      portfolioNext: {
+        name: "Portfolio Next",
+        url: "https://yarrr-portfolio.vercel.app",
+        description: `Portfolio Akhyar yang sekarang, dibangun ulang sebagai website Next.js bilingual dengan project dari Firestore, halaman case study, filter tech stack, gambar Cloudinary, dashboard CRUD, SEO, dan AI assistant berbasis Groq.`,
+      },
+      portfolioTailwind: {
+        name: "Portfolio Tailwind",
+        url: "https://akhyarrrrr.github.io/portfolio-tailwind-css",
+        description: `Iterasi portfolio sebelumnya yang dibuat dengan Tailwind CSS, dark mode, typed text, section responsif, form kontak EmailJS, dan feedback SweetAlert. Project ini menunjukkan transisi dari layout statis menuju personal site yang lebih matang.`,
+      },
+      portfolioBasic: {
+        name: "Portfolio Basic",
+        url: "https://akhyarrrrr.github.io/Portfolio-HtmlCssJs",
+        description: `Versi portfolio pertama yang dibuat dengan HTML, CSS, dan JavaScript murni. Scope-nya sederhana: profil personal, showcase project, layout responsif, dan JavaScript secukupnya untuk membuat halaman terasa interaktif.`,
+      },
+      weddingInvitation: {
+        name: "Wedding Invitation Web",
+        url: "https://humamrikainvitation.netlify.app",
+        description: `Undangan pernikahan digital custom yang dibangun dengan Laravel Blade dan Tailwind CSS. Isinya mencakup profil pasangan, detail acara, countdown, galeri, background audio, cerita pasangan, dan link peta untuk tamu.`,
+      },
+      employeeLeave: {
+        name: "Employee Leave System",
+        description: `Sistem manajemen cuti berbasis web yang dibangun saat internship Akhyar di BMKG Aceh Besar. Sistem ini mengganti tracking cuti manual dengan request management, approval flow, status real-time, dan PDF generation memakai React, Tailwind CSS, Express, dan MySQL.`,
       },
       rwikistat: {
         name: "RWikiStat",
-        description: `Aplikasi pembelajaran statistik yang published di Apple App Store.
-Fitur mencakup cross-platform support untuk iOS, Android, dan web, in-app R code execution, discussion forum, UI/UX di Figma, serta usability testing dengan 22 mahasiswa dan UMUX score 88.26%.
-Tech stack: React Native, Expo, Figma, dan Firebase.
-Status: Published di App Store dan actively maintained.`,
+        description: `Produk pembelajaran statistik cross-platform dengan web, backend, forum, dan mobile app. Akhyar berkontribusi di sisi iOS/mobile memakai React Native dan Expo, serta UI di Figma. Project ini diuji ke 22 mahasiswa dan mencapai UMUX usability score 88.26%.`,
       },
       mediguide: {
         name: "MediGuide",
-        description: `AI-powered virtual health assistant dari Bangkit Academy capstone.
-Fitur mencakup interactive medical chatbot dan informasi disease/health condition.
-Tech stack: Kotlin, Android Studio, dan Figma.
-Status: Capstone project dalam tim cross-functional berisi 6 orang.`,
+        description: `Virtual health assistant berbasis AI dari capstone Bangkit Academy yang dikerjakan oleh tim cross-functional berisi enam orang. Akhyar berkontribusi di sisi Android memakai Kotlin, Android Studio, dan Figma, dengan fitur seputar informasi kesehatan dan interaksi chatbot.`,
       },
     },
     education: `Sarjana Informatika (Computer Science)

@@ -25,8 +25,10 @@ import DashboardToast from "../_components/DashboardToast";
 import DeleteDialog from "../_components/DeleteDialog";
 
 const emptyForm: ProjectInput = {
-  title: "",
-  description: "",
+  title_en: "",
+  title_id: "",
+  desc_en: "",
+  desc_id: "",
   category: "",
   slug: "",
   href: "",
@@ -45,6 +47,7 @@ const emptyForm: ProjectInput = {
   techRationale: "",
   techRationale_id: "",
   keyFeatures: [],
+  screenshots: [],
   year: "",
   duration: "",
   role: "",
@@ -90,10 +93,7 @@ export default function ProjectCRUD() {
   }, [toast]);
 
   useEffect(() => {
-    if (!file) {
-      setPreview(null);
-      return;
-    }
+    if (!file) return;
 
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
@@ -164,7 +164,7 @@ export default function ProjectCRUD() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!form.title || !form.description || !form.tech?.length) {
+    if ((!form.title_en && !form.title_id) || (!form.desc_en && !form.desc_id) || !form.tech?.length) {
       setToast("Lengkapi data terlebih dahulu!");
       return;
     }
@@ -185,7 +185,7 @@ export default function ProjectCRUD() {
       if (duplicatePinnedOrder) {
         setToast(
           `Order ${form.order} already used by ${
-            duplicatePinnedOrder.title ?? "another project"
+            duplicatePinnedOrder.title_en ?? duplicatePinnedOrder.title ?? "another project"
           }!`,
         );
         return;
@@ -224,8 +224,10 @@ export default function ProjectCRUD() {
 
   const handleEdit = (project: ProjectType) => {
     setForm({
-      title: project.title ?? "",
-      description: project.description ?? "",
+      title_en: project.title_en ?? project.title ?? "",
+      title_id: project.title_id ?? "",
+      desc_en: project.desc_en ?? project.description ?? "",
+      desc_id: project.desc_id ?? "",
       category: project.category ?? "",
       slug: project.slug ?? "",
       href: project.href ?? "",
@@ -246,6 +248,7 @@ export default function ProjectCRUD() {
       techRationale: project.techRationale ?? "",
       techRationale_id: project.techRationale_id ?? "",
       keyFeatures: Array.isArray(project.keyFeatures) ? project.keyFeatures : [],
+      screenshots: Array.isArray(project.screenshots) ? project.screenshots : [],
       year: project.year ?? "",
       duration: project.duration ?? "",
       role: project.role ?? "",
@@ -314,19 +317,39 @@ export default function ProjectCRUD() {
           className="mb-10 grid grid-cols-1 gap-8 rounded-2xl bg-[#17191f] p-7 shadow-2xl lg:grid-cols-3"
         >
           <div className="flex flex-col gap-4 lg:col-span-2">
-            <input
-              placeholder="Title"
-              aria-label="Project title"
-              value={form.title ?? ""}
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  title: event.target.value,
-                }))
-              }
-              className="w-full rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
-              required
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="mb-1 block text-[10px] text-white/30 uppercase tracking-widest">Title (EN)</label>
+                <input
+                  placeholder="Title (English)"
+                  aria-label="Project title (English)"
+                  value={form.title_en ?? ""}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      title_en: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+                  required
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] text-white/30 uppercase tracking-widest">Title (ID)</label>
+                <input
+                  placeholder="Title (Indonesian)"
+                  aria-label="Project title (Indonesian)"
+                  value={form.title_id ?? ""}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      title_id: event.target.value,
+                    }))
+                  }
+                  className="w-full rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+                />
+              </div>
+            </div>
 
             <div className="flex gap-2">
               <input
@@ -344,7 +367,7 @@ export default function ProjectCRUD() {
                 type="button"
                 className="cursor-pointer rounded-xl bg-[#232537] px-4 py-2 text-xs font-semibold text-[#61DCA3] transition hover:bg-[#2a2d3a]"
                 onClick={() => {
-                  const base = (form.title_en || form.title || "")
+                  const base = (form.title_en || "")
                     .toLowerCase()
                     .replace(/[^a-z0-9]+/g, "-")
                     .replace(/^-|-$/g, "")
@@ -356,19 +379,38 @@ export default function ProjectCRUD() {
               </button>
             </div>
 
-            <textarea
-              placeholder="Description"
-              value={form.description ?? ""}
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  description: event.target.value,
-                }))
-              }
-              className="w-full resize-none rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
-              rows={3}
-              required
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="mb-1 block text-[10px] text-white/30 uppercase tracking-widest">Description (EN)</label>
+                <textarea
+                  placeholder="Description (English)"
+                  value={form.desc_en ?? ""}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      desc_en: event.target.value,
+                    }))
+                  }
+                  className="w-full resize-none rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+                  rows={3}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] text-white/30 uppercase tracking-widest">Description (ID)</label>
+                <textarea
+                  placeholder="Description (Indonesian)"
+                  value={form.desc_id ?? ""}
+                  onChange={(event) =>
+                    setForm((current) => ({
+                      ...current,
+                      desc_id: event.target.value,
+                    }))
+                  }
+                  className="w-full resize-none rounded-xl border border-transparent bg-[#232537] px-4 py-3 text-white outline-none focus:ring-2 focus:ring-[#61dca3]"
+                  rows={3}
+                />
+              </div>
+            </div>
 
             <div className="flex flex-col gap-4 rounded-xl bg-[#232537] px-4 py-3 sm:flex-row">
               <label className="flex cursor-pointer items-center gap-3 text-sm font-semibold text-white/90">
@@ -498,7 +540,7 @@ export default function ProjectCRUD() {
                 onChange={(event) => setFile(event.target.files?.[0] ?? null)}
               />
 
-              {(file || preview) && (
+              {(file || preview || (editing && form.imageUrl)) && (
                 <button
                   type="button"
                   className="mt-2 cursor-pointer text-xs text-red-400 underline hover:text-red-600"
@@ -558,11 +600,11 @@ export default function ProjectCRUD() {
                   <td className="p-3">
                     <img
                       src={project.imageUrl}
-                      alt={project.title ?? "project"}
+                      alt={project.title_en || project.title || "project"}
                       className="h-16 w-16 rounded-md border-2 border-[#61dca3]/50 object-cover"
                     />
                   </td>
-                  <td className="p-3 font-bold">{project.title}</td>
+                  <td className="p-3 font-bold">{project.title_en || project.title || ""}</td>
                   <td className="p-3 capitalize">{project.category}</td>
                   <td className="p-3">
                     {project.pinned ? (
@@ -618,7 +660,7 @@ export default function ProjectCRUD() {
                         onClick={() =>
                           setShowDelete({
                             id: project.id,
-                            title: project.title ?? "",
+                            title: project.title_en || project.title || "",
                           })
                         }
                       >
