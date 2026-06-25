@@ -4,12 +4,12 @@ import { Fragment, useEffect, useRef } from "react";
 
 const achievements = [
   "90+ Academic Journals Managed",
-  "1,690+ Annual Submissions",
-  "99.9% Platform Uptime",
-  "6+ Projects Shipped",
+  "10+ Projects Shipped",
   "Zero-Data-Loss Migration",
+  "Full Server & Infra Ownership",
   "CI/CD & Dockerized Deploys",
-  "AI-Powered Face Recognition",
+  "Cross-Platform Mobile Apps",
+  "AI-Powered Tooling",
   "Production-Ready Systems",
 ];
 
@@ -45,7 +45,10 @@ export default function Tape() {
             {[...new Array(2)].fill(0).map((_, idx) => (
               <Fragment key={idx}>
                 {achievements.map((achievement) => (
-                  <div key={achievement} className="inline-flex items-center gap-5">
+                  <div
+                    key={achievement}
+                    className="inline-flex items-center gap-5"
+                  >
                     <span className="select-none text-lg font-extrabold uppercase tracking-[0.08em] text-[#0B0F15]">
                       {achievement}
                     </span>

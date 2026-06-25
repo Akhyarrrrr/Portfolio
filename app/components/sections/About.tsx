@@ -13,16 +13,15 @@ const aboutData = {
     intro: "Full-stack engineer based in Banda Aceh, building production systems that actually ship.",
     mission: "I care deeply about code quality, real-world impact, and working with teams that move fast.",
     highlights: [
-      { icon: Code2,    title: "Ship Production Code",   desc: "I do not stop at prototypes. From 90+ journals to AI-powered attendance systems, I build things people can use." },
-      { icon: Zap,      title: "Full-Stack Expertise",    desc: "Frontend focus with React and Next.js, strong backend with Node.js and Express, plus DevOps with Docker and CI/CD." },
-      { icon: Users,    title: "Team Player",             desc: "Led a department of 13, mentored 44 students, and collaborated cross-functionally on shipped products." },
-      { icon: Briefcase,title: "Enterprise Experience",   desc: "Managing production infrastructure for 90+ journals, incident response, backups, monitoring, and platform migrations." },
+      { icon: Code2,    title: "Ship Production Code",   desc: "I don't stop at prototypes. From AI-powered job trackers to face-recognition attendance systems, I build things people actually use." },
+      { icon: Zap,      title: "Full-Stack Expertise",    desc: "Frontend focus with React and Next.js, strong backend with Node.js and Express, plus infrastructure work with Docker, server administration, and CI/CD." },
+      { icon: Users,    title: "Team Player",             desc: "Led 9 work programs as department head, taught 44+ students across three university courses, and collaborated cross-functionally on shipped products." },
+      { icon: Briefcase,title: "Production Ownership",    desc: "Hold full server access for a platform running 90+ academic journals, with hands-on experience in incident response, backups, monitoring, and zero-downtime migrations." },
     ],
     stats: [
-      { label: "Years Experience", value: 2,  suffix: "+" },
-      { label: "Projects Shipped", value: 6,  suffix: "+" },
-      { label: "Tech Stack Items", value: 30, suffix: "+" },
-      { label: "Students Mentored",value: 44, suffix: ""  },
+      { label: "Projects Shipped",     value: 10, suffix: "+" },
+      { label: "Journals in Production",value: 90, suffix: "+" },
+      { label: "Zero-Downtime Migrations Led",value: 1, suffix: "" },
     ],
     cta: "Interested in working together?",
     ctaBtn: "Get in Touch",
@@ -33,16 +32,15 @@ const aboutData = {
     intro: "Full-stack engineer dari Banda Aceh, membangun production systems yang benar-benar jadi.",
     mission: "Aku peduli banget sama code quality, real-world impact, dan kerja sama dengan team yang bergerak cepat.",
     highlights: [
-      { icon: Code2,    title: "Ship Production Code",   desc: "Aku tidak berhenti di prototype. Dari 90+ jurnal sampai AI-powered attendance systems, aku build produk yang benar-benar bisa dipakai." },
-      { icon: Zap,      title: "Full-Stack Expertise",    desc: "Frontend focus dengan React dan Next.js, backend kuat dengan Node.js dan Express, plus DevOps dengan Docker dan CI/CD." },
-      { icon: Users,    title: "Team Player",             desc: "Pernah memimpin department berisi 13 orang, mentor 44 mahasiswa, dan kolaborasi lintas fungsi di produk yang shipped." },
-      { icon: Briefcase,title: "Enterprise Experience",   desc: "Manage production infrastructure untuk 90+ jurnal, incident response, backup, monitoring, dan platform migration." },
+      { icon: Code2,    title: "Ship Production Code",   desc: "Aku gak cuma berhenti di prototype. Dari AI-powered job tracker sampai face-recognition attendance system, aku bikin produk yang beneran dipakai orang." },
+      { icon: Zap,      title: "Full-Stack Expertise",    desc: "Frontend focus dengan React dan Next.js, backend kuat dengan Node.js dan Express, plus infrastruktur dengan Docker, server administration, dan CI/CD." },
+      { icon: Users,    title: "Team Player",             desc: "Pimpin 9 program kerja sebagai kepala department, ajar 44+ mahasiswa di tiga mata kuliah universitas, dan kolaborasi lintas fungsi di produk yang shipped." },
+      { icon: Briefcase,title: "Production Ownership",    desc: "Pegang full server access untuk platform yang menjalankan 90+ jurnal akademik, dengan pengalaman langsung dalam incident response, backup, monitoring, dan zero-downtime migration." },
     ],
     stats: [
-      { label: "Tahun Experience",  value: 2,  suffix: "+" },
-      { label: "Projects Shipped",  value: 6,  suffix: "+" },
-      { label: "Tech Stack Items",  value: 30, suffix: "+" },
-      { label: "Mahasiswa Mentored",value: 44, suffix: ""  },
+      { label: "Projects Shipped",          value: 15, suffix: "+" },
+      { label: "Jurnal di Production",      value: 90, suffix: "+" },
+      { label: "Zero-Downtime Migrations",  value: 1,  suffix: ""  },
     ],
     cta: "Tertarik bekerja sama?",
     ctaBtn: "Hubungi Saya",
@@ -63,7 +61,7 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
       return;
     }
     let start = 0;
-    const duration = 1200;
+    const duration = 500;
     const step = 16;
     const increment = target / (duration / step);
     const timer = setInterval(() => {
@@ -146,7 +144,7 @@ export default function About() {
 
         {/* Stats row */}
         <motion.div
-          className="mb-16 grid grid-cols-2 gap-px md:grid-cols-4
+          className="mb-16 grid grid-cols-1 gap-px sm:grid-cols-3
                      rounded-2xl overflow-hidden border border-white/8"
           variants={container}
         >

@@ -1,7 +1,7 @@
 import { getProjects } from "@/lib/firestoreServer";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://yarrr-portfolio.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://akhyar.dev";
 
 // ponytail: sitemap BASE_URL should match layout.tsx SITE_URL. Both default to the same domain now.
 

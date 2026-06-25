@@ -27,7 +27,7 @@ const dict = {
       hey: "Hey, I'm",
       name: "Akhyar",
       tagline:
-        "Full-stack engineer building production systems. I manage infrastructure for 90+ academic journals and ship side projects that actually work. Currently exploring remote opportunities to solve real problems at scale.",
+        "Full-stack engineer building production systems end to end, from infrastructure to interface. I ship side projects that actually work, and I'm currently looking for the next team to build and ship with.",
       download_cv: "Download CV",
     },
     experience: {
@@ -71,7 +71,7 @@ const dict = {
       hey: "Hai, saya",
       name: "Akhyar",
       tagline:
-        "Full-stack engineer yang build production systems. Aku manage infrastructure untuk 90+ jurnal akademik dan ship side projects yang benar-benar kerja. Sekarang lagi explore remote opportunities untuk solve real problems di scale yang lebih besar.",
+        "Full-stack engineer yang membangun production systems dari infrastruktur sampai interface. Aku bikin side projects yang benar-benar kepakai, dan sekarang lagi cari tim selanjutnya untuk membangun dan merilis bersama.",
       download_cv: "Unduh CV",
     },
     experience: {

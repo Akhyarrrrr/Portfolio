@@ -6,6 +6,24 @@ type ChatMessage = {
   content: string;
 };
 
+const INJECTION_PATTERNS = [
+  "ignore previous",
+  "ignore your instructions",
+  "ignore your previous",
+  "disregard the above",
+  "forget your rules",
+  "forget your instructions",
+  "system prompt",
+  "abaikan instruksi",
+  "lupakan aturan",
+  "anggap kamu adalah",
+];
+
+function containsInjection(text: string): boolean {
+  const lower = text.toLowerCase();
+  return INJECTION_PATTERNS.some((p) => lower.includes(p));
+}
+
 function normalizeLanguage(lang: unknown): KnowledgeLanguage {
   return lang === "id" ? "id" : "en";
 }
@@ -29,6 +47,21 @@ export async function POST(req: Request) {
       : [];
     const userMessage =
       typeof body.userMessage === "string" ? body.userMessage.trim() : "";
+
+    const injectionBlocked =
+      containsInjection(userMessage) ||
+      messages.some(
+        (m) => m.role === "user" && containsInjection(m.content),
+      );
+
+    if (injectionBlocked) {
+      return Response.json({
+        content:
+          lang === "id"
+            ? "Aku hanya bisa membantu pertanyaan seputar karya dan project Akhyar. Ada yang ingin kamu tanyakan?"
+            : "I can only help with questions about Akhyar's work and projects. What would you like to know?",
+      });
+    }
 
     const safeHistory = messages
       .filter(
