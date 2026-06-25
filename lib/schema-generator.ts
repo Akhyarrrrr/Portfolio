@@ -5,7 +5,7 @@ export function personSchema() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Akhyar",
-    url: process.env.NEXT_PUBLIC_SITE_URL,
+    url: "https://akhyar.dev",
     jobTitle: "Full-Stack Engineer",
     address: {
       "@type": "PostalAddress",

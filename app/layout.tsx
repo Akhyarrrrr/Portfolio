@@ -4,8 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageProvider";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://akhyar.dev";
+const SITE_URL = "https://akhyar.dev";
 
 const poppins = Poppins({
   subsets: ["latin"],

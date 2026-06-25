@@ -1,9 +1,6 @@
 import { getProjects } from "@/lib/firestoreServer";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://akhyar.dev";
-
-// ponytail: sitemap BASE_URL should match layout.tsx SITE_URL. Both default to the same domain now.
+const BASE_URL = "https://akhyar.dev";
 
 export default async function sitemap() {
   const projects = await getProjects();
