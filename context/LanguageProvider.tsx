@@ -19,6 +19,7 @@ const dict = {
       about: "About",
       experience: "Experience",
       project: "Project",
+      skills: "Skills",
       contact: "Contact",
       language: "Language",
     },
@@ -29,6 +30,11 @@ const dict = {
       tagline:
         "Full-stack engineer building production systems end to end, from infrastructure to interface. I ship side projects that actually work, and I'm currently looking for the next team to build and ship with.",
       download_cv: "Download CV",
+    },
+    skills: {
+      badge: "Tech Stack",
+      heading: "Tools I <span>Work With</span>",
+      sub: "Technologies I use to build production-ready systems end to end.",
     },
     experience: {
       heading: "My Journey Through <span>Code & Impact</span>",
@@ -63,6 +69,7 @@ const dict = {
       about: "Tentang",
       experience: "Pengalaman",
       project: "Proyek",
+      skills: "Keahlian",
       contact: "Kontak",
       language: "Bahasa",
     },
@@ -73,6 +80,11 @@ const dict = {
       tagline:
         "Full-stack engineer yang membangun production systems dari infrastruktur sampai interface. Aku bikin side projects yang benar-benar kepakai, dan sekarang lagi cari tim selanjutnya untuk membangun dan merilis bersama.",
       download_cv: "Unduh CV",
+    },
+    skills: {
+      badge: "Tech Stack",
+      heading: "Tools <span>yang saya gunakan</span>",
+      sub: "Teknologi yang saya andalkan untuk membangun sistem yang scalable, efisien, dan siap digunakan.",
     },
     experience: {
       heading: "Perjalanan Saya Lewat <span>Code & Impact</span>",
@@ -95,7 +107,7 @@ const dict = {
       name: "Nama Anda",
       email: "Email Anda",
       message: "Pesan Anda",
-      send: "Kirim Pesan 🚀",
+      send: "Kirim Pesan",
       sending: "Mengirim...",
       success: "Pesan berhasil dikirim!",
       error: "Gagal mengirim pesan. Coba lagi ya.",

@@ -175,6 +175,16 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   ]);
 
   useEffect(() => {
+    [j1, j2].forEach((ref) => {
+      const body = ref.current as LerpedRigidBody | null;
+      if (body) {
+        if (!body.lerped) body.lerped = new THREE.Vector3();
+        body.lerped.copy(body.translation());
+      }
+    });
+  }, [anchorX, anchorY]);
+
+  useEffect(() => {
     if (hovered) {
       document.body.style.cursor = dragged ? "grabbing" : "grab";
       return () => {
@@ -277,42 +287,42 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
 
   return (
     <>
-      <group key={anchorX} position={[anchorX, anchorY, 0]}>
-        <RigidBody
-          ref={fixed}
-          {...segmentProps}
-          type="fixed"
-        />
-        <RigidBody
-          position={[0.5, 0, 0]}
-          ref={j1}
-          {...segmentProps}
-          type="dynamic"
-        >
-          <BallCollider args={[0.1]} />
-        </RigidBody>
-        <RigidBody
-          position={[1, 0, 0]}
-          ref={j2}
-          {...segmentProps}
-          type="dynamic"
-        >
-          <BallCollider args={[0.1]} />
-        </RigidBody>
-        <RigidBody
-          position={[1.5, 0, 0]}
-          ref={j3}
-          {...segmentProps}
-          type="dynamic"
-        >
-          <BallCollider args={[0.1]} />
-        </RigidBody>
-        <RigidBody
-          position={[2, 0, 0]}
-          ref={card}
-          {...segmentProps}
-          type={dragged ? "kinematicPosition" : "dynamic"}
-        >
+      <RigidBody
+        ref={fixed}
+        {...segmentProps}
+        type="fixed"
+        position={[anchorX, anchorY, 0]}
+      />
+      <RigidBody
+        position={[anchorX + 0.5, anchorY, 0]}
+        ref={j1}
+        {...segmentProps}
+        type="dynamic"
+      >
+        <BallCollider args={[0.1]} />
+      </RigidBody>
+      <RigidBody
+        position={[anchorX + 1, anchorY, 0]}
+        ref={j2}
+        {...segmentProps}
+        type="dynamic"
+      >
+        <BallCollider args={[0.1]} />
+      </RigidBody>
+      <RigidBody
+        position={[anchorX + 1.5, anchorY, 0]}
+        ref={j3}
+        {...segmentProps}
+        type="dynamic"
+      >
+        <BallCollider args={[0.1]} />
+      </RigidBody>
+      <RigidBody
+        position={[anchorX + 2, anchorY, 0]}
+        ref={card}
+        {...segmentProps}
+        type={dragged ? "kinematicPosition" : "dynamic"}
+      >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={cardScale}
@@ -349,7 +359,6 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
             <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
           </group>
         </RigidBody>
-      </group>
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial

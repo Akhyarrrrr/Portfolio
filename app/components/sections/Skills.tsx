@@ -3,6 +3,7 @@
 import { motion, type Variants } from "framer-motion";
 import ScrollVelocity from "../ScrollVelocity/ScrollVelocity";
 import { getTechsByCategory } from "@/lib/tech-stack";
+import { RichText, useLanguage } from "@/context/LanguageProvider";
 
 function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
   return (
@@ -34,6 +35,7 @@ const fadeUp: Variants = {
 };
 
 export default function SkillsTape() {
+  const { t } = useLanguage();
   return (
     <section
       className="relative z-10 bg-[#0B0F15] pt-28 overflow-hidden"
@@ -49,14 +51,14 @@ export default function SkillsTape() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-4 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#61DCA3]" />
             <span className="text-xs font-medium uppercase tracking-widest text-[#61DCA3]">
-              Tech Stack
+              {t("skills.badge")}
             </span>
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight text-white">
-            Tools I <span className="text-[#61DCA3]">Work With</span>
+          <h2 className="text-4xl font-extrabold tracking-tight text-[#61DCA3]">
+            <RichText i18nKey="skills.heading" />
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-white/40">
-            Technologies I use to build production-ready systems end to end.
+            {t("skills.sub")}
           </p>
         </motion.div>
       </div>

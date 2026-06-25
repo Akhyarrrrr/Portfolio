@@ -31,19 +31,19 @@ export default function Hero() {
 
       <div className="mx-auto h-full min-h-[100svh] max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid min-h-[100svh] grid-cols-1 gap-3 pb-8 pt-24 sm:gap-4 sm:pb-10 sm:pt-28 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-0">
-
           {/* Text content */}
           <div className="relative z-10 flex items-center lg:col-span-5">
             <div className="flex w-full max-w-[34rem] flex-col gap-5 sm:gap-6 lg:pl-4 lg:pr-4 xl:pl-8">
-
               <motion.div
                 initial={{ opacity: 0, x: 80 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.65, ease: "easeOut" }}
               >
-                <div className="inline-flex max-w-full items-center gap-2 rounded-full
+                <div
+                  className="inline-flex max-w-full items-center gap-2 rounded-full
                                 border border-[#61DCA3]/30 bg-[#61DCA3]/10
-                                px-3 py-1.5 sm:px-4 w-fit">
+                                px-3 py-1.5 sm:px-4 w-fit"
+                >
                   <span className="h-1.5 w-1.5 rounded-full bg-[#61DCA3] animate-pulse sm:h-2 sm:w-2" />
                   <span className="max-w-[11.5rem] truncate text-[11px] font-medium text-[#61DCA3] sm:max-w-none sm:text-sm">
                     {t("hero.welcome")}
@@ -104,9 +104,21 @@ export default function Hero() {
 
                 <div className="flex gap-2">
                   {[
-                    { href: "https://instagram.com/akhyaar._",          Icon: FaInstagram, label: "Instagram" },
-                    { href: "https://www.linkedin.com/in/akhyarrr/",    Icon: FaLinkedin,  label: "LinkedIn"  },
-                    { href: "https://github.com/Akhyarrrrr",            Icon: FaGithub,    label: "GitHub"    },
+                    {
+                      href: "https://instagram.com/akhyaar._",
+                      Icon: FaInstagram,
+                      label: "Instagram",
+                    },
+                    {
+                      href: "https://www.linkedin.com/in/akhyarrr/",
+                      Icon: FaLinkedin,
+                      label: "LinkedIn",
+                    },
+                    {
+                      href: "https://github.com/Akhyarrrrr",
+                      Icon: FaGithub,
+                      label: "GitHub",
+                    },
                   ].map(({ href, Icon, label }) => (
                     <a
                       key={label}
@@ -126,12 +138,11 @@ export default function Hero() {
                   ))}
                 </div>
               </div>
-
             </div>
           </div>
 
           {/* Lanyard: grid child on mobile, full-section absolute overlay on desktop */}
-          <div className="max-lg:relative max-lg:col-span-7 max-lg:flex max-lg:justify-center lg:absolute lg:inset-0 lg:z-30">
+          <div className="max-lg:relative max-lg:col-span-7 max-lg:flex max-lg:justify-center lg:absolute lg:inset-0 lg:z-30 lg:mt-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 28 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -147,7 +158,9 @@ export default function Hero() {
       {/* Scroll indicator */}
       <motion.button
         onClick={() =>
-          document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })
+          document
+            .getElementById("about")
+            ?.scrollIntoView({ behavior: "smooth" })
         }
         aria-label={lang === "id" ? "Gulir ke bawah" : "Scroll down"}
         initial={{ opacity: 0, y: 10 }}
