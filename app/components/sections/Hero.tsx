@@ -29,11 +29,11 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#0B0F15] via-[#0B0F15]/92 to-transparent sm:h-32"
       />
 
-      <div className="relative mx-auto h-full min-h-[100svh] max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto h-full min-h-[100svh] max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid min-h-[100svh] grid-cols-1 gap-3 pb-8 pt-24 sm:gap-4 sm:pb-10 sm:pt-28 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-0">
 
-          {/* Left: text content */}
-          <div className="relative z-20 flex items-center lg:col-span-5">
+          {/* Text content */}
+          <div className="relative z-10 flex items-center lg:col-span-5">
             <div className="flex w-full max-w-[34rem] flex-col gap-5 sm:gap-6 lg:pl-4 lg:pr-4 xl:pl-8">
 
               <motion.div
@@ -51,7 +51,6 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              {/* Name */}
               <motion.h1
                 key={`hero-title-${lang}`}
                 initial={{ opacity: 0, y: 36 }}
@@ -73,7 +72,6 @@ export default function Hero() {
                 </span>
               </motion.h1>
 
-              {/* Tagline */}
               <motion.p
                 key={`hero-tagline-${lang}`}
                 initial={{ opacity: 0, y: 18 }}
@@ -84,9 +82,7 @@ export default function Hero() {
                 {t("hero.tagline")}
               </motion.p>
 
-              {/* CTA row */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                {/* Download CV */}
                 <a
                   href="/api/cv"
                   download="CV-Akhyar.pdf"
@@ -104,10 +100,8 @@ export default function Hero() {
                   <HiDownload className="w-4 h-4 group-hover:translate-y-0.5 transition-transform duration-200" />
                 </a>
 
-                {/* Divider */}
                 <div className="w-px h-8 bg-white/10 hidden sm:block" />
 
-                {/* Social icons */}
                 <div className="flex gap-2">
                   {[
                     { href: "https://instagram.com/akhyaar._",          Icon: FaInstagram, label: "Instagram" },
@@ -136,13 +130,13 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: 3D Lanyard */}
-          <div className="relative z-10 flex justify-center lg:col-span-7 lg:justify-end">
+          {/* Lanyard: grid child on mobile, full-section absolute overlay on desktop */}
+          <div className="max-lg:relative max-lg:col-span-7 max-lg:flex max-lg:justify-center lg:absolute lg:inset-0 lg:z-30">
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 28 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ delay: 0.25, duration: 0.7, ease: "easeOut" }}
-              className="relative -mt-24 h-[530px] w-full max-w-[470px] overflow-hidden pt-22 sm:-mt-28 sm:h-[620px] sm:max-w-[560px] sm:pt-20 md:-mt-24 md:h-[700px] md:max-w-[660px] md:pt-24 lg:mt-0 lg:pt-7 lg:h-[100svh] lg:min-h-[760px] lg:max-w-[800px] lg:overflow-visible lg:pt-0"
+              className="max-lg:relative max-lg:-mt-24 max-lg:h-[530px] max-lg:w-full max-lg:max-w-[470px] max-lg:overflow-hidden max-lg:pt-22 max-lg:sm:-mt-28 max-lg:sm:h-[620px] max-lg:sm:max-w-[560px] max-lg:sm:pt-20 max-lg:md:-mt-24 max-lg:md:h-[700px] max-lg:md:max-w-[660px] max-lg:md:pt-24 lg:h-full lg:w-full"
             >
               <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
             </motion.div>

@@ -42,11 +42,6 @@ type LerpedRigidBody = RapierRigidBody & {
   lerped?: THREE.Vector3;
 };
 
-type PointerCaptureTarget = EventTarget & {
-  releasePointerCapture: (pointerId: number) => void;
-  setPointerCapture: (pointerId: number) => void;
-};
-
 type LanyardGLTF = {
   nodes: {
     card: THREE.Mesh;
@@ -151,8 +146,10 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   const { nodes, materials } = useGLTF(cardGLB) as unknown as LanyardGLTF;
   const texture = useTexture(lanyard);
   const { width, height } = useThree((state) => state.size);
+  const gl = useThree((state) => state.gl);
+  const pointer = useThree((state) => state.pointer);
   const compactScene = width < 768;
-  const anchorX = width < 430 ? -0.58 : width < 640 ? -0.42 : width < 900 ? -0.2 : 0;
+  const anchorX = width < 430 ? -0.58 : width < 640 ? -0.42 : width < 900 ? -0.2 : width < 1200 ? 1.5 : 2.2;
   const anchorY = width < 430 ? 4.1 : width < 640 ? 4.02 : width < 900 ? 3.98 : 4;
   const cardScale = width < 430 ? 2.06 : width < 640 ? 2.18 : width < 900 ? 2.24 : 2.25;
   const [curve] = useState(
@@ -166,6 +163,8 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   );
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
   const [hovered, hover] = useState(false);
+  const pointerRef = useRef(new THREE.Vector2());
+  const overlayRef = useRef<HTMLDivElement | null>(null);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -184,9 +183,50 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
     }
   }, [hovered, dragged]);
 
+  useEffect(() => {
+    if (!dragged) {
+      if (overlayRef.current) {
+        overlayRef.current.remove();
+        overlayRef.current = null;
+      }
+      return;
+    }
+
+    const overlay = document.createElement("div");
+    overlay.style.cssText =
+      "position:fixed;inset:0;z-index:99999;cursor:grabbing;touch-action:none";
+    document.body.appendChild(overlay);
+    overlayRef.current = overlay;
+
+    const rect = gl.domElement.getBoundingClientRect();
+
+    const handleMove = (e: PointerEvent) => {
+      pointerRef.current.set(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        -((e.clientY - rect.top) / rect.height) * 2 + 1,
+      );
+    };
+    const handleEnd = () => drag(false);
+
+    overlay.addEventListener("pointermove", handleMove);
+    overlay.addEventListener("pointerup", handleEnd);
+    overlay.addEventListener("pointercancel", handleEnd);
+
+    return () => {
+      overlay.removeEventListener("pointermove", handleMove);
+      overlay.removeEventListener("pointerup", handleEnd);
+      overlay.removeEventListener("pointercancel", handleEnd);
+      overlay.remove();
+      overlayRef.current = null;
+    };
+  }, [dragged]);
+
   useFrame((state, delta) => {
+    if (!dragged) {
+      pointerRef.current.copy(state.pointer);
+    }
     if (dragged && typeof dragged !== "boolean") {
-      vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
+      vec.set(pointerRef.current.x, pointerRef.current.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
       vec.add(dir.multiplyScalar(state.camera.position.length()));
       [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
@@ -237,7 +277,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
 
   return (
     <>
-      <group position={[anchorX, anchorY, 0]}>
+      <group key={anchorX} position={[anchorX, anchorY, 0]}>
         <RigidBody
           ref={fixed}
           {...segmentProps}
@@ -279,14 +319,11 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
-            onPointerUp={(e: ThreeEvent<PointerEvent>) => {
-              const target = e.target as PointerCaptureTarget;
-              target.releasePointerCapture(e.pointerId);
+            onPointerUp={() => {
               drag(false);
             }}
             onPointerDown={(e: ThreeEvent<PointerEvent>) => {
-              const target = e.target as PointerCaptureTarget;
-              target.setPointerCapture(e.pointerId);
+              pointerRef.current.set(pointer.x, pointer.y);
               drag(
                 new THREE.Vector3()
                   .copy(e.point)

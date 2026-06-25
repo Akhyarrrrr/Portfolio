@@ -6,19 +6,20 @@ import { Menu, X, Globe, Check } from "lucide-react";
 import { useLanguage } from "@/context/LanguageProvider";
 
 const NAV_LINKS = [
-  { key: "nav.home",       href: "#hero"       },
-  { key: "nav.about",      href: "#about"      },
+  { key: "nav.home", href: "#hero" },
+  { key: "nav.about", href: "#about" },
   { key: "nav.experience", href: "#experience" },
-  { key: "nav.project",    href: "#project"    },
-  { key: "nav.contact",    href: "#contact"    },
+  { key: "nav.project", href: "#project" },
+  { key: "nav.skills", href: "#skills" },
+  { key: "nav.contact", href: "#contact" },
 ] as const;
 
 export default function Navbar() {
-  const [isOpen, setIsOpen]     = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [showLang, setShowLang] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { lang, setLang, t }    = useLanguage();
+  const { lang, setLang, t } = useLanguage();
 
   /* Detect scroll for subtle shadow upgrade */
   useEffect(() => {
@@ -43,14 +44,18 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
-  const nav = useMemo(() => ({
-    home:       t("nav.home"),
-    about:      t("nav.about"),
-    experience: t("nav.experience"),
-    project:    t("nav.project"),
-    contact:    t("nav.contact"),
-    language:   t("nav.language"),
-  }), [t]);
+  const nav = useMemo(
+    () => ({
+      home: t("nav.home"),
+      about: t("nav.about"),
+      experience: t("nav.experience"),
+      project: t("nav.project"),
+      skills: t("nav.skills"),
+      contact: t("nav.contact"),
+      language: t("nav.language"),
+    }),
+    [t],
+  );
 
   return (
     <header className="fixed top-6 left-1/2 -translate-x-1/2 z-[999] w-full px-4">
@@ -109,7 +114,9 @@ export default function Navbar() {
             >
               <Globe size={14} className="shrink-0" />
               <span className="hidden sm:inline">{nav.language}</span>
-              <span className="inline sm:hidden uppercase text-[10px]">{lang}</span>
+              <span className="inline sm:hidden uppercase text-[10px]">
+                {lang}
+              </span>
             </button>
 
             <AnimatePresence>
@@ -124,8 +131,18 @@ export default function Navbar() {
                              bg-[#0B0F15]/95 backdrop-blur-xl
                              shadow-[0_12px_40px_rgba(0,0,0,0.45)] overflow-hidden"
                 >
-                  <LangItem active={lang === "en"} label="English"          code="EN" onClick={() => changeLang("en")} />
-                  <LangItem active={lang === "id"} label="Bahasa Indonesia"  code="ID" onClick={() => changeLang("id")} />
+                  <LangItem
+                    active={lang === "en"}
+                    label="English"
+                    code="EN"
+                    onClick={() => changeLang("en")}
+                  />
+                  <LangItem
+                    active={lang === "id"}
+                    label="Bahasa Indonesia"
+                    code="ID"
+                    onClick={() => changeLang("id")}
+                  />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -178,9 +195,10 @@ export default function Navbar() {
                   className={`rounded-xl border px-3 py-2 text-xs font-semibold
                               flex items-center justify-center gap-2
                               transition-all duration-200 cursor-pointer
-                              ${lang === code
-                                ? "border-[#61DCA3] bg-[#61DCA3]/15 text-[#61DCA3]"
-                                : "border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                              ${
+                                lang === code
+                                  ? "border-[#61DCA3] bg-[#61DCA3]/15 text-[#61DCA3]"
+                                  : "border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
                               }`}
                 >
                   {lang === code && <Check size={12} />}
@@ -196,7 +214,10 @@ export default function Navbar() {
 }
 
 function LangItem({
-  active, label, code, onClick,
+  active,
+  label,
+  code,
+  onClick,
 }: {
   active?: boolean;
   label: string;
@@ -212,8 +233,10 @@ function LangItem({
                   ${active ? "bg-white/10 text-white" : "text-white/70 hover:bg-white/5 hover:text-white"}`}
     >
       <div className="flex items-center gap-3">
-        <span className="inline-flex h-6 w-6 items-center justify-center rounded-md
-                         border border-white/15 bg-white/5 text-[10px] font-bold">
+        <span
+          className="inline-flex h-6 w-6 items-center justify-center rounded-md
+                         border border-white/15 bg-white/5 text-[10px] font-bold"
+        >
           {code}
         </span>
         <span>{label}</span>
