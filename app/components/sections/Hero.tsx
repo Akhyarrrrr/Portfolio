@@ -32,7 +32,7 @@ export default function Hero() {
       <div className="mx-auto h-full min-h-[100svh] max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid min-h-[100svh] grid-cols-1 gap-3 pb-8 pt-24 sm:gap-4 sm:pb-10 sm:pt-28 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-0">
           {/* Text content */}
-          <div className="relative z-10 flex items-center lg:col-span-5">
+          <div className="relative z-40 flex items-center lg:col-span-5">
             <div className="flex w-full max-w-[34rem] flex-col gap-5 sm:gap-6 lg:pl-4 lg:pr-4 xl:pl-8">
               <motion.div
                 initial={{ opacity: 0, x: 80 }}
