@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   experimental: {
-    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion"],
+    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "three", "@react-three/fiber", "@react-three/drei"],
   },
   async headers() {
     return [
