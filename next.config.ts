@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   experimental: {
-    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion"],
+    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "three", "@react-three/fiber", "@react-three/drei"],
   },
   async headers() {
     return [
@@ -28,9 +28,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  turbopack: {
-    treeShaking: true,
-  },
+  turbopack: {},
   webpack(config) {
     config.module?.rules?.push({
       test: /\.(glb|gltf)$/i,
