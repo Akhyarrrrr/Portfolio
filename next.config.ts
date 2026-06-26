@@ -28,7 +28,9 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  turbopack: {},
+  turbopack: {
+    treeShaking: true,
+  },
   webpack(config) {
     config.module?.rules?.push({
       test: /\.(glb|gltf)$/i,
