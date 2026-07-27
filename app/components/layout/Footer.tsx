@@ -19,7 +19,7 @@ export default function Footer() {
           <span className="text-2xl font-extrabold tracking-tight text-white">Y.</span>
           <div className="hidden h-5 w-px bg-white/15 md:block" />
           <span className="hidden text-sm text-white/60 md:inline">
-            Akhyar's Portfolio
+            Akhyar&apos;s Portfolio
           </span>
         </div>
 
