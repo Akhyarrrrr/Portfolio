@@ -1,5 +1,5 @@
 import { getProjects, getExperiences } from "@/lib/firestoreServer";
-import { personSchema } from "@/lib/schema-generator";
+import { personSchema, websiteSchema } from "@/lib/schema-generator";
 import JsonLd from "@/app/components/schema/JsonLd";
 import HomeContent from "./HomeContent";
 
@@ -13,7 +13,8 @@ export default async function HomePage() {
 
   return (
     <>
-      <JsonLd data={personSchema()} />
+      <JsonLd id="person-schema" data={personSchema()} />
+      <JsonLd id="website-schema" data={websiteSchema()} />
       <HomeContent projects={projects} experiences={experiences} />
     </>
   );
