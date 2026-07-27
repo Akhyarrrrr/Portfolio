@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { ProjectType } from "@/lib/firestoreCrud";
 import ProjectDetailClient from "@/app/projects/[slug]/ProjectDetailClient";
 
@@ -19,6 +19,7 @@ export default function ProjectModal({
   onSelectProject,
 }: ProjectModalProps) {
   const isOpen = project !== null;
+  const reduceMotion = useReducedMotion();
 
   // Push state when opening
   useEffect(() => {
@@ -61,13 +62,22 @@ export default function ProjectModal({
     }
   }, [onClose]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") handleClose();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [handleClose, isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && project && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0 }}
           transition={{ duration: 0.25 }}
           className="fixed inset-0 z-[100] overflow-y-auto bg-[#0B0F15]"
           role="dialog"

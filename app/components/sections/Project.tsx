@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ExternalLink, GithubIcon, Pin } from "lucide-react";
 import { useLanguage, RichText } from "@/context/LanguageProvider";
 import type { ProjectType } from "@/lib/firestoreCrud";
@@ -132,6 +132,7 @@ export default function Project({
 }) {
   const router = useRouter();
   const { lang, t } = useLanguage();
+  const reduceMotion = useReducedMotion();
   const [filter, setFilter] = useState<ProjectCategoryFilter>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -183,7 +184,7 @@ export default function Project({
       <div className="mx-auto w-full max-w-7xl">
         <motion.div
           className="mb-12 text-center"
-          initial="hidden"
+          initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
           variants={fadeUp}
@@ -204,7 +205,7 @@ export default function Project({
 
         <motion.div
           className="mb-12 flex flex-wrap justify-center gap-2"
-          initial="hidden"
+          initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
           variants={{
@@ -237,8 +238,9 @@ export default function Project({
         <motion.div
           key={`${filter}-${currentPage}`}
           className="grid items-start justify-items-center gap-y-[4.5rem] sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-4 lg:gap-y-20"
-          initial="hidden"
-          animate="visible"
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.12 }}
           variants={projectGrid}
         >
           {loading &&
@@ -354,12 +356,12 @@ export default function Project({
                           style={{ backgroundImage: `url(${project.imageUrl})` }}
                         />
 
-                        {/* View Details indicator + Source/Live — inside card */}
+                        {/* View Details indicator and Source/Live inside card */}
                         <div className="mt-3 flex items-center justify-between gap-2">
                           {/* Detail link */}
                           <span className="flex items-center gap-1 text-[10px] font-semibold text-[#61DCA3] transition-colors group-hover/card:text-white">
                             {detailHref ? "View Details" : externalHref ? "Visit Project" : ""}
-                            <span className="transition-transform group-hover/card:translate-x-1">→</span>
+                            <span className="transition-transform group-hover/card:translate-x-1">-&gt;</span>
                           </span>
 
                           {/* Source / Live buttons */}

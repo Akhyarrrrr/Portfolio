@@ -1,6 +1,6 @@
 export default function ProjectLoading() {
   return (
-    <div className="min-h-screen bg-[#0B0F15] px-4 pt-24 sm:px-6 lg:px-8">
+    <div className="min-h-[100dvh] bg-[#0B0F15] px-4 pt-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         {/* Hero skeleton */}
         <div className="mb-10 h-64 animate-pulse rounded-2xl bg-white/5 sm:h-80 lg:h-96" />
