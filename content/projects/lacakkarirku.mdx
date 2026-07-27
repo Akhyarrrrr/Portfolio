@@ -1,0 +1,81 @@
+---
+slug: lacakkarirku
+title: LacakKarirku
+title_en: LacakKarirku
+title_id: LacakKarirku
+description: >-
+  An AI job-search workspace for CV parsing, job scraping, match scoring, and
+  application tracking from saved roles to offers.
+desc_en: >-
+  An AI job-search workspace for CV parsing, job scraping, match scoring, and
+  application tracking from saved roles to offers.
+desc_id: >-
+  Workspace cari kerja berbasis AI untuk parsing CV, scraping lowongan, match
+  scoring, dan tracking lamaran dari saved sampai offer.
+category: web
+tech:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Clerk
+  - Neon Postgres
+  - Drizzle ORM
+  - Groq AI
+  - Cheerio
+  - Vercel
+href: 'https://lacakkarirku.vercel.app'
+githubUrl: 'https://github.com/Akhyarrrrr/lacakkarirku'
+liveUrl: 'https://lacakkarirku.vercel.app'
+pinned: true
+order: 5
+problemStatement: >-
+  Job seekers often save links everywhere, read job descriptions repeatedly, and
+  still do not know which roles are worth applying to first. I wanted one
+  workspace that connects the CV, job source, and next action.
+problemStatement_id: >-
+  Pencari kerja sering menyimpan link di banyak tempat, membaca deskripsi
+  lowongan berulang, tetapi tetap belum tahu mana yang paling layak dilamar
+  dulu. Saya ingin membuat satu workspace yang menghubungkan CV, sumber
+  lowongan, dan aksi berikutnya.
+solutionApproach: >-
+  I built CV upload and parsing, multi-source job scraping, manual job input,
+  match scoring, and AI suggestions. The app stores jobs, CV data, and matches
+  in Neon through Drizzle, with Clerk handling auth.
+solutionApproach_id: >-
+  Saya membangun upload dan parsing CV, scraping lowongan dari banyak sumber,
+  input lowongan manual, match scoring, dan saran AI. Data job, CV, dan match
+  disimpan di Neon lewat Drizzle, dengan Clerk untuk auth.
+impact: >-
+  The app turns scattered job hunting into a more deliberate workflow: collect
+  roles, compare fit, improve the CV, then track progress.
+impact_id: >-
+  Aplikasi ini mengubah proses cari kerja yang tercecer menjadi workflow yang
+  lebih terarah: kumpulkan lowongan, bandingkan kecocokan, perbaiki CV, lalu
+  track progres.
+techRationale: >-
+  Next.js gave the project one place for UI and API routes. Cheerio handled
+  stable sources, Groq handled CV and suggestion tasks, and Drizzle kept the
+  database layer readable.
+techRationale_id: >-
+  Next.js memberi satu tempat untuk UI dan API routes. Cheerio menangani source
+  yang stabil, Groq menangani parsing CV dan saran, sementara Drizzle membuat
+  layer database tetap mudah dibaca.
+keyFeatures:
+  - CV PDF upload and parsing
+  - Multi-source job scraping
+  - Manual job capture
+  - CV-to-job match score
+  - AI CV improvement suggestions
+  - Application pipeline tracking
+year: '2026'
+duration: Independent product build
+role: Solo Full-Stack Developer
+learnings: >-
+  The hardest part was not the AI prompt, but making the messy edges of public
+  job sources fail gracefully and still giving users a useful fallback.
+learnings_id: >-
+  Bagian tersulit bukan prompt AI-nya, melainkan membuat sumber lowongan publik
+  yang tidak stabil tetap gagal dengan rapi dan punya fallback yang berguna.
+imageUrl: /projects/lacakkarirku.png
+---
+

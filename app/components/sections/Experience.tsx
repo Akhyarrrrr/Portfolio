@@ -8,7 +8,7 @@ import {
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
-import { type ExperienceType } from "@/lib/firestoreCrud";
+import { type ExperienceType } from "@/lib/content";
 import { useLanguage, RichText } from "@/context/LanguageProvider";
 
 /* ─── Skeleton ──────────────────────────────────────────────── */

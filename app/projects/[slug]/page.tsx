@@ -1,11 +1,9 @@
-import { getProjects, getProjectBySlug } from "@/lib/firestoreServer";
+import { getProjects, getProjectBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { personSchema, projectSchema } from "@/lib/schema-generator";
 import JsonLd from "@/app/components/schema/JsonLd";
 import ProjectDetailClient from "./ProjectDetailClient";
-
-export const revalidate = 86400; // ISR: regenerate at most every 24h (fallback)
 
 export async function generateStaticParams() {
   const projects = await getProjects();

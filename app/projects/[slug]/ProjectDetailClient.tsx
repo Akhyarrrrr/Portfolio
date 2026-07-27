@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import { ArrowLeft, ExternalLink, Github, Globe, Calendar, Clock, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageProvider";
-import type { ProjectType } from "@/lib/firestoreCrud";
+import type { ProjectType } from "@/lib/content";
 import {
   getTechDisplayLabel,
   getTechMeta,
