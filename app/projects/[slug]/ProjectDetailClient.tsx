@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import { ArrowLeft, ExternalLink, Github, Globe, Calendar, Clock, UserCheck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageProvider";
 import type { ProjectType } from "@/lib/firestoreCrud";
@@ -264,13 +265,14 @@ export default function ProjectDetailClient({
 
           {/* Hero image */}
           <motion.div variants={fadeUp}>
-            <div className="overflow-hidden rounded-2xl border border-white/8 shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/8 shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
+              <Image
                 src={project.imageUrl}
                 alt={titleLocal(project, lang)}
-                className="w-full object-cover"
-                loading="eager"
+                fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+                priority
               />
             </div>
           </motion.div>
@@ -321,10 +323,15 @@ export default function ProjectDetailClient({
               {screenshots.map((url, i) => (
                 <div
                   key={i}
-                  className="w-[85vw] max-w-md shrink-0 snap-center overflow-hidden rounded-xl border border-white/8 shadow-lg sm:w-72"
+                  className="relative aspect-video w-[85vw] max-w-md shrink-0 snap-center overflow-hidden rounded-xl border border-white/8 shadow-lg sm:w-72"
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url} alt={`Screenshot ${i + 1}`} className="w-full object-cover" loading="lazy" />
+                  <Image
+                    src={url}
+                    alt={`Screenshot ${i + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 85vw, 288px"
+                    className="object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -382,13 +389,15 @@ export default function ProjectDetailClient({
                     {...linkProps}
                     className="group rounded-2xl border border-white/8 bg-white/[0.02] p-5 transition hover:border-[#61DCA3]/30 hover:bg-white/[0.04]"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={rp.imageUrl}
-                      alt={rp.title_en || rp.title || ""}
-                      className="mb-4 h-32 w-full rounded-xl object-cover"
-                      loading="lazy"
-                    />
+                    <div className="relative mb-4 h-32 w-full overflow-hidden rounded-xl">
+                      <Image
+                        src={rp.imageUrl}
+                        alt={rp.title_en || rp.title || ""}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
                     <h3 className="mb-1 text-base font-bold text-white group-hover:text-[#61DCA3] transition-colors">
                       {titleLocal(rp, lang)}
                     </h3>
