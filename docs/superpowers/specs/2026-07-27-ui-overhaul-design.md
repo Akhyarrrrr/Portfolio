@@ -114,11 +114,18 @@ Replace the single fade-up-everywhere preset with an actual hierarchy:
 - **Hover interactions**: real layered depth — project cards lift
   (`translateY`) *and* their shadow grows simultaneously, replacing the
   current pattern where hover only swaps a border color.
-- **Ambient background**: the radial glow reacts subtly to cursor
-  position instead of animating in an endless loop. This is also a
-  performance fix, not just an aesthetic one — the Fase 0 Lighthouse
-  baseline found the page never reached a CPU-idle window at all, partly
-  because of always-on background animation loops (`Squares.tsx`).
+- **Ambient background — resolved via live comparison, not left to
+  guesswork.** Two working prototypes were shown side by side: the
+  existing `Squares.tsx` grid-canvas animation (throttled) versus a
+  cursor-reactive radial glow that stays still until the mouse moves.
+  The user chose to **keep `Squares.tsx`** — the grid is treated as part
+  of the site's established identity, not a generic pattern to be swapped
+  out. It should still be throttled (lower update frequency, pause fully
+  on `document.hidden` and `prefers-reduced-motion` — both already
+  implemented in the component) since the Fase 0 Lighthouse baseline
+  found the page never reached a CPU-idle window at all, and an
+  always-on `requestAnimationFrame` loop is part of why. No cursor-glow
+  replacement is introduced.
 - **Lanyard stays the visual anchor.** It's surrounded by consistently
   layered surfaces (cards, sections with real depth) instead of being the
   one "wow" element on an otherwise flat page.
@@ -133,14 +140,20 @@ Replace the single fade-up-everywhere preset with an actual hierarchy:
   - `prefers-reduced-motion` support (already present) extended to cover
     every new motion pattern introduced here.
   - Color contrast re-checked specifically for text sitting on top of the
-    new radial glow — the most likely place for contrast to quietly drop
-    below threshold.
+    existing Hero radial gradient and the `Squares.tsx` grid — the most
+    likely places for contrast to quietly drop below threshold.
   - Focus rings kept consistent across every new interactive element.
   - The serif face is checked for legibility at small sizes before it's
     used in any heading below the largest tier.
 
 ## Scope boundaries
 
+- **Whole site, one pass** — homepage sections (Hero, About, Experience,
+  Tape, Project, Skills, Contact), the project detail pages, Navbar,
+  Footer, and the chatbot widget are all in scope together, landing as
+  one coherent PR rather than a homepage-first pilot. The user explicitly
+  chose this over a staged rollout to avoid the site looking half-old,
+  half-new during a transition window.
 - This is a **visual/UI pass over existing components** — it does not
   change site architecture, routing, or the content pipeline (MDX
   migration, Firebase removal, etc. are separate, already-completed
@@ -170,8 +183,8 @@ spec:
 - About section stats match exactly between `en` and `id` in
   `context/LanguageProvider.tsx`.
 - Lighthouse accessibility score does not regress from the Fase 0
-  baseline; contrast-specific checks pass on any text over the new
-  ambient glow.
+  baseline; contrast-specific checks pass on any text over the Hero
+  radial gradient and the `Squares.tsx` grid.
 - `prefers-reduced-motion: reduce` disables every animation introduced in
   this phase, verified in a live browser check (as done for Fase 4/5), not
   just read from code.
