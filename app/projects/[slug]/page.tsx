@@ -1,9 +1,11 @@
 import { getProjects, getProjectBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { personSchema, projectSchema } from "@/lib/schema-generator";
+import { personSchema, projectSchema, breadcrumbSchema } from "@/lib/schema-generator";
 import JsonLd from "@/app/components/schema/JsonLd";
 import ProjectDetailClient from "./ProjectDetailClient";
+
+const SITE_URL = "https://akhyar.dev";
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -27,10 +29,25 @@ export async function generateMetadata({
   return {
     title: `${title} | Akhyar Portfolio`,
     description: desc,
+    // Without this, the page silently inherits the root layout's
+    // `alternates: { canonical: "/" }` — every project page was reporting
+    // the homepage as its canonical URL, telling Google all 15 project
+    // pages were duplicates of "/" instead of distinct, indexable pages.
+    alternates: {
+      canonical: `${SITE_URL}/projects/${slug}`,
+      languages: {
+        en: `${SITE_URL}/projects/${slug}`,
+        id: `${SITE_URL}/projects/${slug}`,
+        "x-default": `${SITE_URL}/projects/${slug}`,
+      },
+    },
     openGraph: {
       title: `${title} | Akhyar`,
       description: desc,
-      images: project.imageUrl ? [{ url: project.imageUrl }] : [],
+      // No manual `images` — app/projects/[slug]/opengraph-image.tsx
+      // generates a branded card (title + tech stack) per project.
+      // Setting images here would silently override that file-based
+      // generation instead of merging with it.
     },
   };
 }
@@ -59,10 +76,20 @@ export default async function ProjectDetailPage({
   });
   const related = sameCategory.slice(0, 3);
 
+  const title = project.title_en || project.title || "";
+
   return (
     <>
-      <JsonLd data={personSchema()} />
-      <JsonLd data={projectSchema(project)} />
+      <JsonLd id="person-schema" data={personSchema()} />
+      <JsonLd id="project-schema" data={projectSchema(project)} />
+      <JsonLd
+        id="breadcrumb-schema"
+        data={breadcrumbSchema([
+          { name: "Home", url: SITE_URL },
+          { name: "Projects", url: `${SITE_URL}/#project` },
+          { name: title, url: `${SITE_URL}/projects/${slug}` },
+        ])}
+      />
       <ProjectDetailClient project={project} relatedProjects={related} />
     </>
   );

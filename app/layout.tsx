@@ -24,21 +24,19 @@ export const metadata: Metadata = {
   description:
     "Full-stack engineer from Banda Aceh building production systems with React, Next.js, and Node.js. 90+ academic journals, AI-powered attendance, and more.",
   robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: { en: "/", id: "/", "x-default": "/" },
+  },
   openGraph: {
     title: "Akhyar | Full Stack Developer Portfolio",
     description:
       "Full-stack engineer building production systems with 90+ academic journals, AI-powered attendance, and more. Built with Next.js.",
     siteName: "Akhyar Portfolio",
     url: SITE_URL,
-    images: [
-      {
-        url: "/assets/images/projects/portfolio_next.png",
-        width: 1200,
-        height: 630,
-        alt: "Akhyar Portfolio Preview",
-      },
-    ],
+    // No manual `images` here — app/opengraph-image.tsx generates it at
+    // build time (the old hardcoded path 404'd; every shared link showed
+    // a blank preview).
     locale: "en_US",
     type: "website",
   },
@@ -48,7 +46,12 @@ export const metadata: Metadata = {
     description:
       "Full-stack engineer building production systems with React, Next.js, and Node.js.",
   },
-  icons: { icon: "/favicon.ico" },
+  // `apple` was previously entirely absent — no apple-touch-icon meant a
+  // blank/default icon when someone added the site to an iOS home screen.
+  // app/apple-icon.tsx generates it (the "Y." wordmark, matching the splash
+  // screen). favicon.ico is kept as-is: it already works, no reason to
+  // replace it with a generated equivalent.
+  icons: { icon: "/favicon.ico", apple: "/apple-icon" },
 };
 
 export default function RootLayout({

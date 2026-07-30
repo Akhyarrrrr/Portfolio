@@ -1,5 +1,31 @@
 import type { ProjectType } from "./content";
 
+const SITE_URL = "https://akhyar.dev";
+
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Akhyar Portfolio",
+    url: SITE_URL,
+    inLanguage: ["en", "id"],
+    publisher: { "@type": "Person", name: "Akhyar" },
+  };
+}
+
+export function breadcrumbSchema(items: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
 export function personSchema() {
   return {
     "@context": "https://schema.org",
