@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiDownload } from "react-icons/hi";
@@ -7,13 +8,59 @@ import { motion, useReducedMotion } from "framer-motion";
 
 const Lanyard = dynamic(() => import("../Lanyard/Lanyard"), {
   ssr: false,
-  loading: () => (
-    <div className="h-full w-full animate-pulse rounded-2xl bg-white/5" />
-  ),
+  loading: () => <LanyardPoster />,
 });
+
+// ponytail: a real captured screenshot of the rendered card would read
+// nicer than a gradient placeholder — deferred to the UI pass (Fase 6),
+// since it needs a design decision (what angle/lighting), not just code.
+function LanyardPoster() {
+  return (
+    <div
+      aria-hidden
+      className="h-full w-full rounded-2xl bg-[radial-gradient(circle_at_50%_40%,rgba(97,220,163,0.16),transparent_60%)]"
+    />
+  );
+}
+
+// Desktop only, and only once the browser has idle time — the Rapier
+// physics + Three.js WebGL scene is the single heaviest thing on this
+// page (see Fase 0 Lighthouse baseline: it kept the tab from ever
+// reaching a CPU-idle window at all). Mobile and reduced-motion users
+// get the static poster and never pay that cost.
+function useShouldMountLanyard() {
+  const [shouldMount, setShouldMount] = useState(false);
+
+  useEffect(() => {
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (!isDesktop || prefersReducedMotion) return;
+
+    const win = window as typeof window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (win.requestIdleCallback) {
+      const handle = win.requestIdleCallback(() => setShouldMount(true), {
+        timeout: 2000,
+      });
+      return () => win.cancelIdleCallback?.(handle);
+    }
+
+    // Safari has no requestIdleCallback — a short timeout approximates it.
+    const timer = setTimeout(() => setShouldMount(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return shouldMount;
+}
 
 export default function Hero() {
   const { t, lang } = useLanguage();
+  const shouldMountLanyard = useShouldMountLanyard();
   const reduceMotion = useReducedMotion();
 
   return (
@@ -142,7 +189,11 @@ export default function Hero() {
               transition={{ delay: 0.25, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="max-lg:relative max-lg:-mt-24 max-lg:h-[530px] max-lg:w-full max-lg:max-w-[470px] max-lg:overflow-hidden max-lg:pt-22 max-lg:sm:-mt-28 max-lg:sm:h-[620px] max-lg:sm:max-w-[560px] max-lg:sm:pt-20 max-lg:md:-mt-24 max-lg:md:h-[700px] max-lg:md:max-w-[660px] max-lg:md:pt-24 lg:h-full lg:w-full"
             >
-              <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
+              {shouldMountLanyard ? (
+                <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
+              ) : (
+                <LanyardPoster />
+              )}
             </motion.div>
           </div>
         </div>

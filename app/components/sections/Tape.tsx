@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const achievements = [
   "90+ Academic Journals Managed",
@@ -52,10 +53,12 @@ export default function Tape() {
                     <span className="select-none text-lg font-extrabold uppercase tracking-[0.08em] text-[#0B0F15]">
                       {achievement}
                     </span>
-                    <img
+                    <Image
                       src="/assets/icons/star.svg"
                       alt=""
                       aria-hidden="true"
+                      width={24}
+                      height={24}
                       className="size-6 -rotate-12"
                     />
                   </div>

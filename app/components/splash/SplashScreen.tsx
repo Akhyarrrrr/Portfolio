@@ -25,7 +25,7 @@ export default function SplashScreen() {
     // ponytail: sessionStorage write above guards against Strict Mode
     // double-mount. The second invocation sees the key and hides immediately,
     // both before paint, so user never sees a flash.
-    timerRef.current = setTimeout(() => setVisible(false), 1500);
+    timerRef.current = setTimeout(() => setVisible(false), 700);
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
