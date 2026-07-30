@@ -1,16 +1,27 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
 export default function ScrollToTop() {
   const [show, setShow] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
 
   useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 400);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    setShow(scrollY.get() > 400);
+  }, [scrollY]);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const next = latest > 400;
+    setShow((current) => (current === next ? current : next));
+  });
 
   return (
     <AnimatePresence>
@@ -21,15 +32,22 @@ export default function ScrollToTop() {
           animate={{
             opacity: 1,
             scale: 1,
-            y: [0, -8, 0],
+            y: reduceMotion ? 0 : [0, -8, 0],
           }}
           exit={{ opacity: 0, scale: 0.85, y: 18 }}
           transition={{
             opacity: { duration: 0.2 },
             scale: { duration: 0.2 },
-            y: { duration: 1.2, repeat: Infinity, ease: "easeInOut" },
+            y: reduceMotion
+              ? { duration: 0 }
+              : { duration: 1.2, repeat: Infinity, ease: "easeInOut" },
           }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: reduceMotion ? "auto" : "smooth",
+            })
+          }
           aria-label="Scroll to top"
           className="flex h-12 w-12 items-center justify-center
                      rounded-2xl border border-[#61DCA3]/40 bg-[#61DCA3]/10
@@ -38,8 +56,8 @@ export default function ScrollToTop() {
                      hover:bg-[#61DCA3]/20 hover:border-[#61DCA3]/70
                      hover:shadow-[0_4px_28px_rgba(97,220,163,0.35)]
                      active:scale-95 transition-all duration-200 cursor-pointer"
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.94 }}
+          whileHover={reduceMotion ? undefined : { y: -2 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.94 }}
         >
           <ArrowUp size={18} />
         </motion.button>
