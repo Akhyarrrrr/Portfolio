@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageProvider";
 
 const SITE_URL = "https://akhyar.dev";
@@ -29,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Akhyar | Full Stack Developer Portfolio",
     description:
-      "Full-stack engineer building production systems — 90+ academic journals, AI-powered attendance, and more. Built with Next.js.",
+      "Full-stack engineer building production systems with 90+ academic journals, AI-powered attendance, and more. Built with Next.js.",
     siteName: "Akhyar Portfolio",
     url: SITE_URL,
     images: [
@@ -64,9 +63,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <AuthProvider>
-          <LanguageProvider>{children}</LanguageProvider>
-        </AuthProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import { MessageCircle, Send, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageProvider";
 
@@ -32,24 +38,27 @@ export default function Chatbot() {
   const [loading, setLoading] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
 
   useEffect(() => {
     setMessages([getWelcomeMessage(lang)]);
   }, [lang]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowChat(window.scrollY > window.innerHeight * 0.5);
-    };
+    setShowChat(scrollY.get() > window.innerHeight * 0.5);
+  }, [scrollY]);
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const next = latest > window.innerHeight * 0.5;
+    setShowChat((current) => (current === next ? current : next));
+  });
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [messages, loading, reduceMotion]);
 
   const handleSendMessage = async () => {
     const content = input.trim();
@@ -113,9 +122,9 @@ export default function Chatbot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.92, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 20 }}
+            exit={reduceMotion ? undefined : { opacity: 0, scale: 0.92, y: 20 }}
             transition={{ duration: 0.22 }}
             className="absolute bottom-full right-0 mb-3
                        flex h-[60vh] sm:h-[28rem]
@@ -126,7 +135,7 @@ export default function Chatbot() {
           >
             <div className="flex items-center justify-between border-b border-black/10 bg-[#61DCA3] px-4 py-3 text-black ">
               <div>
-                <h3 className="text-sm font-bold">Akhyar's Assistant</h3>
+                <h3 className="text-sm font-bold">Akhyar&apos;s Assistant</h3>
                 <p className="text-xs font-medium text-black/70">
                   Projects, skills, and experience
                 </p>
@@ -207,8 +216,8 @@ export default function Chatbot() {
         <motion.button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
+        whileHover={reduceMotion ? undefined : { scale: 1.06 }}
+        whileTap={reduceMotion ? undefined : { scale: 0.94 }}
         aria-label={isOpen ? "Close chatbot" : "Open chatbot"}
         className={`flex h-12 w-12 items-center justify-center rounded-2xl
                     shadow-lg transition-all duration-200 cursor-pointer
