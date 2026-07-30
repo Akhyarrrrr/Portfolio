@@ -173,8 +173,15 @@ export const featuredSkills = [
   "PostgreSQL", "Drizzle ORM", "Firebase", "Supabase", "Docker", "Vercel", "GitHub", "Figma", "Linux",
 ].map((s) => getTechMeta(s) ?? { label: s });
 
+// This list is the Skills-section showcase only — not the full catalog
+// (see techCatalog above, still used for per-project tech badges).
+// HTML5/CSS3 dropped: React/Next.js/Tailwind CSS already necessarily
+// demonstrate them, so listing them separately reads as too basic for
+// this level. They still work fine as a per-project tech badge if a
+// specific project's own tech list names them (e.g. a plain HTML/CSS
+// project with no framework) — only removed from this general showcase.
 export const techCategories = {
-  Frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "HTML5", "CSS3"],
+  Frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
   // Prisma and Drizzle ORM moved here from Database — they're ORMs (a
   // backend data-access layer), not databases themselves.
   Backend: ["Node.js", "Express.js", "NestJS", "Go", "Python", "PHP", "Laravel", "GraphQL", "REST API", "Prisma", "Drizzle ORM"],
