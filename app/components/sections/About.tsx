@@ -125,11 +125,16 @@ export default function About() {
 
         {/* Highlight cards */}
         <motion.div className="mb-16 grid gap-5 md:grid-cols-2" variants={container}>
-          {data.highlights.map((highlight) => {
+          {data.highlights.map((highlight, i) => {
             const Icon = highlight.icon;
             return (
               <motion.div
-                key={highlight.title}
+                // Index, not highlight.title — same class of bug as the
+                // stats row below: these titles happen to be identical
+                // in EN/ID right now, but keying on translated text is
+                // fragile the moment that changes. Array order is
+                // stable across languages.
+                key={i}
                 className="group rounded-2xl border border-white/8 bg-white/[0.03]
                            p-6 shadow-[0_4px_16px_rgba(0,0,0,0.15)]
                            transition-all duration-300
@@ -158,7 +163,16 @@ export default function About() {
         >
           {data.stats.map((stat, i) => (
             <motion.div
-              key={stat.label}
+              // Index, not stat.label — the label text differs between
+              // EN/ID for 2 of 3 stats ("Journals in Production" vs
+              // "Jurnal di Production"), so keying on it caused React to
+              // unmount+remount on every language switch. The remounted
+              // element then rendered at its animation's hidden state
+              // and never got told to animate in, since the parent's
+              // whileInView already fired once (once: true) — the stat
+              // was stuck invisible. The array order is stable across
+              // languages, so the index is a safe, stable identity here.
+              key={i}
               className={`flex flex-col items-center justify-center py-8 px-4
                           bg-white/[0.02] hover:bg-[#61DCA3]/5 transition-colors duration-300
                           ${i < data.stats.length - 1 ? "border-r border-white/8 last:border-r-0" : ""}`}
