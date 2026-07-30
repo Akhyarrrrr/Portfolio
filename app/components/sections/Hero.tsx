@@ -187,7 +187,7 @@ export default function Hero() {
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 28 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.25, duration: 0.7, ease: easeMajor }}
               className="max-lg:relative max-lg:-mt-24 max-lg:h-[530px] max-lg:w-full max-lg:max-w-[470px] max-lg:overflow-hidden max-lg:pt-22 max-lg:sm:-mt-28 max-lg:sm:h-[620px] max-lg:sm:max-w-[560px] max-lg:sm:pt-20 max-lg:md:-mt-24 max-lg:md:h-[700px] max-lg:md:max-w-[660px] max-lg:md:pt-24 lg:h-full lg:w-full"
             >
               {shouldMountLanyard ? (
