@@ -52,6 +52,9 @@ export const metadata: Metadata = {
   // screen). favicon.ico is kept as-is: it already works, no reason to
   // replace it with a generated equivalent.
   icons: { icon: "/favicon.ico", apple: "/apple-icon" },
+  verification: {
+    google: "YF_pXgxB-6KdItwpFEQPtU_CFXo1sGSWH-Y9qL4QeM8",
+  },
 };
 
 export default function RootLayout({
