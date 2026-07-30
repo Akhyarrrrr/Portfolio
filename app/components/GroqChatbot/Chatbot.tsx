@@ -135,7 +135,7 @@ export default function Chatbot() {
           >
             <div className="flex items-center justify-between border-b border-black/10 bg-[#61DCA3] px-4 py-3 text-black ">
               <div>
-                <h3 className="text-sm font-bold">Akhyar's Assistant</h3>
+                <h3 className="text-sm font-bold">Akhyar&apos;s Assistant</h3>
                 <p className="text-xs font-medium text-black/70">
                   Projects, skills, and experience
                 </p>
