@@ -181,11 +181,23 @@ export const featuredSkills = [
 // specific project's own tech list names them (e.g. a plain HTML/CSS
 // project with no framework) — only removed from this general showcase.
 export const techCategories = {
-  Frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+  // TensorFlow and face-api.js added — both genuinely shipped (Presence's
+  // face-recognition + liveness detection), and more distinctive than
+  // generic frontend entries.
+  Frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "TensorFlow", "face-api.js"],
   // Prisma and Drizzle ORM moved here from Database — they're ORMs (a
   // backend data-access layer), not databases themselves.
-  Backend: ["Node.js", "Express.js", "NestJS", "Go", "Python", "PHP", "Laravel", "GraphQL", "REST API", "Prisma", "Drizzle ORM"],
-  Database: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase", "Supabase"],
+  // NestJS, Go, and GraphQL removed — no shipped project or knowledge-base
+  // claim backs them; re-add once an actual project uses one.
+  // Groq AI added — powers this site's own chatbot and LacakKarirku's
+  // CV/job matching, both real shipped usage.
+  Backend: ["Node.js", "Express.js", "Python", "PHP", "Laravel", "REST API", "Prisma", "Drizzle ORM", "Groq AI"],
+  // Redis removed (no shipped project or knowledge-base claim). MongoDB
+  // and Linux kept per explicit confirmation — genuinely known, just not
+  // yet reflected in a shipped project.
+  // pgvector added — the vector-similarity search behind Presence's
+  // face-matching, a genuinely distinctive database skill.
+  Database: ["PostgreSQL", "MySQL", "MongoDB", "Firebase", "Supabase", "pgvector"],
   "DevOps & Tools": ["Docker", "Linux", "Git", "GitHub", "Vercel", "Railway", "Cloudinary", "Figma"],
   Mobile: ["React Native", "Expo", "Kotlin", "Java"],
 } as const;
