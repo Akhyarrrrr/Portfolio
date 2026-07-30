@@ -10,6 +10,7 @@
 }
 
 html {
+  position: relative;
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: #61DCA3 #0B0F15;

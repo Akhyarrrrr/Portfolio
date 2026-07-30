@@ -4,7 +4,7 @@ import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SplashScreen() {
-  // Always start visible for SSR — avoids hydration mismatch.
+  // Always start visible for SSR to avoid hydration mismatch.
   // useLayoutEffect below runs before paint and hides it if needed.
   const [visible, setVisible] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -20,10 +20,10 @@ export default function SplashScreen() {
       return;
     }
 
-    // First visit — show splash, then auto-hide
+    // First visit: show splash, then auto-hide.
     sessionStorage.setItem("splashShown", "1");
     // ponytail: sessionStorage write above guards against Strict Mode
-    // double-mount — the second invocation sees the key and hides immediately,
+    // double-mount. The second invocation sees the key and hides immediately,
     // both before paint, so user never sees a flash.
     timerRef.current = setTimeout(() => setVisible(false), 700);
 

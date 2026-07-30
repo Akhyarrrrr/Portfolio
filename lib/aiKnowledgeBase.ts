@@ -134,7 +134,7 @@ Portfolio: akhyar.dev`,
     about: `Akhyar adalah lulusan Computer Science dari Universitas Syiah Kuala (USK), Banda Aceh, Indonesia (IPK: 3.74/4.00, Cum Laude), dengan minat besar di web dan mobile development.
 Saat ini bekerja sebagai IT Staff & Web Administrator di LPPM USK, mengelola infrastruktur untuk platform publikasi akademik berskala besar.
 Dia berkontribusi di berbagai setting akademik, profesional, dan organisasi, mulai dari infrastruktur server hingga memimpin tim project dan departemen di organisasi mahasiswa.`,
-    role: `Bekerja secara profesional sejak Januari 2024 di berbagai peran — freelance, internship, mengajar, dan full-time — saat ini sebagai IT Staff & Web Administrator di LPPM USK sejak Agustus 2025.`,
+    role: `Bekerja secara profesional sejak Januari 2024 di berbagai peran: freelance, internship, mengajar, dan full-time. Saat ini sebagai IT Staff & Web Administrator di LPPM USK sejak Agustus 2025.`,
     currentRole: `IT Staff & Web Administrator di LPPM Universitas Syiah Kuala (Agu 2025 - Sekarang)
 - Menjadi orang IT andalan di kantor LPPM, menangani kebutuhan teknis harian seperti instalasi OS, setup akun di komputer baru, dan automasi kecil untuk data kantor
 - Memegang akses server penuh untuk publications.usk.ac.id, platform yang menghosting 90+ jurnal akademik aktif, mengelola provisioning jurnal, manajemen akun editor dan reviewer, maintenance database, dan theming front-end
