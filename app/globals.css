@@ -4,10 +4,27 @@
   --color-dark: #0B0F15;
   --color-accent: #61DCA3;
   --color-accent-hover: #4ecf96;
+  /* Warm variant for serif/personal moments (hero name, section headings,
+     pull quotes) — same hue family as --color-accent, shifted from 152°
+     (mint) toward 100° (yellow-green) so it reads as warmer without
+     leaving "green." Never used in functional UI; see the font-family
+     rule below for the matching typography constraint. */
+  --color-accent-warm: #8ED96B;
   --color-surface: rgba(255, 255, 255, 0.03);
   --color-border: rgba(255, 255, 255, 0.08);
   --font-family-sans: "Poppins", sans-serif;
+  --font-family-accent: "Fraunces", serif;
 }
+
+/* Radius convention (Tailwind's default scale already matches the spec's
+   8/12/16/24px scale — rounded-lg/xl/2xl/3xl respectively — so no new
+   radius tokens are needed, just a rule for which gets which):
+     rounded-lg  (8px)  — small inline controls: badges, pills, tags
+     rounded-xl  (12px) — buttons, inputs, small interactive surfaces
+     rounded-2xl (16px) — cards, panels
+     rounded-3xl (24px) — large hero containers, modals
+   Spacing convention: Tailwind's default scale (1=4px..24=96px) already
+   matches the spec's scale — use it directly, no arbitrary px values. */
 
 html {
   position: relative;
