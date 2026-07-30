@@ -6,7 +6,7 @@ import Background from "./components/layout/Background";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import SplashScreen from "./components/splash/SplashScreen";
-import type { ProjectType, ExperienceType } from "@/lib/firestoreCrud";
+import type { ProjectType, ExperienceType } from "@/lib/content";
 
 // SSR enabled for all of these (default for next/dynamic) so their
 // content — hero copy, project titles, experience entries — actually

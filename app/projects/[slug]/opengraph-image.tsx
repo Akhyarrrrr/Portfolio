@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getProjectBySlug } from "@/lib/firestoreServer";
+import { getProjectBySlug } from "@/lib/content";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -55,7 +55,7 @@ export default async function OpengraphImage({
         </div>
         {tech.length > 0 && (
           <div style={{ marginTop: 40, display: "flex", gap: 12 }}>
-            {tech.map((t) => (
+            {tech.map((t: string) => (
               <div
                 key={t}
                 style={{

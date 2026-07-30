@@ -24,11 +24,11 @@ const dict = {
       language: "Language",
     },
     hero: {
-      welcome: "Welcome to My Portfolio...",
+      welcome: "Portfolio of shipped systems",
       hey: "Hey, I'm",
       name: "Akhyar",
       tagline:
-        "Full-stack engineer building production systems end to end, from infrastructure to interface. I ship side projects that actually work, and I'm currently looking for the next team to build and ship with.",
+        "Full-stack engineer building reliable web systems from infrastructure to interface.",
       download_cv: "Download CV",
     },
     skills: {
@@ -38,11 +38,11 @@ const dict = {
     },
     experience: {
       heading: "My Journey Through <span>Code & Impact</span>",
-      sub: "A glimpse into my academic and professional growth, one line of code at a time.",
+      sub: "Roles, teaching, and production ownership that shaped how I build.",
     },
     project: {
       heading: "Snippets of My <span>Selected Works</span>",
-      sub: "A glimpse into my creations from interfaces to functionality crafted with code and intent.",
+      sub: "Selected products with real users, real constraints, and maintainable code.",
       filter_all: "All",
       filter_web: "Web",
       filter_mobile: "Mobile",
@@ -52,8 +52,8 @@ const dict = {
       noProjects: "No projects found in this category.",
     },
     contact: {
-      heading: "Let's Connect!",
-      sub: "Have a project, idea, or just want to say hi? Fill the form below and I'll get back to you soon!",
+      heading: "Let's Talk",
+      sub: "Send a short note about the role, project, or system you want to build.",
       name: "Your Name",
       email: "Your Email",
       message: "Your Message",
@@ -74,11 +74,11 @@ const dict = {
       language: "Bahasa",
     },
     hero: {
-      welcome: "Selamat datang di Portofolio Saya...",
+      welcome: "Portfolio sistem yang sudah shipped",
       hey: "Hai, saya",
       name: "Akhyar",
       tagline:
-        "Full-stack engineer yang membangun production systems dari infrastruktur sampai interface. Aku bikin side projects yang benar-benar kepakai, dan sekarang lagi cari tim selanjutnya untuk membangun dan merilis bersama.",
+        "Full-stack engineer yang membangun sistem web andal dari infrastruktur sampai interface.",
       download_cv: "Unduh CV",
     },
     skills: {
@@ -88,11 +88,11 @@ const dict = {
     },
     experience: {
       heading: "Perjalanan Saya Lewat <span>Code & Impact</span>",
-      sub: "Sekilas perkembangan akademik dan profesional, setapak demi setapak.",
+      sub: "Peran, mengajar, dan ownership produksi yang membentuk cara saya membangun.",
     },
     project: {
       heading: "Kumpulan <span>Karya Terpilih</span> Saya",
-      sub: "Sekilas karya saya, dari antarmuka hingga fungsionalitas yang dibuat dengan niat.",
+      sub: "Produk terpilih dengan pengguna nyata, constraint nyata, dan code yang bisa dirawat.",
       filter_all: "Semua",
       filter_web: "Web",
       filter_mobile: "Mobile",
@@ -102,8 +102,8 @@ const dict = {
       noProjects: "Tidak ada proyek di kategori ini.",
     },
     contact: {
-      heading: "Ayo Terhubung!",
-      sub: "Punya proyek, ide, atau sekadar sapa? Isi form di bawah, aku akan segera membalas!",
+      heading: "Mari Bicara",
+      sub: "Kirim catatan singkat tentang role, proyek, atau sistem yang ingin kamu bangun.",
       name: "Nama Anda",
       email: "Email Anda",
       message: "Pesan Anda",

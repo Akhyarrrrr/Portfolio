@@ -1,4 +1,4 @@
-import type { ProjectType } from "./firestoreCrud";
+import type { ProjectType } from "./content";
 
 const SITE_URL = "https://akhyar.dev";
 

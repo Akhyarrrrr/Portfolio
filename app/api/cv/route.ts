@@ -13,7 +13,11 @@ function pdfResponse(
   source: "github" | "local",
   reason?: string
 ) {
-  return new NextResponse(buffer, {
+  // ponytail: TS 5.7+'s stricter lib.dom ArrayBufferView types no longer
+  // accept Buffer (or a view over ArrayBufferLike) as BodyInit — copy into
+  // a fresh Uint8Array<ArrayBuffer>, which fetch's Response always accepts.
+  const body: Uint8Array<ArrayBuffer> = new Uint8Array(buffer);
+  return new NextResponse(body, {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
