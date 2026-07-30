@@ -12,27 +12,15 @@ import {
 } from "framer-motion";
 import { type ExperienceType } from "@/lib/content";
 import { RichText, useLanguage } from "@/context/LanguageProvider";
-
-const easeOut = [0.16, 1, 0.3, 1] as const;
-
-const headingVariants: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: easeOut },
-  },
-};
+import { fadeUpMajor } from "@/lib/motion";
 
 const rowVariants: Variants = {
-  hidden: { opacity: 0, y: 34 },
+  hidden: { opacity: 0 },
   visible: (index = 0) => ({
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.55,
+      duration: 0.2,
       delay: Math.min(index * 0.08, 0.32),
-      ease: easeOut,
     },
   }),
 };
@@ -45,7 +33,7 @@ function getLastYear(year: string) {
 function Logo({ exp }: { exp: ExperienceType }) {
   if (!exp.logo) {
     return (
-      <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#61DCA3]/40 bg-[#61DCA3]/10 text-sm font-bold text-[#61DCA3]">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#61DCA3]/40 bg-[#61DCA3]/10 text-sm font-semibold text-[#61DCA3]">
         {exp.company?.charAt(0) ?? "?"}
       </div>
     );
@@ -103,7 +91,7 @@ export default function Experience({
         initial={reduceMotion ? false : "hidden"}
         whileInView="visible"
         viewport={{ once: true, amount: 0.45 }}
-        variants={headingVariants}
+        variants={fadeUpMajor}
       >
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-4 py-1.5">
           <span className="h-1.5 w-1.5 rounded-full bg-[#61DCA3]" />
@@ -111,7 +99,7 @@ export default function Experience({
             {badge}
           </span>
         </div>
-        <h2 className="text-4xl font-extrabold tracking-tight text-white [&_span]:text-[#61DCA3]">
+        <h2 className="font-accent text-4xl font-medium tracking-tight text-white [&_span]:text-[#61DCA3]">
           <RichText i18nKey="experience.heading" />
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/50">
@@ -158,7 +146,7 @@ export default function Experience({
 
                 <div className={`flex flex-col gap-3 ${infoClass}`}>
                   <div>
-                    <h3 className="text-xl font-bold leading-tight text-white">
+                    <h3 className="text-xl font-semibold leading-tight text-white">
                       {exp.title}
                     </h3>
                     <p className="mt-1 text-sm font-medium text-[#61DCA3]">
@@ -172,7 +160,7 @@ export default function Experience({
                 </div>
 
                 <p
-                  className={`max-w-md rounded-xl border border-white/8 bg-white/[0.03] p-5 text-sm leading-relaxed text-white/60 transition-colors duration-300 hover:border-[#61DCA3]/25 hover:bg-[#61DCA3]/5 ${descClass}`}
+                  className={`max-w-md rounded-xl border border-white/8 bg-white/[0.03] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] text-sm leading-relaxed text-white/60 transition-all duration-300 hover:-translate-y-1 hover:border-[#61DCA3]/25 hover:bg-[#61DCA3]/5 hover:shadow-[0_12px_32px_rgba(97,220,163,0.08)] ${descClass}`}
                 >
                   {exp.description}
                 </p>

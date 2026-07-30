@@ -16,6 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageProvider";
 import type { ProjectType } from "@/lib/content";
+import { fadeUpMajor, fadeMicro } from "@/lib/motion";
 import {
   getTechDisplayLabel,
   getTechMeta,
@@ -23,11 +24,6 @@ import {
 } from "@/lib/tech-stack";
 
 // ── helpers ───────────────────────────────────────────────────
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
-};
 
 const fadeUpStagger: Variants = {
   hidden: { opacity: 0 },
@@ -93,14 +89,14 @@ function CaseStudySection({
       initial={reduceMotion ? false : "hidden"}
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
-      variants={fadeUp}
+      variants={fadeUpMajor}
       className={`mb-16 ${className}`}
     >
       <div className="flex items-start gap-4">
         {/* Left accent bar */}
         <div className="mt-1.5 h-6 w-1 shrink-0 rounded-full bg-gradient-to-b from-[#61DCA3] to-[#3dd68c]" />
         <div>
-          <h2 className="mb-4 text-2xl font-extrabold text-white tracking-tight md:text-3xl">
+          <h2 className="font-accent mb-4 text-2xl font-medium text-white tracking-tight md:text-3xl">
             {title}
           </h2>
           <div className="text-base leading-relaxed text-white/60">{children}</div>
@@ -199,7 +195,7 @@ export default function ProjectDetailClient({
           className="mb-16"
         >
           {/* Badge row */}
-          <motion.div variants={fadeUp} className="mb-4 flex flex-wrap items-center gap-3">
+          <motion.div variants={fadeMicro} className="mb-4 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-3 py-1 text-xs font-medium text-[#61DCA3]">
               {project.category === "mobile" ? (
                 <>
@@ -222,15 +218,15 @@ export default function ProjectDetailClient({
 
           {/* Title */}
           <motion.h1
-            variants={fadeUp}
-            className="mb-4 text-4xl font-extrabold tracking-tight text-white md:text-5xl"
+            variants={fadeUpMajor}
+            className="font-accent mb-4 text-4xl font-medium tracking-tight text-white md:text-5xl"
           >
             {titleLocal(project, lang)}
           </motion.h1>
 
           {/* Meta row */}
           <motion.div
-            variants={fadeUp}
+            variants={fadeMicro}
             className="mb-5 flex flex-wrap items-center gap-4 text-sm text-white/40"
           >
             {project.year && (
@@ -251,12 +247,12 @@ export default function ProjectDetailClient({
           </motion.div>
 
           {/* Tagline / short desc */}
-          <motion.p variants={fadeUp} className="mb-6 max-w-2xl text-lg leading-relaxed text-white/60">
+          <motion.p variants={fadeMicro} className="mb-6 max-w-2xl text-lg leading-relaxed text-white/60">
             {descLocal(project, lang)}
           </motion.p>
 
           {/* CTA buttons */}
-          <motion.div variants={fadeUp} className="mb-8 flex flex-wrap gap-3">
+          <motion.div variants={fadeMicro} className="mb-8 flex flex-wrap gap-3">
             {href && (
               <a
                 href={href}
@@ -280,14 +276,14 @@ export default function ProjectDetailClient({
           </motion.div>
 
           {/* Tech badges */}
-          <motion.div variants={fadeUp} className="mb-8 flex flex-wrap gap-2">
+          <motion.div variants={fadeMicro} className="mb-8 flex flex-wrap gap-2">
             {techList.map((tech, i) => (
               <TechBadge key={`${project.id}-hero-t-${i}`} tech={tech} />
             ))}
           </motion.div>
 
           {/* Hero image */}
-          <motion.div variants={fadeUp}>
+          <motion.div variants={fadeUpMajor}>
             <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/8 shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
               <Image
                 src={project.imageUrl}
@@ -320,7 +316,7 @@ export default function ProjectDetailClient({
               {features.map((feat, i) => (
                 <motion.li
                   key={i}
-                  variants={fadeUp}
+                  variants={fadeMicro}
                   className="flex items-start gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-4"
                 >
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#61DCA3]/20 text-xs text-[#61DCA3]">
@@ -339,7 +335,7 @@ export default function ProjectDetailClient({
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
+            variants={fadeUpMajor}
             className="mb-16"
           >
             <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
@@ -376,10 +372,10 @@ export default function ProjectDetailClient({
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
-            variants={fadeUp}
+            variants={fadeUpMajor}
             className="mt-20 border-t border-white/8 pt-16"
           >
-            <h2 className="mb-8 text-2xl font-extrabold text-white tracking-tight">
+            <h2 className="font-accent mb-8 text-2xl font-medium text-white tracking-tight">
               {t.related}
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -410,7 +406,7 @@ export default function ProjectDetailClient({
                   <Comp
                     key={rp.id}
                     {...linkProps}
-                    className="group rounded-2xl border border-white/8 bg-white/[0.02] p-5 transition hover:border-[#61DCA3]/30 hover:bg-white/[0.04]"
+                    className="group rounded-2xl border border-white/8 bg-white/[0.02] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#61DCA3]/30 hover:bg-white/[0.04] hover:shadow-[0_12px_32px_rgba(97,220,163,0.08)]"
                   >
                     <div className="relative mb-4 h-32 w-full overflow-hidden rounded-xl">
                       <Image
@@ -421,7 +417,7 @@ export default function ProjectDetailClient({
                         className="object-cover"
                       />
                     </div>
-                    <h3 className="mb-1 text-base font-bold text-white group-hover:text-[#61DCA3] transition-colors">
+                    <h3 className="mb-1 text-base font-semibold text-white group-hover:text-[#61DCA3] transition-colors">
                       {titleLocal(rp, lang)}
                     </h3>
                     <div className="flex items-center gap-1 text-xs text-white/40">

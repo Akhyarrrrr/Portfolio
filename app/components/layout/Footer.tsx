@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { easeMajor } from "@/lib/motion";
 
 const SOCIALS = [
   { href: "https://github.com/Akhyarrrrr", Icon: FaGithub, label: "GitHub" },
@@ -21,7 +22,7 @@ export default function Footer() {
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.45, ease: easeMajor }}
       >
         <div className="flex items-center gap-3">
           <span className="text-2xl font-extrabold tracking-tight text-white">Y.</span>

@@ -243,7 +243,7 @@ function LangItem({
       <div className="flex items-center gap-3">
         <span
           className="inline-flex h-6 w-6 items-center justify-center rounded-md
-                         border border-white/15 bg-white/5 text-[10px] font-bold"
+                         border border-white/15 bg-white/5 text-[10px] font-semibold"
         >
           {code}
         </span>

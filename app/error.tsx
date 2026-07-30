@@ -20,7 +20,7 @@ export default function Error({
           <span className="text-2xl">!</span>
         </div>
       </div>
-      <h1 className="text-2xl font-bold text-white">Something went wrong</h1>
+      <h1 className="text-2xl font-semibold text-white">Something went wrong</h1>
       <p className="max-w-md text-sm text-white/40">
         An unexpected error occurred. Please try again.
       </p>

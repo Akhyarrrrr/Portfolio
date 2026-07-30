@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Fraunces, Poppins } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageProvider";
 
@@ -7,8 +7,22 @@ const SITE_URL = "https://akhyar.dev";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  // Cut from 6 weights to 4 — fewer weights forces every remaining one
+  // to carry real hierarchy meaning instead of being interchangeable.
+  weight: ["400", "500", "600", "800"],
   variable: "--font-poppins",
+  display: "swap",
+});
+
+// Serif accent — hero name, section headings, pull quotes only (never
+// nav links, badges, buttons, or form labels; see Global Constraints).
+// Fraunces' optical-size axis keeps it warm and characterful at large
+// hero sizes without going illegible at smaller heading sizes.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
   display: "swap",
 });
 
@@ -62,7 +76,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${poppins.variable} font-sans antialiased`}>
+      <body className={`${poppins.variable} ${fraunces.variable} font-sans antialiased`}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-xl focus:bg-[#61DCA3] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-black focus:shadow-lg"

@@ -5,6 +5,7 @@ import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiDownload } from "react-icons/hi";
 import { useLanguage } from "@/context/LanguageProvider";
 import { motion, useReducedMotion } from "framer-motion";
+import { easeMajor } from "@/lib/motion";
 
 const Lanyard = dynamic(() => import("../Lanyard/Lanyard"), {
   ssr: false,
@@ -85,7 +86,7 @@ export default function Hero() {
               <motion.p
                 initial={reduceMotion ? false : { opacity: 0, x: 32 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.55, ease: easeMajor }}
                 className="max-w-fit border-l border-[#61DCA3]/60 pl-3 text-xs font-semibold text-[#61DCA3] sm:text-sm"
               >
                 {t("hero.welcome")}
@@ -95,18 +96,18 @@ export default function Hero() {
                 key={`hero-title-${lang}`}
                 initial={reduceMotion ? false : { opacity: 0, y: 36 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.12, duration: 0.7, ease: easeMajor }}
                 className="flex flex-col items-start gap-1 text-white"
               >
                 <span
                   key={`hey-${lang}`}
-                  className="text-4xl md:text-6xl font-bold text-start leading-tight"
+                  className="text-4xl md:text-6xl font-semibold text-start leading-tight"
                 >
                   {t("hero.hey")}
                 </span>
                 <span
                   key={`name-${lang}`}
-                  className="text-5xl md:text-7xl font-extrabold text-start text-[#61DCA3] leading-tight"
+                  className="font-accent text-5xl md:text-7xl font-medium italic text-start text-[#61DCA3] leading-tight"
                 >
                   {t("hero.name")}
                 </span>
@@ -116,7 +117,7 @@ export default function Hero() {
                 key={`hero-tagline-${lang}`}
                 initial={reduceMotion ? false : { opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.22, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.22, duration: 0.6, ease: easeMajor }}
                 className="text-base md:text-lg text-white/70 max-w-md leading-relaxed"
               >
                 {t("hero.tagline")}
@@ -186,7 +187,7 @@ export default function Hero() {
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 28 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.25, duration: 0.7, ease: easeMajor }}
               className="max-lg:relative max-lg:-mt-24 max-lg:h-[530px] max-lg:w-full max-lg:max-w-[470px] max-lg:overflow-hidden max-lg:pt-22 max-lg:sm:-mt-28 max-lg:sm:h-[620px] max-lg:sm:max-w-[560px] max-lg:sm:pt-20 max-lg:md:-mt-24 max-lg:md:h-[700px] max-lg:md:max-w-[660px] max-lg:md:pt-24 lg:h-full lg:w-full"
             >
               {shouldMountLanyard ? (

@@ -6,6 +6,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ExternalLink, GithubIcon, Pin } from "lucide-react";
 import { useLanguage, RichText } from "@/context/LanguageProvider";
 import type { ProjectType } from "@/lib/content";
+import { fadeUpMajor, fadeMicro } from "@/lib/motion";
 import {
   getFallbackTechIcon,
   getTechDisplayLabel,
@@ -31,11 +32,6 @@ const SkeletonCard = () => (
   </div>
 );
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 const projectGrid: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -44,16 +40,6 @@ const projectGrid: Variants = {
       delayChildren: 0.12,
       staggerChildren: 0.08,
     },
-  },
-};
-
-const projectCard: Variants = {
-  hidden: { opacity: 0, y: 28, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.45, ease: "easeOut" },
   },
 };
 
@@ -187,7 +173,7 @@ export default function Project({
           initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          variants={fadeUp}
+          variants={fadeUpMajor}
         >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-4 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#61DCA3]" />
@@ -195,7 +181,7 @@ export default function Project({
               {lang === "id" ? "Karya Saya" : "My Work"}
             </span>
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight text-white [&_span]:text-[#61DCA3]">
+          <h2 className="font-accent text-4xl font-medium tracking-tight text-white [&_span]:text-[#61DCA3]">
             <RichText i18nKey="project.heading" />
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-white/40">
@@ -247,7 +233,7 @@ export default function Project({
             Array.from({ length: itemsPerPage }).map((_, index) => (
               <motion.div
                 key={index}
-                variants={projectCard}
+                variants={fadeMicro}
                 className="flex h-[24rem] w-96 max-w-full items-center justify-center"
               >
                 <SkeletonCard />
@@ -296,7 +282,7 @@ export default function Project({
               return (
                 <motion.div
                   key={project.id}
-                  variants={projectCard}
+                  variants={fadeMicro}
                   className="flex justify-center"
                 >
                   <div className="group/card block h-[24rem] w-96 max-w-full [perspective:1000px]">
@@ -335,7 +321,7 @@ export default function Project({
                           )}
                         </div>
 
-                        <h3 className="mt-6 mb-1.5 line-clamp-1 text-base font-bold leading-6 text-slate-100">
+                        <h3 className="mt-6 mb-1.5 line-clamp-1 text-base font-semibold leading-6 text-slate-100">
                           {title}
                         </h3>
                         <p className="mb-3 line-clamp-2 text-xs leading-5 text-slate-500">

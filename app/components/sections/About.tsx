@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { Briefcase, Code2, Users, Zap } from "lucide-react";
 import { useLanguage } from "@/context/LanguageProvider";
+import { fadeUpMajor, fadeMicro } from "@/lib/motion";
 
 /* ─── i18n data ─────────────────────────────────────────────── */
 const aboutData = {
@@ -19,7 +20,7 @@ const aboutData = {
       { icon: Briefcase,title: "Production Ownership",    desc: "Hold full server access for a platform running 90+ academic journals, with hands-on experience in incident response, backups, monitoring, and zero-downtime migrations." },
     ],
     stats: [
-      { label: "Projects Shipped",     value: 10, suffix: "+" },
+      { label: "Projects Shipped",     value: 15, suffix: "+" },
       { label: "Journals in Production",value: 90, suffix: "+" },
       { label: "Zero-Downtime Migrations Led",value: 1, suffix: "" },
     ],
@@ -76,45 +77,51 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
 }
 
 /* ─── Framer variants ───────────────────────────────────────── */
+// Container still staggers its children's *entrance timing* — only the
+// per-child motion itself (now fadeMicro) got quieter.
 const container: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
-};
-const item: Variants = {
-  hidden:   { opacity: 0, y: 24 },
-  visible:  { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 /* ─── Component ─────────────────────────────────────────────── */
 export default function About() {
   const { lang } = useLanguage();
   const data = aboutData[lang];
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
       id="about"
       className="relative z-10 w-full bg-[#0B0F15] px-4 py-24 sm:px-6"
     >
-      <motion.div
-        className="mx-auto max-w-6xl"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={container}
-      >
+      <div className="mx-auto max-w-6xl">
         {/* Heading */}
-        <motion.div className="mb-16 text-center" variants={item}>
+        <motion.div
+          className="mb-16 text-center"
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUpMajor}
+        >
           <div className="inline-flex items-center gap-2 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-4 py-1.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#61DCA3]" />
             <span className="text-xs text-[#61DCA3] font-medium uppercase tracking-widest">{data.badge}</span>
           </div>
-          <h2 className="text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="font-accent text-4xl font-medium text-white tracking-tight">
             {data.heading}
           </h2>
           <p className="mt-4 text-white/50 max-w-xl mx-auto text-sm leading-relaxed">
             {data.intro}{" "}{data.mission}
           </p>
         </motion.div>
+
+        <motion.div
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={container}
+        >
 
         {/* Highlight cards */}
         <motion.div className="mb-16 grid gap-5 md:grid-cols-2" variants={container}>
@@ -124,10 +131,11 @@ export default function About() {
               <motion.div
                 key={highlight.title}
                 className="group rounded-2xl border border-white/8 bg-white/[0.03]
-                           p-6 transition-all duration-300
+                           p-6 shadow-[0_4px_16px_rgba(0,0,0,0.15)]
+                           transition-all duration-300
                            hover:border-[#61DCA3]/40 hover:bg-[#61DCA3]/5
-                           hover:shadow-[0_0_30px_rgba(97,220,163,0.06)]"
-                variants={item}
+                           hover:shadow-[0_12px_36px_rgba(97,220,163,0.1)]"
+                variants={fadeMicro}
                 whileHover={{ y: -4 }}
               >
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center
@@ -154,7 +162,7 @@ export default function About() {
               className={`flex flex-col items-center justify-center py-8 px-4
                           bg-white/[0.02] hover:bg-[#61DCA3]/5 transition-colors duration-300
                           ${i < data.stats.length - 1 ? "border-r border-white/8 last:border-r-0" : ""}`}
-              variants={item}
+              variants={fadeMicro}
             >
               <div className="text-3xl md:text-4xl font-extrabold text-[#61DCA3] tabular-nums">
                 <Counter target={stat.value} suffix={stat.suffix} />
@@ -165,7 +173,7 @@ export default function About() {
         </motion.div>
 
         {/* CTA */}
-        <motion.div className="text-center" variants={item}>
+        <motion.div className="text-center" variants={fadeMicro}>
           <p className="mb-6 text-white/50 text-sm">{data.cta}</p>
           <a
             href="#contact"
@@ -179,7 +187,8 @@ export default function About() {
             {data.ctaBtn}
           </a>
         </motion.div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }

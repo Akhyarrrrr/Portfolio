@@ -1,9 +1,10 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import ScrollVelocity from "../ScrollVelocity/ScrollVelocity";
 import { getTechsByCategory } from "@/lib/tech-stack";
 import { RichText, useLanguage } from "@/context/LanguageProvider";
+import { fadeUpMajor } from "@/lib/motion";
 
 function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
   return (
@@ -15,7 +16,7 @@ function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
     >
       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#61DCA3]/10 border border-[#61DCA3]/15 transition-colors group-hover:bg-[#61DCA3]/20">
         {icon ?? (
-          <span className="text-[10px] font-bold text-[#61DCA3]">
+          <span className="text-[10px] font-semibold text-[#61DCA3]">
             {name[0]}
           </span>
         )}
@@ -29,13 +30,9 @@ function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
 
 const categoryList = getTechsByCategory();
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 export default function SkillsTape() {
   const { t } = useLanguage();
+  const reduceMotion = useReducedMotion();
   return (
     <section
       className="relative z-10 bg-[#0B0F15] pt-28 overflow-hidden"
@@ -43,10 +40,10 @@ export default function SkillsTape() {
     >
       <div className="mx-auto mb-14 max-w-5xl px-4 sm:px-6 text-center">
         <motion.div
-          initial="hidden"
+          initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          variants={fadeUp}
+          variants={fadeUpMajor}
         >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-4 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#61DCA3]" />
@@ -54,7 +51,7 @@ export default function SkillsTape() {
               {t("skills.badge")}
             </span>
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight text-[#61DCA3]">
+          <h2 className="font-accent text-4xl font-medium tracking-tight text-[#61DCA3]">
             <RichText i18nKey="skills.heading" />
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-white/40">
