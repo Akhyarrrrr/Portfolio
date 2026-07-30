@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Akhyar | Full Stack Developer Portfolio",
     description:
-      "Full-stack engineer building production systems — 90+ academic journals, AI-powered attendance, and more. Built with Next.js.",
+      "Full-stack engineer building production systems with 90+ academic journals, AI-powered attendance, and more. Built with Next.js.",
     siteName: "Akhyar Portfolio",
     url: SITE_URL,
     images: [

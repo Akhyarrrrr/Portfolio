@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 import { Menu, X, Globe, Check } from "lucide-react";
 import { useLanguage } from "@/context/LanguageProvider";
 
@@ -20,13 +25,16 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
+  const { scrollY } = useScroll();
 
-  /* Detect scroll for subtle shadow upgrade */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    setScrolled(scrollY.get() > 20);
+  }, [scrollY]);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const next = latest > 20;
+    setScrolled((current) => (current === next ? current : next));
+  });
 
   /* Close lang popover on outside click */
   useEffect(() => {
@@ -99,7 +107,7 @@ export default function Navbar() {
 
         {/* Right: lang + burger */}
         <div className="flex items-center gap-2">
-          {/* Language selector — desktop */}
+          {/* Language selector, desktop */}
           <div className="relative hidden md:block" ref={menuRef}>
             <button
               onClick={() => setShowLang((v) => !v)}
@@ -148,7 +156,7 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Burger — mobile */}
+          {/* Burger, mobile */}
           <button
             className="md:hidden flex items-center justify-center w-9 h-9 rounded-xl
                        border border-white/10 bg-white/5 text-[#61DCA3]
