@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageProvider";
-import type { ProjectType } from "@/lib/firestoreCrud";
+import type { ProjectType } from "@/lib/content";
 import {
   getTechDisplayLabel,
   getTechMeta,

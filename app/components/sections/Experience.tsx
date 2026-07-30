@@ -10,7 +10,7 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { type ExperienceType } from "@/lib/firestoreCrud";
+import { type ExperienceType } from "@/lib/content";
 import { RichText, useLanguage } from "@/context/LanguageProvider";
 
 const easeOut = [0.16, 1, 0.3, 1] as const;

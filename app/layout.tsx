@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageProvider";
 
 const SITE_URL = "https://akhyar.dev";
@@ -64,9 +63,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <AuthProvider>
-          <LanguageProvider>{children}</LanguageProvider>
-        </AuthProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

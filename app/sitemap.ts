@@ -1,4 +1,4 @@
-import { getProjects } from "@/lib/firestoreServer";
+import { getProjects } from "@/lib/content";
 
 const BASE_URL = "https://akhyar.dev";
 

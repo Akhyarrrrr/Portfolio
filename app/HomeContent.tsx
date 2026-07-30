@@ -7,7 +7,7 @@ import Background from "./components/layout/Background";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import SplashScreen from "./components/splash/SplashScreen";
-import type { ProjectType, ExperienceType } from "@/lib/firestoreCrud";
+import type { ProjectType, ExperienceType } from "@/lib/content";
 
 // Dynamic sections stay client-only. Suspense prevents lazy-load promises
 // from bubbling to the route-level fallback.

@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import type { ProjectType } from "@/lib/firestoreCrud";
+import type { ProjectType } from "@/lib/content";
 import ProjectDetailClient from "@/app/projects/[slug]/ProjectDetailClient";
 
 type ProjectModalProps = {

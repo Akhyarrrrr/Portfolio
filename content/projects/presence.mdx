@@ -1,0 +1,88 @@
+---
+slug: presence
+title: Presence
+title_en: Presence
+title_id: Presence
+description: >-
+  A workforce attendance platform with a public face-recognition kiosk, liveness
+  checks, shift logic, admin dashboard, and PDF reports.
+desc_en: >-
+  A workforce attendance platform with a public face-recognition kiosk, liveness
+  checks, shift logic, admin dashboard, and PDF reports.
+desc_id: >-
+  Platform absensi tenaga kerja dengan kiosk face recognition publik, liveness
+  check, logika shift, dashboard admin, dan laporan PDF.
+category: web
+tech:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Supabase
+  - pgvector
+  - TensorFlow
+  - face-api.js
+  - Web Workers
+  - Recharts
+  - jsPDF
+  - Framer Motion
+  - Vercel
+href: 'https://presence-yar.vercel.app/'
+githubUrl: 'https://github.com/Akhyarrrrr/presence'
+liveUrl: 'https://presence-yar.vercel.app/'
+pinned: true
+order: 1
+problemStatement: >-
+  Attendance systems often stop at forms or QR codes, which can be shared
+  around. I wanted to test a more accountable flow where the check-in is tied to
+  a real face, a live person, and the employee's assigned shift.
+problemStatement_id: >-
+  Sistem absensi sering berhenti di form atau QR code yang mudah dibagikan. Saya
+  ingin menguji flow yang lebih akuntabel, di mana check-in terhubung ke wajah
+  asli, orang yang live di depan kamera, dan shift yang sudah ditentukan.
+solutionApproach: >-
+  I split the app into a public kiosk and an admin workspace. Face descriptors
+  are extracted in the browser, matched server-side through Supabase pgvector
+  RPCs, then written through protected server routes after liveness and shift
+  checks pass.
+solutionApproach_id: >-
+  Saya membagi aplikasi menjadi kiosk publik dan workspace admin. Face
+  descriptor diekstrak di browser, dicocokkan server-side lewat Supabase
+  pgvector RPC, lalu ditulis melalui protected server routes setelah liveness
+  dan pengecekan shift lolos.
+impact: >-
+  Presence shows that I can combine AI-in-the-browser, database security,
+  realtime dashboards, and reporting into one production-shaped system.
+impact_id: >-
+  Presence menunjukkan bahwa saya bisa menggabungkan AI di browser, keamanan
+  database, dashboard realtime, dan reporting ke dalam satu sistem yang terasa
+  production-ready.
+techRationale: >-
+  Next.js keeps kiosk, admin, and server routes in one codebase. Supabase gives
+  Auth, Postgres, Realtime, and pgvector; TensorFlow plus face-api.js handles
+  recognition without sending raw images to a third-party model.
+techRationale_id: >-
+  Next.js menyatukan kiosk, admin, dan server routes dalam satu codebase.
+  Supabase memberi Auth, Postgres, Realtime, dan pgvector; TensorFlow plus
+  face-api.js menangani recognition tanpa mengirim raw image ke model pihak
+  ketiga.
+keyFeatures:
+  - Public face-recognition kiosk
+  - Head-movement liveness check
+  - Server-side pgvector face matching
+  - Shift and schedule management
+  - Realtime attendance dashboard
+  - Monthly PDF report export
+year: '2026'
+duration: MVP + hardening
+role: Solo Full Stack Developer
+learnings: >-
+  I learned that face recognition is mostly an operations problem: calibration,
+  duplicate checks, security boundaries, and clear feedback matter as much as
+  the model itself.
+learnings_id: >-
+  Saya belajar bahwa face recognition lebih banyak menjadi masalah operasional:
+  kalibrasi, pengecekan duplikat, batas keamanan, dan feedback yang jelas sama
+  pentingnya dengan modelnya.
+imageUrl: /projects/presence.png
+---
+

@@ -1,4 +1,4 @@
-import type { ProjectType } from "./firestoreCrud";
+import type { ProjectType } from "./content";
 
 export function personSchema() {
   return {

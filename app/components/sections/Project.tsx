@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ExternalLink, GithubIcon, Pin } from "lucide-react";
 import { useLanguage, RichText } from "@/context/LanguageProvider";
-import type { ProjectType } from "@/lib/firestoreCrud";
+import type { ProjectType } from "@/lib/content";
 import {
   getFallbackTechIcon,
   getTechDisplayLabel,
