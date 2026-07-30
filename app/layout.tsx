@@ -7,9 +7,9 @@ const SITE_URL = "https://akhyar.dev";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  // Cut from 6 weights to 3 — fewer weights forces every remaining one
+  // Cut from 6 weights to 4 — fewer weights forces every remaining one
   // to carry real hierarchy meaning instead of being interchangeable.
-  weight: ["400", "600", "800"],
+  weight: ["400", "500", "600", "800"],
   variable: "--font-poppins",
   display: "swap",
 });

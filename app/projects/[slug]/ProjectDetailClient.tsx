@@ -195,7 +195,7 @@ export default function ProjectDetailClient({
           className="mb-16"
         >
           {/* Badge row */}
-          <motion.div variants={fadeUpMajor} className="mb-4 flex flex-wrap items-center gap-3">
+          <motion.div variants={fadeMicro} className="mb-4 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-3 py-1 text-xs font-medium text-[#61DCA3]">
               {project.category === "mobile" ? (
                 <>
@@ -226,7 +226,7 @@ export default function ProjectDetailClient({
 
           {/* Meta row */}
           <motion.div
-            variants={fadeUpMajor}
+            variants={fadeMicro}
             className="mb-5 flex flex-wrap items-center gap-4 text-sm text-white/40"
           >
             {project.year && (
@@ -247,12 +247,12 @@ export default function ProjectDetailClient({
           </motion.div>
 
           {/* Tagline / short desc */}
-          <motion.p variants={fadeUpMajor} className="mb-6 max-w-2xl text-lg leading-relaxed text-white/60">
+          <motion.p variants={fadeMicro} className="mb-6 max-w-2xl text-lg leading-relaxed text-white/60">
             {descLocal(project, lang)}
           </motion.p>
 
           {/* CTA buttons */}
-          <motion.div variants={fadeUpMajor} className="mb-8 flex flex-wrap gap-3">
+          <motion.div variants={fadeMicro} className="mb-8 flex flex-wrap gap-3">
             {href && (
               <a
                 href={href}
@@ -276,7 +276,7 @@ export default function ProjectDetailClient({
           </motion.div>
 
           {/* Tech badges */}
-          <motion.div variants={fadeUpMajor} className="mb-8 flex flex-wrap gap-2">
+          <motion.div variants={fadeMicro} className="mb-8 flex flex-wrap gap-2">
             {techList.map((tech, i) => (
               <TechBadge key={`${project.id}-hero-t-${i}`} tech={tech} />
             ))}
@@ -375,7 +375,7 @@ export default function ProjectDetailClient({
             variants={fadeUpMajor}
             className="mt-20 border-t border-white/8 pt-16"
           >
-            <h2 className="mb-8 text-2xl font-extrabold text-white tracking-tight">
+            <h2 className="font-accent mb-8 text-2xl font-medium text-white tracking-tight">
               {t.related}
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
