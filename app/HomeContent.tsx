@@ -2,27 +2,28 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-import LazyMount from "./components/common/LazyMount";
 import Background from "./components/layout/Background";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import SplashScreen from "./components/splash/SplashScreen";
-import type { ProjectType, ExperienceType } from "@/lib/firestoreCrud";
+import type { ProjectType, ExperienceType } from "@/lib/content";
 
-// All dynamic imports use ssr:false — sections are inside LazyMount
-// so they never need SSR. Each is wrapped in <Suspense> below to
-// prevent lazy-load promises from bubbling to the route-level Suspense
-// (which would show loading.tsx over the entire page — looks like a reload).
-const Hero = dynamic(() => import("./components/sections/Hero"), { ssr: false });
-const About = dynamic(() => import("./components/sections/About"), { ssr: false });
-const Experience = dynamic(() => import("./components/sections/Experience"), { ssr: false });
-const Tape = dynamic(() => import("./components/sections/Tape"), { ssr: false });
-const Project = dynamic(() => import("./components/sections/Project"), { ssr: false });
-const Skills = dynamic(() => import("./components/sections/Skills"), { ssr: false });
-const Contact = dynamic(() => import("./components/sections/Contact"), { ssr: false });
-const ScrollToTop = dynamic(() => import("./components/layout/ScrollToTop"), { ssr: false });
-const Chatbot = dynamic(() => import("./components/GroqChatbot/Chatbot"), { ssr: false });
-const ProjectModal = dynamic(() => import("./components/projects/ProjectModal"), { ssr: false });
+// SSR enabled for all of these (default for next/dynamic) so their
+// content — hero copy, project titles, experience entries — actually
+// exists in the HTML Google/social crawlers receive. Still code-split
+// into separate chunks via dynamic() for initial-JS savings; only
+// Lanyard (nested inside Hero, WebGL/three.js) stays ssr:false since it
+// cannot render server-side at all.
+const Hero = dynamic(() => import("./components/sections/Hero"));
+const About = dynamic(() => import("./components/sections/About"));
+const Experience = dynamic(() => import("./components/sections/Experience"));
+const Tape = dynamic(() => import("./components/sections/Tape"));
+const Project = dynamic(() => import("./components/sections/Project"));
+const Skills = dynamic(() => import("./components/sections/Skills"));
+const Contact = dynamic(() => import("./components/sections/Contact"));
+const ScrollToTop = dynamic(() => import("./components/layout/ScrollToTop"));
+const Chatbot = dynamic(() => import("./components/GroqChatbot/Chatbot"));
+const ProjectModal = dynamic(() => import("./components/projects/ProjectModal"));
 
 type HomeContentProps = {
   projects: ProjectType[];
@@ -82,36 +83,24 @@ export default function HomeContent({ projects, experiences }: HomeContentProps)
           <Suspense fallback={null}>
             <Hero />
           </Suspense>
-          <LazyMount id="about" minHeight={920}>
-            <Suspense fallback={null}>
-              <About />
-            </Suspense>
-          </LazyMount>
-          <LazyMount id="experience" minHeight={980}>
-            <Suspense fallback={null}>
-              <Experience experiences={experiences} />
-            </Suspense>
-          </LazyMount>
-          <LazyMount minHeight={180}>
-            <Suspense fallback={null}>
-              <Tape />
-            </Suspense>
-          </LazyMount>
-          <LazyMount id="project" minHeight={1180}>
-            <Suspense fallback={null}>
-              <Project projects={projects} onSelectProject={handleSelectProject} />
-            </Suspense>
-          </LazyMount>
-          <LazyMount id="skills" minHeight={720}>
-            <Suspense fallback={null}>
-              <Skills />
-            </Suspense>
-          </LazyMount>
-          <LazyMount id="contact" minHeight={880}>
-            <Suspense fallback={null}>
-              <Contact />
-            </Suspense>
-          </LazyMount>
+          <Suspense fallback={null}>
+            <About />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Experience experiences={experiences} />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Tape />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Project projects={projects} onSelectProject={handleSelectProject} />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Skills />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Contact />
+          </Suspense>
         </main>
         <Footer />
       </div>

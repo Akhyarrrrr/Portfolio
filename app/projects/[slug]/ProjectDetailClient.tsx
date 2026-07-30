@@ -1,10 +1,21 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-import { ArrowLeft, ExternalLink, Github, Globe, Calendar, Clock, UserCheck } from "lucide-react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import {
+  ArrowLeft,
+  Calendar,
+  Check,
+  Clock,
+  ExternalLink,
+  Github,
+  Globe,
+  MonitorSmartphone,
+  UserCheck,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageProvider";
-import type { ProjectType } from "@/lib/firestoreCrud";
+import type { ProjectType } from "@/lib/content";
 import {
   getTechDisplayLabel,
   getTechMeta,
@@ -75,9 +86,11 @@ function CaseStudySection({
   children: React.ReactNode;
   className?: string;
 }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.section
-      initial="hidden"
+      initial={reduceMotion ? false : "hidden"}
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
       variants={fadeUp}
@@ -112,6 +125,7 @@ export default function ProjectDetailClient({
 }) {
   const { lang } = useLanguage();
   const isId = lang === "id";
+  const reduceMotion = useReducedMotion();
 
   const t = {
     back: isId ? "Kembali ke Portfolio" : "Back to Portfolio",
@@ -143,7 +157,7 @@ export default function ProjectDetailClient({
   const githubHref = getGithubHref(project);
 
   return (
-    <div className="relative min-h-screen bg-[#0B0F15]">
+    <div className="relative min-h-[100dvh] bg-[#0B0F15]">
       {/* Ambient glow */}
       <div
         aria-hidden
@@ -153,7 +167,7 @@ export default function ProjectDetailClient({
       <div className="relative z-10 mx-auto max-w-4xl px-4 py-28 sm:px-6 lg:py-32">
         {/* Back link */}
         <motion.div
-          initial={{ opacity: 0, x: -12 }}
+          initial={reduceMotion ? false : { opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3 }}
         >
@@ -179,7 +193,7 @@ export default function ProjectDetailClient({
 
         {/* ── Hero ────────────────────────────────────────────── */}
         <motion.div
-          initial="hidden"
+          initial={reduceMotion ? false : "hidden"}
           animate="visible"
           variants={fadeUpStagger}
           className="mb-16"
@@ -187,7 +201,17 @@ export default function ProjectDetailClient({
           {/* Badge row */}
           <motion.div variants={fadeUp} className="mb-4 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/10 px-3 py-1 text-xs font-medium text-[#61DCA3]">
-              {project.category === "mobile" ? "📱 Mobile" : "🌐 Web"}
+              {project.category === "mobile" ? (
+                <>
+                  <MonitorSmartphone size={14} />
+                  Mobile
+                </>
+              ) : (
+                <>
+                  <Globe size={14} />
+                  Web
+                </>
+              )}
             </span>
             {project.pinned && (
               <span className="inline-flex items-center gap-1 rounded-full border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-xs font-medium text-yellow-400">
@@ -264,13 +288,14 @@ export default function ProjectDetailClient({
 
           {/* Hero image */}
           <motion.div variants={fadeUp}>
-            <div className="overflow-hidden rounded-2xl border border-white/8 shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/8 shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
+              <Image
                 src={project.imageUrl}
                 alt={titleLocal(project, lang)}
-                className="w-full object-cover"
-                loading="eager"
+                fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+                priority
               />
             </div>
           </motion.div>
@@ -286,7 +311,7 @@ export default function ProjectDetailClient({
         {features && features.length > 0 && (
           <CaseStudySection title={t.features}>
             <motion.ul
-              initial="hidden"
+              initial={reduceMotion ? false : "hidden"}
               whileInView="visible"
               viewport={{ once: true, margin: "-40px" }}
               variants={fadeUpStagger}
@@ -299,7 +324,7 @@ export default function ProjectDetailClient({
                   className="flex items-start gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-4"
                 >
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#61DCA3]/20 text-xs text-[#61DCA3]">
-                    ✓
+                    <Check size={13} />
                   </span>
                   <span className="text-sm text-white/70">{feat}</span>
                 </motion.li>
@@ -311,7 +336,7 @@ export default function ProjectDetailClient({
         {/* ── Screenshot gallery ──────────────────────────────── */}
         {screenshots && screenshots.length > 0 && (
           <motion.section
-            initial="hidden"
+            initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
@@ -321,10 +346,15 @@ export default function ProjectDetailClient({
               {screenshots.map((url, i) => (
                 <div
                   key={i}
-                  className="w-[85vw] max-w-md shrink-0 snap-center overflow-hidden rounded-xl border border-white/8 shadow-lg sm:w-72"
+                  className="relative aspect-video w-[85vw] max-w-md shrink-0 snap-center overflow-hidden rounded-xl border border-white/8 shadow-lg sm:w-72"
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url} alt={`Screenshot ${i + 1}`} className="w-full object-cover" loading="lazy" />
+                  <Image
+                    src={url}
+                    alt={`Screenshot ${i + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 85vw, 288px"
+                    className="object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -343,7 +373,7 @@ export default function ProjectDetailClient({
         {/* ── Related Projects ────────────────────────────────── */}
         {relatedProjects.length > 0 && (
           <motion.section
-            initial="hidden"
+            initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeUp}
@@ -382,13 +412,15 @@ export default function ProjectDetailClient({
                     {...linkProps}
                     className="group rounded-2xl border border-white/8 bg-white/[0.02] p-5 transition hover:border-[#61DCA3]/30 hover:bg-white/[0.04]"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={rp.imageUrl}
-                      alt={rp.title_en || rp.title || ""}
-                      className="mb-4 h-32 w-full rounded-xl object-cover"
-                      loading="lazy"
-                    />
+                    <div className="relative mb-4 h-32 w-full overflow-hidden rounded-xl">
+                      <Image
+                        src={rp.imageUrl}
+                        alt={rp.title_en || rp.title || ""}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover"
+                      />
+                    </div>
                     <h3 className="mb-1 text-base font-bold text-white group-hover:text-[#61DCA3] transition-colors">
                       {titleLocal(rp, lang)}
                     </h3>

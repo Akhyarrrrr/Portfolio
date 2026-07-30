@@ -1,4 +1,5 @@
 import { getKnowledgeContext, type KnowledgeLanguage } from "@/lib/aiKnowledgeBase";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import Groq from "groq-sdk";
 
 type ChatMessage = {
@@ -29,6 +30,14 @@ function normalizeLanguage(lang: unknown): KnowledgeLanguage {
 }
 
 export async function POST(req: Request) {
+  const ip = getClientIp(req);
+  if (!checkRateLimit(`chatbot:${ip}`, { limit: 15, windowMs: 5 * 60 * 1000 })) {
+    return Response.json(
+      { message: "Too many requests. Please slow down." },
+      { status: 429 },
+    );
+  }
+
   const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey) {

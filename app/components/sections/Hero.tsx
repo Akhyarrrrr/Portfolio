@@ -1,24 +1,72 @@
 "use client";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { HiChevronDown, HiDownload } from "react-icons/hi";
+import { HiDownload } from "react-icons/hi";
 import { useLanguage } from "@/context/LanguageProvider";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const Lanyard = dynamic(() => import("../Lanyard/Lanyard"), {
   ssr: false,
-  loading: () => (
-    <div className="h-full w-full animate-pulse rounded-2xl bg-white/5" />
-  ),
+  loading: () => <LanyardPoster />,
 });
+
+// ponytail: a real captured screenshot of the rendered card would read
+// nicer than a gradient placeholder — deferred to the UI pass (Fase 6),
+// since it needs a design decision (what angle/lighting), not just code.
+function LanyardPoster() {
+  return (
+    <div
+      aria-hidden
+      className="h-full w-full rounded-2xl bg-[radial-gradient(circle_at_50%_40%,rgba(97,220,163,0.16),transparent_60%)]"
+    />
+  );
+}
+
+// Desktop only, and only once the browser has idle time — the Rapier
+// physics + Three.js WebGL scene is the single heaviest thing on this
+// page (see Fase 0 Lighthouse baseline: it kept the tab from ever
+// reaching a CPU-idle window at all). Mobile and reduced-motion users
+// get the static poster and never pay that cost.
+function useShouldMountLanyard() {
+  const [shouldMount, setShouldMount] = useState(false);
+
+  useEffect(() => {
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (!isDesktop || prefersReducedMotion) return;
+
+    const win = window as typeof window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (win.requestIdleCallback) {
+      const handle = win.requestIdleCallback(() => setShouldMount(true), {
+        timeout: 2000,
+      });
+      return () => win.cancelIdleCallback?.(handle);
+    }
+
+    // Safari has no requestIdleCallback — a short timeout approximates it.
+    const timer = setTimeout(() => setShouldMount(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return shouldMount;
+}
 
 export default function Hero() {
   const { t, lang } = useLanguage();
+  const shouldMountLanyard = useShouldMountLanyard();
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
       id="hero"
-      className="relative w-full min-h-[100svh] overflow-hidden"
+      className="relative min-h-[100dvh] w-full overflow-hidden"
     >
       <div
         aria-hidden
@@ -29,33 +77,25 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#0B0F15] via-[#0B0F15]/92 to-transparent sm:h-32"
       />
 
-      <div className="mx-auto h-full min-h-[100svh] max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid min-h-[100svh] grid-cols-1 gap-3 pb-8 pt-24 sm:gap-4 sm:pb-10 sm:pt-28 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-0">
+      <div className="mx-auto h-full min-h-[100dvh] max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid min-h-[100dvh] grid-cols-1 gap-3 pb-8 pt-24 sm:gap-4 sm:pb-10 sm:pt-28 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-0">
           {/* Text content */}
           <div className="relative z-40 flex items-center lg:col-span-5">
             <div className="flex w-full max-w-[34rem] flex-col gap-5 sm:gap-6 lg:pl-4 lg:pr-4 xl:pl-8">
-              <motion.div
-                initial={{ opacity: 0, x: 80 }}
+              <motion.p
+                initial={reduceMotion ? false : { opacity: 0, x: 32 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.65, ease: "easeOut" }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-fit border-l border-[#61DCA3]/60 pl-3 text-xs font-semibold text-[#61DCA3] sm:text-sm"
               >
-                <div
-                  className="inline-flex max-w-full items-center gap-2 rounded-full
-                                border border-[#61DCA3]/30 bg-[#61DCA3]/10
-                                px-3 py-1.5 sm:px-4 w-fit"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#61DCA3] animate-pulse sm:h-2 sm:w-2" />
-                  <span className="max-w-[11.5rem] truncate text-[11px] font-medium text-[#61DCA3] sm:max-w-none sm:text-sm">
-                    {t("hero.welcome")}
-                  </span>
-                </div>
-              </motion.div>
+                {t("hero.welcome")}
+              </motion.p>
 
               <motion.h1
                 key={`hero-title-${lang}`}
-                initial={{ opacity: 0, y: 36 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 36 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.12, duration: 0.7, ease: "easeOut" }}
+                transition={{ delay: 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col items-start gap-1 text-white"
               >
                 <span
@@ -74,9 +114,9 @@ export default function Hero() {
 
               <motion.p
                 key={`hero-tagline-${lang}`}
-                initial={{ opacity: 0, y: 18 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.22, duration: 0.6, ease: "easeOut" }}
+                transition={{ delay: 0.22, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="text-base md:text-lg text-white/70 max-w-md leading-relaxed"
               >
                 {t("hero.tagline")}
@@ -144,47 +184,21 @@ export default function Hero() {
           {/* Lanyard: grid child on mobile, full-section absolute overlay on desktop */}
           <div className="max-lg:relative max-lg:col-span-7 max-lg:flex max-lg:justify-center lg:absolute lg:inset-0 lg:z-30 lg:mt-6">
             <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 28 }}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 28 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.7, ease: "easeOut" }}
+              transition={{ delay: 0.25, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="max-lg:relative max-lg:-mt-24 max-lg:h-[530px] max-lg:w-full max-lg:max-w-[470px] max-lg:overflow-hidden max-lg:pt-22 max-lg:sm:-mt-28 max-lg:sm:h-[620px] max-lg:sm:max-w-[560px] max-lg:sm:pt-20 max-lg:md:-mt-24 max-lg:md:h-[700px] max-lg:md:max-w-[660px] max-lg:md:pt-24 lg:h-full lg:w-full"
             >
-              <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
+              {shouldMountLanyard ? (
+                <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
+              ) : (
+                <LanyardPoster />
+              )}
             </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.button
-        onClick={() =>
-          document
-            .getElementById("about")
-            ?.scrollIntoView({ behavior: "smooth" })
-        }
-        aria-label={lang === "id" ? "Gulir ke bawah" : "Scroll down"}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.4 }}
-        className="group absolute left-1/2 -translate-x-1/2 bottom-8 z-50
-                   hidden lg:flex flex-col items-center gap-1
-                   cursor-pointer"
-      >
-        <span className="text-[10px] font-medium text-white/50 uppercase tracking-widest">
-          scroll
-        </span>
-        <motion.div
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-          className="flex h-9 w-9 items-center justify-center rounded-full
-                     border border-white/10 bg-white/5 backdrop-blur-md
-                     text-[#61DCA3]
-                     group-hover:border-[#61DCA3]/40 group-hover:bg-[#61DCA3]/10
-                     transition-all duration-200"
-        >
-          <HiChevronDown className="h-4 w-4" />
-        </motion.div>
-      </motion.button>
     </section>
   );
 }
