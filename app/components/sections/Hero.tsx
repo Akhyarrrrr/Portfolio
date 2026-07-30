@@ -100,7 +100,7 @@ export default function Hero() {
               >
                 <span
                   key={`hey-${lang}`}
-                  className="text-4xl md:text-6xl font-bold text-start leading-tight"
+                  className="text-4xl md:text-6xl font-semibold text-start leading-tight"
                 >
                   {t("hero.hey")}
                 </span>

@@ -45,7 +45,7 @@ function getLastYear(year: string) {
 function Logo({ exp }: { exp: ExperienceType }) {
   if (!exp.logo) {
     return (
-      <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#61DCA3]/40 bg-[#61DCA3]/10 text-sm font-bold text-[#61DCA3]">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#61DCA3]/40 bg-[#61DCA3]/10 text-sm font-semibold text-[#61DCA3]">
         {exp.company?.charAt(0) ?? "?"}
       </div>
     );
@@ -158,7 +158,7 @@ export default function Experience({
 
                 <div className={`flex flex-col gap-3 ${infoClass}`}>
                   <div>
-                    <h3 className="text-xl font-bold leading-tight text-white">
+                    <h3 className="text-xl font-semibold leading-tight text-white">
                       {exp.title}
                     </h3>
                     <p className="mt-1 text-sm font-medium text-[#61DCA3]">

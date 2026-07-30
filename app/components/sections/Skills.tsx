@@ -15,7 +15,7 @@ function SkillBadge({ name, icon }: { name: string; icon: React.ReactNode }) {
     >
       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#61DCA3]/10 border border-[#61DCA3]/15 transition-colors group-hover:bg-[#61DCA3]/20">
         {icon ?? (
-          <span className="text-[10px] font-bold text-[#61DCA3]">
+          <span className="text-[10px] font-semibold text-[#61DCA3]">
             {name[0]}
           </span>
         )}

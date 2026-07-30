@@ -421,7 +421,7 @@ export default function ProjectDetailClient({
                         className="object-cover"
                       />
                     </div>
-                    <h3 className="mb-1 text-base font-bold text-white group-hover:text-[#61DCA3] transition-colors">
+                    <h3 className="mb-1 text-base font-semibold text-white group-hover:text-[#61DCA3] transition-colors">
                       {titleLocal(rp, lang)}
                     </h3>
                     <div className="flex items-center gap-1 text-xs text-white/40">

@@ -123,7 +123,7 @@ function VelocityText({
       style={parallaxStyle}
     >
       <motion.div
-        className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-bold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[3rem]`}
+        className={`${scrollerClassName} flex whitespace-nowrap text-center font-sans text-4xl font-semibold tracking-[-0.02em] drop-shadow md:text-[5rem] md:leading-[3rem]`}
         style={{ x, ...scrollerStyle }}
       >
         {Array.from({ length: numCopies }, (_, index) => (

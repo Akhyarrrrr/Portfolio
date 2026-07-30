@@ -335,7 +335,7 @@ export default function Project({
                           )}
                         </div>
 
-                        <h3 className="mt-6 mb-1.5 line-clamp-1 text-base font-bold leading-6 text-slate-100">
+                        <h3 className="mt-6 mb-1.5 line-clamp-1 text-base font-semibold leading-6 text-slate-100">
                           {title}
                         </h3>
                         <p className="mb-3 line-clamp-2 text-xs leading-5 text-slate-500">
