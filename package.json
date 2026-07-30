@@ -6,32 +6,35 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "eslint . && tsc --noEmit"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.14.4",
-    "@react-three/drei": "^10.6.1",
-    "@react-three/fiber": "^9.3.0",
-    "@react-three/rapier": "^2.1.0",
-    "framer-motion": "^12.23.11",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/rapier": "^2.2.0",
+    "framer-motion": "^12.42.2",
     "gray-matter": "^4.0.3",
-    "groq-sdk": "^1.2.1",
+    "groq-sdk": "^1.4.0",
     "lucide-react": "^0.533.0",
     "meshline": "^3.3.1",
-    "next": "^16.1.6",
-    "nodemailer": "^7.0.5",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "react-icons": "^5.5.0",
-    "three": "^0.167.1"
+    "next": "^16.2.12",
+    "nodemailer": "^7.0.13",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-icons": "^5.7.0",
+    "three": "^0.185.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/nodemailer": "^6.4.17",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@eslint/eslintrc": "^3.3.6",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^20.19.43",
+    "@types/nodemailer": "^6.4.24",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.2.12",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
   }
 }

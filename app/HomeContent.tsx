@@ -9,10 +9,8 @@ import Navbar from "./components/layout/Navbar";
 import SplashScreen from "./components/splash/SplashScreen";
 import type { ProjectType, ExperienceType } from "@/lib/content";
 
-// All dynamic imports use ssr:false — sections are inside LazyMount
-// so they never need SSR. Each is wrapped in <Suspense> below to
-// prevent lazy-load promises from bubbling to the route-level Suspense
-// (which would show loading.tsx over the entire page — looks like a reload).
+// Dynamic sections stay client-only. Suspense prevents lazy-load promises
+// from bubbling to the route-level fallback.
 const Hero = dynamic(() => import("./components/sections/Hero"), { ssr: false });
 const About = dynamic(() => import("./components/sections/About"), { ssr: false });
 const Experience = dynamic(() => import("./components/sections/Experience"), { ssr: false });
@@ -87,11 +85,9 @@ export default function HomeContent({ projects, experiences }: HomeContentProps)
               <About />
             </Suspense>
           </LazyMount>
-          <LazyMount id="experience" minHeight={980}>
-            <Suspense fallback={null}>
-              <Experience experiences={experiences} />
-            </Suspense>
-          </LazyMount>
+          <Suspense fallback={null}>
+            <Experience experiences={experiences} />
+          </Suspense>
           <LazyMount minHeight={180}>
             <Suspense fallback={null}>
               <Tape />
