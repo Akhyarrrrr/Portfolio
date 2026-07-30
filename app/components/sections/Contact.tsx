@@ -6,21 +6,10 @@ import {
   AnimatePresence,
   motion,
   useReducedMotion,
-  type Variants,
 } from "framer-motion";
 import { AlertCircle, CheckCircle, Send } from "lucide-react";
 import { useLanguage } from "@/context/LanguageProvider";
-
-const easeOut = [0.16, 1, 0.3, 1] as const;
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: easeOut },
-  },
-};
+import { fadeUpMajor } from "@/lib/motion";
 
 function Field({
   id,
@@ -96,9 +85,9 @@ export default function Contact() {
           initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, amount: 0.42 }}
-          variants={fadeUp}
+          variants={fadeUpMajor}
         >
-          <h2 className="text-4xl font-extrabold tracking-tight text-white">
+          <h2 className="font-accent text-4xl font-medium tracking-tight text-white">
             {t("contact.heading")}
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/45">
@@ -111,7 +100,7 @@ export default function Contact() {
           initial={reduceMotion ? false : "hidden"}
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          variants={fadeUp}
+          variants={fadeUpMajor}
         >
           <div className="grid items-center gap-10 md:grid-cols-[0.8fr_1.2fr]">
             <div className="flex justify-center">
