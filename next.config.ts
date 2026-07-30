@@ -10,6 +10,22 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // ponytail: Content-Security-Policy deliberately left out here —
+        // it needs the final SSR/script inventory from the SEO phase
+        // (next/script usage, inline styles from framer-motion, WASM for
+        // Rapier physics) to avoid shipping a policy that breaks the site.
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), payment=()",
+          },
+        ],
+      },
+      {
         source: "/assets/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },

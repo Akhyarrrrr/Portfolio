@@ -64,6 +64,7 @@ export default function Contact() {
           from_name: formData.get("from_name"),
           from_email: formData.get("from_email"),
           message: formData.get("message"),
+          company: formData.get("company"),
         }),
       });
 
@@ -129,6 +130,18 @@ export default function Contact() {
               className="grid gap-4"
               onSubmit={sendEmail}
             >
+              {/* Honeypot — hidden from real users, bots that auto-fill every
+                  field trip it. aria-hidden + tabIndex keep it out of the a11y
+                  tree and tab order. */}
+              <input
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute left-[-9999px] h-0 w-0 opacity-0"
+              />
+
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field id="from_name" label={t("contact.name")}>
                   <input
