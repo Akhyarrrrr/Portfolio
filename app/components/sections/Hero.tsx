@@ -5,6 +5,7 @@ import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { HiDownload } from "react-icons/hi";
 import { useLanguage } from "@/context/LanguageProvider";
 import { motion, useReducedMotion } from "framer-motion";
+import { easeMajor } from "@/lib/motion";
 
 const Lanyard = dynamic(() => import("../Lanyard/Lanyard"), {
   ssr: false,
@@ -85,7 +86,7 @@ export default function Hero() {
               <motion.p
                 initial={reduceMotion ? false : { opacity: 0, x: 32 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.55, ease: easeMajor }}
                 className="max-w-fit border-l border-[#61DCA3]/60 pl-3 text-xs font-semibold text-[#61DCA3] sm:text-sm"
               >
                 {t("hero.welcome")}
@@ -95,7 +96,7 @@ export default function Hero() {
                 key={`hero-title-${lang}`}
                 initial={reduceMotion ? false : { opacity: 0, y: 36 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.12, duration: 0.7, ease: easeMajor }}
                 className="flex flex-col items-start gap-1 text-white"
               >
                 <span
@@ -106,7 +107,7 @@ export default function Hero() {
                 </span>
                 <span
                   key={`name-${lang}`}
-                  className="text-5xl md:text-7xl font-extrabold text-start text-[#61DCA3] leading-tight"
+                  className="font-accent text-5xl md:text-7xl font-medium italic text-start text-[#61DCA3] leading-tight"
                 >
                   {t("hero.name")}
                 </span>
@@ -116,7 +117,7 @@ export default function Hero() {
                 key={`hero-tagline-${lang}`}
                 initial={reduceMotion ? false : { opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.22, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: 0.22, duration: 0.6, ease: easeMajor }}
                 className="text-base md:text-lg text-white/70 max-w-md leading-relaxed"
               >
                 {t("hero.tagline")}
