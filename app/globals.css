@@ -26,6 +26,13 @@
    Spacing convention: Tailwind's default scale (1=4px..24=96px) already
    matches the spec's scale — use it directly, no arbitrary px values. */
 
+/* Serif accent utility — hero name, section headings, pull quotes ONLY.
+   Never apply to nav links, badges, buttons, or form labels (grep for
+   this class during review; every match must be one of those three). */
+.font-accent {
+  font-family: var(--font-fraunces), var(--font-family-accent), serif;
+}
+
 html {
   position: relative;
   scroll-behavior: smooth;
