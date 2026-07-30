@@ -28,6 +28,7 @@ const Squares: React.FC<SquaresProps> = ({
   const numSquaresY = useRef<number>(0);
   const gridOffset = useRef<GridOffset>({ x: 0, y: 0 });
   const hoveredSquareRef = useRef<GridOffset | null>(null);
+  const frameCount = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -101,7 +102,16 @@ const Squares: React.FC<SquaresProps> = ({
         return;
       }
 
-      const effectiveSpeed = Math.max(speed, 0.1);
+      frameCount.current += 1;
+      if (frameCount.current % 3 !== 0) {
+        requestRef.current = requestAnimationFrame(updateAnimation);
+        return;
+      }
+
+      // Multiplied by 3 to compensate for only running every 3rd frame —
+      // the grid still moves at the same on-screen speed as before,
+      // drawGrid() just runs a third as often.
+      const effectiveSpeed = Math.max(speed, 0.1) * 3;
       switch (direction) {
         case "right":
           gridOffset.current.x =
