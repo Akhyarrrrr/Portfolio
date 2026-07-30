@@ -45,8 +45,11 @@ function useShouldMountLanyard() {
     };
 
     if (win.requestIdleCallback) {
+      // Timeout capped at 600ms (was 2000ms) — long enough to stay off
+      // the initial-load critical path, short enough that the card
+      // doesn't read as "stuck" on the poster before it's clearly idle.
       const handle = win.requestIdleCallback(() => setShouldMount(true), {
-        timeout: 2000,
+        timeout: 600,
       });
       return () => win.cancelIdleCallback?.(handle);
     }
@@ -59,9 +62,35 @@ function useShouldMountLanyard() {
   return shouldMount;
 }
 
+// Pauses the Lanyard's WebGL render loop (and the physics step it
+// drives) while the page is actively scrolling. A continuous R3F
+// frameloop competes with the browser's scroll compositor on the same
+// thread — pausing it during scroll bursts is what actually fixes
+// scroll feeling janky, not just lowering its overall draw frequency.
+function useIsScrolling() {
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const handleScroll = () => {
+      setIsScrolling(true);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => setIsScrolling(false), 150);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (timer) clearTimeout(timer);
+    };
+  }, []);
+
+  return isScrolling;
+}
+
 export default function Hero() {
   const { t, lang } = useLanguage();
   const shouldMountLanyard = useShouldMountLanyard();
+  const isScrolling = useIsScrolling();
   const reduceMotion = useReducedMotion();
 
   return (
@@ -191,7 +220,7 @@ export default function Hero() {
               className="max-lg:relative max-lg:-mt-24 max-lg:h-[530px] max-lg:w-full max-lg:max-w-[470px] max-lg:overflow-hidden max-lg:pt-22 max-lg:sm:-mt-28 max-lg:sm:h-[620px] max-lg:sm:max-w-[560px] max-lg:sm:pt-20 max-lg:md:-mt-24 max-lg:md:h-[700px] max-lg:md:max-w-[660px] max-lg:md:pt-24 lg:h-full lg:w-full"
             >
               {shouldMountLanyard ? (
-                <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} />
+                <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} paused={isScrolling} />
               ) : (
                 <LanyardPoster />
               )}

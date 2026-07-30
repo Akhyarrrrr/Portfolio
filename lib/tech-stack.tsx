@@ -175,8 +175,10 @@ export const featuredSkills = [
 
 export const techCategories = {
   Frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "HTML5", "CSS3"],
-  Backend: ["Node.js", "Express.js", "NestJS", "Go", "Python", "PHP", "Laravel", "GraphQL", "REST API"],
-  Database: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase", "Supabase", "Prisma", "Drizzle ORM"],
+  // Prisma and Drizzle ORM moved here from Database — they're ORMs (a
+  // backend data-access layer), not databases themselves.
+  Backend: ["Node.js", "Express.js", "NestJS", "Go", "Python", "PHP", "Laravel", "GraphQL", "REST API", "Prisma", "Drizzle ORM"],
+  Database: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase", "Supabase"],
   "DevOps & Tools": ["Docker", "Linux", "Git", "GitHub", "Vercel", "Railway", "Cloudinary", "Figma"],
   Mobile: ["React Native", "Expo", "Kotlin", "Java"],
 } as const;

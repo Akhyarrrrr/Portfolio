@@ -43,6 +43,20 @@ const projectGrid: Variants = {
   },
 };
 
+// Project cards are the actual showcase content, not a background
+// repeated element like a badge or stat tile — fadeMicro (opacity-only)
+// read as too static once seen live. A modest 12px rise plus a touch
+// more duration gives each card a sense of arriving, while staying well
+// short of fadeUpMajor's 32px/0.7s "big moment" treatment.
+const projectCardReveal: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35 },
+  },
+};
+
 function TechBadge({ tech }: { tech: string }) {
   const meta = getTechMeta(tech);
   const label = getTechDisplayLabel(tech);
@@ -282,7 +296,7 @@ export default function Project({
               return (
                 <motion.div
                   key={project.id}
-                  variants={fadeMicro}
+                  variants={projectCardReveal}
                   className="flex justify-center"
                 >
                   <div className="group/card block h-[24rem] w-96 max-w-full [perspective:1000px]">

@@ -59,6 +59,11 @@ interface LanyardProps {
   gravity?: [number, number, number];
   fov?: number;
   transparent?: boolean;
+  // While true, the R3F render loop (and the physics step it drives)
+  // stops entirely instead of just rendering less — a continuous
+  // WebGL + Rapier loop competes with the browser's scroll compositor
+  // for the same thread, which is what read as "scroll feels janky."
+  paused?: boolean;
 }
 
 export default function Lanyard({
@@ -66,6 +71,7 @@ export default function Lanyard({
   gravity = [0, -40, 0],
   fov = 20,
   transparent = true,
+  paused = false,
 }: LanyardProps) {
   return (
     <div className="relative z-0 flex h-full w-full items-center justify-center overflow-visible">
@@ -73,6 +79,7 @@ export default function Lanyard({
         camera={{ position, fov }}
         dpr={[1, 1.5]}
         gl={{ alpha: transparent }}
+        frameloop={paused ? "never" : "always"}
         style={{ width: "100%", height: "100%" }}
         onCreated={({ gl }) =>
           gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
