@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const SOCIALS = [
@@ -11,10 +12,17 @@ const SOCIALS = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const reduceMotion = useReducedMotion();
 
   return (
     <footer className="w-full border-t border-white/8 bg-[#0B0F15]">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-10 md:flex-row">
+      <motion.div
+        className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-10 md:flex-row"
+        initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="flex items-center gap-3">
           <span className="text-2xl font-extrabold tracking-tight text-white">Y.</span>
           <div className="hidden h-5 w-px bg-white/15 md:block" />
@@ -41,7 +49,7 @@ export default function Footer() {
         <p className="text-center text-xs text-white/60 md:text-right">
           Copyright {year} Akhyar. All rights reserved.
         </p>
-      </div>
+      </motion.div>
     </footer>
   );
 }
