@@ -33,16 +33,20 @@ export default function Contact() {
   const reduceMotion = useReducedMotion();
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
 
   useEffect(() => {
     if (status !== "success" && status !== "error") return;
-    const timer = setTimeout(() => setStatus("idle"), 3000);
+    // Errors carry a specific reason worth reading; give them longer than
+    // the 3s a "sent!" confirmation needs.
+    const timer = setTimeout(() => setStatus("idle"), status === "error" ? 8000 : 3000);
     return () => clearTimeout(timer);
   }, [status]);
 
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
+    setErrorDetail(null);
 
     const formData = new FormData(e.currentTarget);
     try {
@@ -53,15 +57,27 @@ export default function Contact() {
           from_name: formData.get("from_name"),
           from_email: formData.get("from_email"),
           message: formData.get("message"),
-          company: formData.get("company"),
+          website: formData.get("website"),
         }),
       });
 
-      if (!res.ok) throw new Error("Email request failed");
+      if (!res.ok) {
+        // The route distinguishes "Missing fields" (400), "Too many requests"
+        // (429), "Email service is not configured" (500) and "Something went
+        // wrong" (500). Throwing away the body collapsed all of them into one
+        // generic banner and made the real failure unknowable from the UI.
+        const detail = await res
+          .json()
+          .then((data: { message?: string }) => data?.message)
+          .catch(() => null);
+        throw new Error(detail || `Request failed (${res.status})`);
+      }
+
       setStatus("success");
       formRef.current?.reset();
     } catch (error) {
       console.error("Contact form submission failed:", error);
+      setErrorDetail(error instanceof Error ? error.message : null);
       setStatus("error");
     }
   };
@@ -121,10 +137,15 @@ export default function Contact() {
             >
               {/* Honeypot — hidden from real users, bots that auto-fill every
                   field trip it. aria-hidden + tabIndex keep it out of the a11y
-                  tree and tab order. */}
+                  tree and tab order.
+                  Named "website", not "company": `company` maps to Chrome's
+                  ORGANIZATION autofill type, and autoComplete="off" is widely
+                  ignored for address fields — a real visitor's browser could
+                  fill it, and the route silently no-ops a tripped honeypot
+                  while reporting success. No autofill profile targets this. */}
               <input
                 type="text"
-                name="company"
+                name="website"
                 tabIndex={-1}
                 autoComplete="off"
                 aria-hidden="true"
@@ -212,8 +233,8 @@ export default function Contact() {
                       </>
                     ) : (
                       <>
-                        <AlertCircle size={16} />
-                        {t("contact.error")}
+                        <AlertCircle size={16} className="shrink-0" />
+                        <span>{errorDetail || t("contact.error")}</span>
                       </>
                     )}
                   </motion.div>

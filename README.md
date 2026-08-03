@@ -15,7 +15,7 @@ Public portfolio website with authenticated dashboard for content management, co
 - Dashboard CRUD for projects and experiences
 - Featured project pinning with custom ordering
 - Image upload to Cloudinary
-- Contact form via Nodemailer + Gmail SMTP
+- Contact form via the Resend API
 - CV download with remote GitHub fallback
 - Portfolio chatbot powered by Groq
 - Shared tech-stack registry for badges, labels, and autocomplete
@@ -31,7 +31,7 @@ Public portfolio website with authenticated dashboard for content management, co
 | Motion | Framer Motion, Lottie (dotlottie-react) |
 | 3D | Three.js, React Three Fiber, Drei, Rapier, meshline |
 | Data | Firebase Auth, Firestore (client + admin), Cloudinary |
-| Server | Nodemailer, Groq SDK |
+| Server | Resend (email), Groq SDK |
 | UI | React Icons, Lucide React, clsx, tailwind-merge |
 
 ## Project Structure
@@ -74,39 +74,27 @@ public/                      Static assets
 |---|---|---|
 | `/api/chatbot` | POST | Groq AI chatbot (`llama-3.1-8b-instant`) |
 | `/api/cv` | GET | CV PDF download |
-| `/api/send-email` | POST | Contact form email via Nodemailer |
-| `/api/upload` | POST | Protected image upload to Cloudinary |
+| `/api/send-email` | POST | Contact form email via the Resend API |
 
 ## Environment Variables
 
+These six are every variable the code actually reads. The Firebase, Cloudinary
+and admin keys this file used to list died with the Firebase removal
+(`5b5213d`) and are no longer referenced anywhere.
+
 ```env
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+RESEND_API_KEY=                 # Resend API key (contact form)
+CONTACT_FROM_EMAIL=             # Verified sender, e.g. "Portfolio <noreply@akhyar.dev>"
+EMAIL_RECEIVER=                 # Where contact submissions land
 
-NEXT_PUBLIC_FIREBASE_API_KEY=
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
-NEXT_PUBLIC_FIREBASE_APP_ID=
-
-NEXT_PUBLIC_ADMIN_EMAIL=
-ADMIN_EMAIL=
-
-FIREBASE_SERVICE_ACCOUNT_KEY=   # Base64-encoded service account JSON (server-side Firestore)
-
-GROQ_API_KEY=
-
-EMAIL_USER=
-EMAIL_PASS=
-EMAIL_RECEIVER=
-
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+GROQ_API_KEY=                   # Portfolio chatbot
 
 GITHUB_CV_TOKEN=                # Optional — remote CV fallback
 GITHUB_CV_RAW_URL=              # Optional — remote CV fallback
 ```
+
+`CONTACT_FROM_EMAIL` must be on a domain verified in Resend. Before the domain
+is verified, Resend's shared sender works: `Portfolio <onboarding@resend.dev>`.
 
 ## Content Model
 
