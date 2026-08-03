@@ -63,18 +63,22 @@ export default function HomeContent({ projects, experiences }: HomeContentProps)
     setSelectedSlug(null);
   }, []);
 
+  // ponytail: browser-native replacement for a setTimeout(scrollTo(0), 50).
+  // That timer fired 50ms after hydration — not after paint — with no guard
+  // for "the user already scrolled", so on a cold load it landed after the
+  // first flick and yanked the page back to the top. Opting out of the
+  // browser's own scroll restoration is what that code actually wanted, and
+  // it has no timer to race. Hash navigation stays native.
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.location.hash) return;
-
-    const t = setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-    }, 50);
-    return () => clearTimeout(t);
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   }, []);
 
   return (
-    <div className="relative overflow-x-hidden">
+    // overflow-x-clip, not -hidden: on a non-root element `overflow-x: hidden`
+    // forces `overflow-y` to compute to `auto`, making this div a nested
+    // scroll container around the whole page (and silently breaking sticky
+    // inside it). `clip` contains the same horizontal overflow without that.
+    <div className="relative overflow-x-clip">
       <SplashScreen />
       <Background />
       <div className="relative z-10">

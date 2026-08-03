@@ -37,11 +37,33 @@ const Squares: React.FC<SquaresProps> = ({
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let reducedMotion = reducedMotionQuery.matches;
 
+    // Both of these only change on resize, but used to be recomputed far more
+    // often: the gradient on every single draw (~20/s, full-viewport canvas),
+    // the rect on every mousemove (a forced synchronous layout per event).
+    // The canvas is position:fixed, so scrolling cannot move its rect.
+    let vignette: CanvasGradient | null = null;
+    let canvasRect: DOMRect | null = null;
+
     const resizeCanvas = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
       numSquaresX.current = Math.ceil(canvas.width / squareSize) + 1;
       numSquaresY.current = Math.ceil(canvas.height / squareSize) + 1;
+      canvasRect = canvas.getBoundingClientRect();
+
+      if (ctx) {
+        vignette = ctx.createRadialGradient(
+          canvas.width / 2,
+          canvas.height / 2,
+          0,
+          canvas.width / 2,
+          canvas.height / 2,
+          Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2,
+        );
+        vignette.addColorStop(0, "rgba(0, 0, 0, 0)");
+        vignette.addColorStop(1, "#060010");
+      }
+
       drawGrid();
     };
 
@@ -73,19 +95,10 @@ const Squares: React.FC<SquaresProps> = ({
         }
       }
 
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2,
-      );
-      gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-      gradient.addColorStop(1, "#060010");
-
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (vignette) {
+        ctx.fillStyle = vignette;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
     };
 
     const stopAnimation = () => {
@@ -150,7 +163,8 @@ const Squares: React.FC<SquaresProps> = ({
     };
 
     const handleMouseMove = (event: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
+      const rect = canvasRect;
+      if (!rect) return;
       const mouseX = event.clientX - rect.left;
       const mouseY = event.clientY - rect.top;
 

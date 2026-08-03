@@ -79,7 +79,12 @@ export default function Lanyard({
         camera={{ position, fov }}
         dpr={[1, 1.5]}
         gl={{ alpha: transparent }}
-        frameloop={paused ? "never" : "always"}
+        // "demand", not "never": the Canvas mounts behind requestIdleCallback,
+        // so if that lands mid-scroll it mounts already paused — and "never"
+        // means R3F never renders even a first frame, leaving a blank card
+        // that only a reload fixes. "demand" still stops the continuous loop
+        // (the point of pausing) but guarantees the initial render.
+        frameloop={paused ? "demand" : "always"}
         style={{ width: "100%", height: "100%" }}
         onCreated={({ gl }) =>
           gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
@@ -228,11 +233,18 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
     overlay.addEventListener("pointermove", handleMove);
     overlay.addEventListener("pointerup", handleEnd);
     overlay.addEventListener("pointercancel", handleEnd);
+    // Safety net: this overlay is position:fixed, inset:0, touch-action:none.
+    // If the pointerup is ever missed — alt-tab, context menu, the pointer
+    // released outside the window — it stays in the DOM swallowing every
+    // click and killing touch scrolling until the page is refreshed. Losing
+    // window focus always means the drag is over.
+    window.addEventListener("blur", handleEnd);
 
     return () => {
       overlay.removeEventListener("pointermove", handleMove);
       overlay.removeEventListener("pointerup", handleEnd);
       overlay.removeEventListener("pointercancel", handleEnd);
+      window.removeEventListener("blur", handleEnd);
       overlay.remove();
       overlayRef.current = null;
     };

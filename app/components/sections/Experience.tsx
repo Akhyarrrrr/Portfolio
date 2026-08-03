@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -78,7 +78,26 @@ export default function Experience({
     damping: 30,
     restDelta: 0.01,
   });
-  const dotTop = useTransform(scaleY, [0, 1], ["0%", "100%"]);
+  // The dot used to animate `top` from "0%" to "100%". `top` is a layout
+  // property, so every scroll frame forced layout + paint on the main thread
+  // instead of staying on the compositor — with a scroll-linked spring
+  // driving it, that ran for the whole time the timeline was on screen.
+  // Translating instead needs the timeline's pixel height; a ref (not state)
+  // keeps resizes from re-rendering the section, and reading it inside the
+  // transform means no stale closure.
+  const timelineHeightRef = useRef(0);
+
+  useEffect(() => {
+    const el = timelineRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      timelineHeightRef.current = entry.contentRect.height;
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const dotY = useTransform(scaleY, (progress) => progress * timelineHeightRef.current);
   const badge = lang === "id" ? "Perjalanan Saya" : "My Journey";
 
   return (
@@ -113,11 +132,18 @@ export default function Experience({
           className="absolute bottom-0 left-5 top-0 w-px origin-top bg-gradient-to-b from-[#61DCA3] via-[#4BB98E] to-transparent md:left-1/2"
           style={{ scaleY: reduceMotion ? 1 : scaleY }}
         />
+        {/* Wrapper carries the scroll-linked translate; the inner dot keeps
+            its own centering transform, so framer's transform and Tailwind's
+            never fight over the same style property. */}
         <motion.div
           aria-hidden
-          className="absolute left-5 hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#61DCA3] shadow-[0_0_18px_rgba(97,220,163,0.55)] md:left-1/2 md:block"
-          style={{ top: reduceMotion ? "100%" : dotTop }}
-        />
+          className={`absolute left-5 hidden md:left-1/2 md:block ${
+            reduceMotion ? "top-full" : "top-0"
+          }`}
+          style={reduceMotion ? undefined : { y: dotY }}
+        >
+          <div className="h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#61DCA3] shadow-[0_0_18px_rgba(97,220,163,0.55)]" />
+        </motion.div>
 
         <div className="space-y-14 md:space-y-20">
           {experiences.map((exp, index) => {

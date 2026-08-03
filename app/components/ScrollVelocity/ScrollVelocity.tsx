@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import {
   motion,
   useAnimationFrame,
+  useInView,
   useMotionValue,
   useScroll,
   useSpring,
@@ -97,12 +98,22 @@ function VelocityText({
   const copyWidth = useElementWidth(copyRef);
   const directionFactor = useRef(1);
 
+  // Skills renders one of these per tech category (5 today), so this loop is
+  // live five times over. Ungated it kept writing transforms every frame even
+  // with the whole section far offscreen — pure main-thread cost during
+  // scrolling elsewhere on the page. No visual change: the only frames
+  // skipped are ones nobody can see.
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(containerRef);
+
   const x = useTransform(baseX, (value) => {
     if (copyWidth === 0) return "0px";
     return `${wrap(-copyWidth, 0, value)}px`;
   });
 
   useAnimationFrame((_, delta) => {
+    if (!inView) return;
+
     const scrollFactor = velocityFactor.get();
 
     if (scrollFactor < 0) {
@@ -119,6 +130,7 @@ function VelocityText({
 
   return (
     <div
+      ref={containerRef}
       className={`${parallaxClassName} relative overflow-hidden`}
       style={parallaxStyle}
     >
