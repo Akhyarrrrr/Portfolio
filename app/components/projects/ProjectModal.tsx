@@ -52,14 +52,18 @@ export default function ProjectModal({
   }, [isOpen]);
 
   const handleClose = useCallback(() => {
+    // Close unconditionally rather than waiting for popstate to do it. The
+    // old version relied on history.back() producing a popstate, but the
+    // pushState at :29 is skipped when the pathname already matches, so
+    // history.state.modal could be truthy with nothing to pop — back() then
+    // navigated elsewhere, onClose never ran, and body{overflow:hidden}
+    // stayed applied, leaving the page unscrollable until a refresh.
+    // (The old removeEventListener here was a no-op anyway: the registered
+    // listener is `handlePop` at :37, not `onClose`.)
     if (window.history.state?.modal) {
-      window.removeEventListener("popstate", onClose);
       window.history.back();
-      // onClose will be called by popstate handler above; we call it here
-      // only for the non-history case below
-    } else {
-      onClose();
     }
+    onClose();
   }, [onClose]);
 
   useEffect(() => {

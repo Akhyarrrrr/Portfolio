@@ -74,8 +74,10 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // scroll-behavior lives in globals.css next to its reduced-motion override —
+  // the `scroll-smooth` class that used to be on <html> was a duplicate.
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body className={`${poppins.variable} ${fraunces.variable} font-sans antialiased`}>
         <a
           href="#main-content"
