@@ -88,7 +88,7 @@ export default function HomeContent({ projects, experiences }: HomeContentProps)
             <Hero />
           </Suspense>
           <Suspense fallback={null}>
-            <About />
+            <About projectCount={projects.length} />
           </Suspense>
           <Suspense fallback={null}>
             <Experience experiences={experiences} />

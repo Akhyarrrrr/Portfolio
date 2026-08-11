@@ -3,12 +3,13 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { easeMajor } from "@/lib/motion";
+import { profile } from "@/content/profile";
 
 const SOCIALS = [
-  { href: "https://github.com/Akhyarrrrr", Icon: FaGithub, label: "GitHub" },
-  { href: "https://www.linkedin.com/in/akhyarrr/", Icon: FaLinkedin, label: "LinkedIn" },
-  { href: "https://instagram.com/akhyaar._", Icon: FaInstagram, label: "Instagram" },
-  { href: "mailto:ahyar12324@gmail.com", Icon: FaEnvelope, label: "Email" },
+  { href: profile.socials.github, Icon: FaGithub, label: "GitHub" },
+  { href: profile.socials.linkedin, Icon: FaLinkedin, label: "LinkedIn" },
+  { href: profile.socials.instagram, Icon: FaInstagram, label: "Instagram" },
+  { href: `mailto:${profile.email}`, Icon: FaEnvelope, label: "Email" },
 ] as const;
 
 export default function Footer() {
@@ -28,7 +29,7 @@ export default function Footer() {
           <span className="text-2xl font-extrabold tracking-tight text-white">Y.</span>
           <div className="hidden h-5 w-px bg-white/15 md:block" />
           <span className="hidden text-sm text-white/60 md:inline">
-            Akhyar&apos;s Portfolio
+            {profile.name}&apos;s Portfolio
           </span>
         </div>
 
@@ -48,7 +49,7 @@ export default function Footer() {
         </div>
 
         <p className="text-center text-xs text-white/60 md:text-right">
-          Copyright {year} Akhyar. All rights reserved.
+          Copyright {year} {profile.name}. All rights reserved.
         </p>
       </motion.div>
     </footer>

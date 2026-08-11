@@ -7,6 +7,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { profile } from "@/content/profile";
 
 type Lang = "en" | "id";
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: string) => string };
@@ -26,7 +27,7 @@ const dict = {
     hero: {
       welcome: "Portfolio of shipped systems",
       hey: "Hey, I'm",
-      name: "Akhyar",
+      name: profile.name,
       tagline:
         "Full-stack engineer building reliable web systems from infrastructure to interface.",
       download_cv: "Download CV",
@@ -74,43 +75,43 @@ const dict = {
       language: "Bahasa",
     },
     hero: {
-      welcome: "Portfolio sistem yang sudah shipped",
+      welcome: "Portofolio sistem yang telah dipublikasikan",
       hey: "Hai, saya",
-      name: "Akhyar",
+      name: profile.name,
       tagline:
-        "Full-stack engineer yang membangun sistem web andal dari infrastruktur sampai interface.",
+        "Full-stack engineer yang membangun sistem web andal dari infrastruktur hingga antarmuka.",
       download_cv: "Unduh CV",
     },
     skills: {
       badge: "Tech Stack",
       heading: "Tools <span>yang saya gunakan</span>",
-      sub: "Teknologi yang saya andalkan untuk membangun sistem yang scalable, efisien, dan siap digunakan.",
+      sub: "Teknologi yang saya gunakan untuk membangun sistem yang terukur, efisien, dan siap digunakan.",
     },
     experience: {
       heading: "Perjalanan Saya Lewat <span>Code & Impact</span>",
-      sub: "Peran, mengajar, dan ownership produksi yang membentuk cara saya membangun.",
+      sub: "Peran, pengalaman mengajar, dan tanggung jawab produksi yang membentuk cara saya bekerja.",
     },
     project: {
       heading: "Kumpulan <span>Karya Terpilih</span> Saya",
-      sub: "Produk terpilih dengan pengguna nyata, constraint nyata, dan code yang bisa dirawat.",
+      sub: "Produk terpilih yang dibangun untuk kebutuhan nyata dengan kode yang dapat dipelihara.",
       filter_all: "Semua",
       filter_web: "Web",
       filter_mobile: "Mobile",
       prev: "Sebelumnya",
       next: "Berikutnya",
-      view_github: "Lihat di Github",
+      view_github: "Lihat Proyek",
       noProjects: "Tidak ada proyek di kategori ini.",
     },
     contact: {
       heading: "Mari Bicara",
-      sub: "Kirim catatan singkat tentang role, proyek, atau sistem yang ingin kamu bangun.",
+      sub: "Kirim catatan singkat tentang posisi, proyek, atau sistem yang ingin Anda bangun.",
       name: "Nama Anda",
       email: "Email Anda",
       message: "Pesan Anda",
       send: "Kirim Pesan",
       sending: "Mengirim...",
       success: "Pesan berhasil dikirim!",
-      error: "Gagal mengirim pesan. Coba lagi ya.",
+      error: "Pesan belum dapat dikirim. Silakan coba kembali.",
     },
   },
 } as const;

@@ -20,7 +20,7 @@ const aboutData = {
       { icon: Briefcase,title: "Production Ownership",    desc: "Hold full server access for a platform running 90+ academic journals, with hands-on experience in incident response, backups, monitoring, and zero-downtime migrations." },
     ],
     stats: [
-      { label: "Projects Shipped",     value: 15, suffix: "+" },
+      { label: "Projects in Portfolio", value: 0, suffix: "" },
       { label: "Journals in Production",value: 90, suffix: "+" },
       { label: "Zero-Downtime Migrations Led",value: 1, suffix: "" },
     ],
@@ -30,18 +30,18 @@ const aboutData = {
   id: {
     heading: "Tentang Saya",
     badge: "Siapa saya",
-    intro: "Full-stack engineer dari Banda Aceh, membangun production systems yang benar-benar jadi.",
-    mission: "Aku peduli banget sama code quality, real-world impact, dan kerja sama dengan team yang bergerak cepat.",
+    intro: "Saya adalah full-stack engineer dari Banda Aceh yang membangun sistem hingga siap digunakan.",
+    mission: "Saya mengutamakan kualitas kode, dampak nyata, dan kolaborasi yang jelas.",
     highlights: [
-      { icon: Code2,    title: "Ship Production Code",   desc: "Aku gak cuma berhenti di prototype. Dari AI-powered job tracker sampai face-recognition attendance system, aku bikin produk yang beneran dipakai orang." },
-      { icon: Zap,      title: "Full-Stack Expertise",    desc: "Frontend focus dengan React dan Next.js, backend kuat dengan Node.js dan Express, plus infrastruktur dengan Docker, server administration, dan CI/CD." },
-      { icon: Users,    title: "Team Player",             desc: "Pimpin 9 program kerja sebagai kepala department, ajar 44+ mahasiswa di tiga mata kuliah universitas, dan kolaborasi lintas fungsi di produk yang shipped." },
-      { icon: Briefcase,title: "Production Ownership",    desc: "Pegang full server access untuk platform yang menjalankan 90+ jurnal akademik, dengan pengalaman langsung dalam incident response, backup, monitoring, dan zero-downtime migration." },
+      { icon: Code2,    title: "Kode Siap Produksi",       desc: "Saya tidak berhenti pada prototipe. Dari pelacak karier berbasis AI hingga sistem kehadiran dengan pengenalan wajah, saya membangun produk yang dapat digunakan dan dikembangkan lebih lanjut." },
+      { icon: Zap,      title: "Keahlian Full-Stack",      desc: "Saya bekerja dengan React dan Next.js pada frontend, Node.js dan Express pada backend, serta Docker, administrasi server, dan CI/CD untuk infrastruktur." },
+      { icon: Users,    title: "Kolaborasi Tim",           desc: "Saya pernah memimpin sembilan program kerja, mengajar lebih dari 44 mahasiswa dalam tiga mata kuliah, dan berkolaborasi lintas fungsi untuk menyelesaikan produk." },
+      { icon: Briefcase,title: "Tanggung Jawab Produksi",  desc: "Saya memegang akses server untuk platform dengan lebih dari 90 jurnal akademik serta menangani respons insiden, backup, monitoring, dan migrasi tanpa downtime." },
     ],
     stats: [
-      { label: "Projects Shipped",          value: 15, suffix: "+" },
-      { label: "Jurnal di Production",      value: 90, suffix: "+" },
-      { label: "Zero-Downtime Migrations",  value: 1,  suffix: ""  },
+      { label: "Proyek dalam Portofolio",    value: 0, suffix: "" },
+      { label: "Jurnal dalam Produksi",       value: 90, suffix: "+" },
+      { label: "Migrasi Tanpa Downtime",      value: 1,  suffix: ""  },
     ],
     cta: "Tertarik bekerja sama?",
     ctaBtn: "Hubungi Saya",
@@ -85,9 +85,12 @@ const container: Variants = {
 };
 
 /* ─── Component ─────────────────────────────────────────────── */
-export default function About() {
+export default function About({ projectCount }: { projectCount: number }) {
   const { lang } = useLanguage();
   const data = aboutData[lang];
+  const stats = data.stats.map((stat, index) =>
+    index === 0 ? { ...stat, value: projectCount, suffix: "" } : stat,
+  );
   const reduceMotion = useReducedMotion();
 
   return (
@@ -161,7 +164,7 @@ export default function About() {
                      rounded-2xl overflow-hidden border border-white/8"
           variants={container}
         >
-          {data.stats.map((stat, i) => (
+          {stats.map((stat, i) => (
             <motion.div
               // Index, not stat.label — the label text differs between
               // EN/ID for 2 of 3 stats ("Journals in Production" vs
@@ -175,7 +178,7 @@ export default function About() {
               key={i}
               className={`flex flex-col items-center justify-center py-8 px-4
                           bg-white/[0.02] hover:bg-[#61DCA3]/5 transition-colors duration-300
-                          ${i < data.stats.length - 1 ? "border-r border-white/8 last:border-r-0" : ""}`}
+                          ${i < stats.length - 1 ? "border-r border-white/8 last:border-r-0" : ""}`}
               variants={fadeMicro}
             >
               <div className="text-3xl md:text-4xl font-extrabold text-[#61DCA3] tabular-nums">

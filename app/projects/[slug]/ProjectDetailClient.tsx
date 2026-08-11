@@ -125,11 +125,11 @@ export default function ProjectDetailClient({
 
   const t = {
     back: isId ? "Kembali ke Portfolio" : "Back to Portfolio",
-    problem: isId ? "Apa yang rusak?" : "What was broken?",
-    solution: isId ? "Bagaimana saya memperbaikinya" : "How I fixed it",
-    techRationale: isId ? "Stack yang mengirimkannya" : "The stack that shipped it",
-    impact: isId ? "Apa yang berubah" : "What changed",
-    features: isId ? "Yang bisa dilakukan" : "What it can do",
+    problem: isId ? "Masalah yang dihadapi" : "What was broken?",
+    solution: isId ? "Pendekatan solusi" : "How I fixed it",
+    techRationale: isId ? "Teknologi yang digunakan" : "The stack that shipped it",
+    impact: isId ? "Hasil" : "What changed",
+    features: isId ? "Fitur utama" : "What it can do",
     learnings: isId ? "Yang saya pelajari" : "What I learned",
     related: isId ? "Proyek lainnya" : "Other projects",
     viewLive: isId ? "Lihat Live" : "View Live",
@@ -145,7 +145,9 @@ export default function ProjectDetailClient({
   const impact = localField(project, "impact", lang);
   const techRationale = localField(project, "techRationale", lang);
   const learnings = localField(project, "learnings", lang);
-  const features = project.keyFeatures;
+  const features = isId ? project.keyFeatures_id ?? project.keyFeatures : project.keyFeatures;
+  const role = isId ? project.role_id ?? project.role : project.role;
+  const duration = isId ? project.duration_id ?? project.duration : project.duration;
   const screenshots = project.screenshots;
   const techList = (project.tech ?? []).filter(Boolean);
 
@@ -234,14 +236,14 @@ export default function ProjectDetailClient({
                 <Calendar size={14} /> {project.year}
               </span>
             )}
-            {project.duration && (
+            {duration && (
               <span className="inline-flex items-center gap-1.5">
-                <Clock size={14} /> {project.duration}
+                <Clock size={14} /> {duration}
               </span>
             )}
-            {project.role && (
+            {role && (
               <span className="inline-flex items-center gap-1.5">
-                <UserCheck size={14} /> {project.role}
+                <UserCheck size={14} /> {role}
               </span>
             )}
           </motion.div>

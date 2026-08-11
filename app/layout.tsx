@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Poppins } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageProvider";
+import { profile } from "@/content/profile";
 
-const SITE_URL = "https://akhyar.dev";
+const SITE_URL = profile.siteUrl;
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,7 +35,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Akhyar's Portfolio",
+  title: `${profile.name}'s Portfolio`,
   description:
     "Full-stack engineer from Banda Aceh building production systems with React, Next.js, and Node.js. 90+ academic journals, AI-powered attendance, and more.",
   robots: { index: true, follow: true },
