@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -24,11 +24,6 @@ const rowVariants: Variants = {
     },
   }),
 };
-
-function getLastYear(year: string) {
-  const matches = year.match(/\d{4}/g);
-  return matches ? Number(matches[matches.length - 1]) : 0;
-}
 
 function Logo({ exp, company }: { exp: ExperienceType; company: string }) {
   if (!exp.logo) {
@@ -61,13 +56,7 @@ export default function Experience({
   const reduceMotion = useReducedMotion();
   const timelineRef = useRef<HTMLDivElement>(null);
 
-  const experiences = useMemo(
-    () =>
-      [...rawExperiences].sort(
-        (a, b) => getLastYear(b.year) - getLastYear(a.year),
-      ),
-    [rawExperiences],
-  );
+  const experiences = rawExperiences;
 
   const { scrollYProgress } = useScroll({
     target: timelineRef,

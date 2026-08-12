@@ -1,35 +1,35 @@
 import type { ExperienceType } from "@/lib/content";
 
-// Source order resolves entries with the same year; the timeline still applies
-// its existing year sort before rendering.
+// Timeline order is defined here, newest roles first and undergraduate
+// education last.
 export const experiences: ExperienceType[] = [
   {
     id: "master-ai-usk",
     title: "Master's Student in Artificial Intelligence",
     title_id: "Mahasiswa Magister Kecerdasan Buatan",
-    company: "FMIPA Universitas Syiah Kuala",
-    company_id: "FMIPA Universitas Syiah Kuala",
+    company: "Universitas Syiah Kuala",
+    company_id: "Universitas Syiah Kuala",
     year: "Aug 2026 - Present",
     year_id: "Agu 2026 - Sekarang",
     logo: "/experience/FQqFUNx0BhBvD6bDMWQs.png",
     description:
-      "I am pursuing a Master's degree in Artificial Intelligence at FMIPA Universitas Syiah Kuala, strengthening my foundation in AI alongside hands-on full-stack engineering work.",
+      "Pursuing a Master's degree in Artificial Intelligence at Universitas Syiah Kuala, deepening core AI knowledge while continuing practical full stack engineering work.",
     description_id:
-      "Saya sedang menempuh Magister Kecerdasan Buatan di FMIPA Universitas Syiah Kuala untuk memperkuat fondasi AI sekaligus melanjutkan praktik rekayasa full-stack.",
+      "Sedang menempuh Magister Kecerdasan Buatan di Universitas Syiah Kuala untuk memperdalam fondasi AI sambil terus mengembangkan pengalaman praktis di bidang rekayasa full stack.",
   },
   {
     id: "joki-it",
-    title: "IT Freelancer - Full-Stack Web & Mobile Developer",
-    title_id: "Freelancer IT - Full-Stack Web & Mobile Developer",
+    title: "IT Freelancer — Full Stack Web & Mobile Developer",
+    title_id: "Freelancer IT — Full Stack Web & Mobile Developer",
     company: "Joki IT",
     company_id: "Joki IT",
     year: "Jul 2026 - Present",
     year_id: "Jul 2026 - Sekarang",
     logo: "/experience/jokiit.webp",
     description:
-      "I deliver full-stack website and mobile work through Joki IT, covering implementation from interface to backend based on each project's requirements.",
+      "Develop full stack web and mobile solutions through Joki IT, working across interfaces, backend services, data flows, and integrations based on each project's needs.",
     description_id:
-      "Saya mengerjakan proyek website dan mobile full-stack melalui Joki IT, mencakup implementasi antarmuka hingga backend sesuai kebutuhan setiap proyek.",
+      "Mengembangkan solusi web dan mobile melalui Joki IT, mulai dari antarmuka dan layanan backend hingga alur data serta integrasi sesuai kebutuhan setiap proyek.",
   },
   {
     id: "u3v1hMKOWjtpgWATMfSv",
@@ -41,9 +41,9 @@ export const experiences: ExperienceType[] = [
     year_id: "2025 - Sekarang",
     logo: "/experience/u3v1hMKOWjtpgWATMfSv.png",
     description:
-      "I run the IT side of things at LPPM USK, from server access and incident response to keeping 90+ academic journals online at publications.usk.ac.id. I also led the zero-data-loss migration from OJS 2 to OJS 3, and built out the backup and monitoring systems behind it.",
+      "Serve as LPPM USK's primary IT support, covering workstation setup, office automations, and publications.usk.ac.id with 90+ active journals. Responsibilities include journal and account administration, database maintenance, theming, security incident response, tiered backups, monitoring, and the zero-data-loss migration from OJS 2 to OJS 3.",
     description_id:
-      "Saya menangani kebutuhan IT LPPM USK, mulai dari akses server dan respons insiden hingga menjaga lebih dari 90 jurnal akademik tetap online di publications.usk.ac.id. Saya juga memimpin migrasi OJS 2 ke OJS 3 tanpa kehilangan data serta membangun sistem backup dan monitoring.",
+      "Menjadi penanggung jawab utama kebutuhan IT LPPM USK, mulai dari penyiapan perangkat kerja dan otomasi kantor hingga pengelolaan publications.usk.ac.id yang menaungi lebih dari 90 jurnal aktif. Tanggung jawab mencakup administrasi jurnal dan akun, pemeliharaan basis data, penyesuaian tampilan, penanganan insiden keamanan, pencadangan bertingkat, pemantauan, serta migrasi OJS 2 ke OJS 3 tanpa kehilangan data.",
   },
   {
     id: "1sugNhLGWSOxIfZqDX02",
@@ -55,9 +55,9 @@ export const experiences: ExperienceType[] = [
     year_id: "Jun - Jul 2024",
     logo: "/experience/1sugNhLGWSOxIfZqDX02.webp",
     description:
-      "I built an employee leave-management system with React, Tailwind CSS, Express, and MySQL for employee and administrator workflows.",
+      "Built an employee leave-management system for BMKG Aceh Besar using React, Tailwind CSS, Express, and MySQL, covering employee and administrator workflows.",
     description_id:
-      "Saya membangun sistem manajemen cuti karyawan menggunakan React, Tailwind CSS, Express, dan MySQL untuk alur kerja karyawan dan administrator.",
+      "Membangun sistem manajemen cuti karyawan untuk BMKG Aceh Besar menggunakan React, Tailwind CSS, Express, dan MySQL, lengkap dengan alur kerja karyawan dan administrator.",
   },
   {
     id: "BsgBEOpesyBTDoPq9Vc0",
@@ -69,9 +69,9 @@ export const experiences: ExperienceType[] = [
     year_id: "Feb - Jun 2024",
     logo: "/experience/BsgBEOpesyBTDoPq9Vc0.jpg",
     description:
-      "As one of two mobile developers in a seven-person capstone team, I designed and implemented the Android experience for the MediGuide AI health chatbot and integrated the model API.",
+      "Worked as one of two mobile developers in a seven-person capstone team, designing and implementing the Android experience for MediGuide and integrating its AI model API.",
     description_id:
-      "Sebagai salah satu dari dua mobile developer dalam tim capstone beranggotakan tujuh orang, saya merancang dan mengimplementasikan pengalaman Android untuk chatbot kesehatan AI MediGuide serta mengintegrasikan API modelnya.",
+      "Bekerja sebagai salah satu dari dua mobile developer dalam tim capstone beranggotakan tujuh orang, merancang dan mengimplementasikan aplikasi Android MediGuide serta mengintegrasikan API model AI.",
   },
   {
     id: "FQqFUNx0BhBvD6bDMWQs",
@@ -83,8 +83,8 @@ export const experiences: ExperienceType[] = [
     year_id: "2021 - 2025",
     logo: "/experience/FQqFUNx0BhBvD6bDMWQs.png",
     description:
-      "I graduated Cum Laude with a Bachelor of Informatics and a GPA of 3.74/4.00. Teaching, organizing, and building outside the classroom shaped how I work as much as the coursework did.",
+      "Graduated Cum Laude with a Bachelor of Informatics and a GPA of 3.74/4.00. Teaching, organizational work, and projects outside the classroom helped shape a practical and collaborative approach to engineering.",
     description_id:
-      "Saya lulus Cum Laude sebagai Sarjana Informatika dengan IPK 3,74/4,00. Pengalaman mengajar, berorganisasi, dan membangun proyek di luar kelas turut membentuk cara saya bekerja.",
+      "Lulus Cum Laude sebagai Sarjana Informatika dengan IPK 3,74/4,00. Pengalaman mengajar, berorganisasi, dan mengerjakan proyek di luar kelas membentuk pendekatan kerja yang praktis dan kolaboratif.",
   },
 ];
