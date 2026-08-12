@@ -1,6 +1,7 @@
 import type { ProjectType } from "./content";
+import { profile } from "@/content/profile";
 
-const SITE_URL = "https://akhyar.dev";
+const SITE_URL = profile.siteUrl;
 
 export function websiteSchema() {
   return {
@@ -9,7 +10,7 @@ export function websiteSchema() {
     name: "Akhyar Portfolio",
     url: SITE_URL,
     inLanguage: ["en", "id"],
-    publisher: { "@type": "Person", name: "Akhyar" },
+    publisher: { "@type": "Person", name: profile.name },
   };
 }
 
@@ -30,9 +31,10 @@ export function personSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Akhyar",
-    url: "https://akhyar.dev",
-    jobTitle: "Full-Stack Engineer",
+    name: profile.name,
+    alternateName: profile.alternateName,
+    url: profile.siteUrl,
+    jobTitle: profile.jobTitle,
     address: {
       "@type": "PostalAddress",
       addressLocality: "Banda Aceh",
@@ -42,22 +44,8 @@ export function personSchema() {
       "@type": "CollegeOrUniversity",
       name: "Universitas Syiah Kuala",
     },
-    knowsAbout: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Node.js",
-      "PostgreSQL",
-      "Tailwind CSS",
-      "Firebase",
-      "Supabase",
-      "Docker",
-    ],
-    sameAs: [
-      "https://github.com/Akhyarrrrr",
-      "https://linkedin.com/in/akhyarrr",
-      "https://instagram.com/akhyaar._",
-    ],
+    knowsAbout: profile.skills,
+    sameAs: Object.values(profile.socials),
   };
 }
 
@@ -65,15 +53,19 @@ export function projectSchema(project: ProjectType) {
   const title = project.title_en || project.title || "";
   const desc = project.desc_en || project.description || "";
 
-  return {
+  const type = project.schemaType ?? "SoftwareApplication";
+  const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": type,
     name: title,
     description: desc,
-    applicationCategory:
-      project.category === "mobile" ? "MobileApplication" : "WebApplication",
-    image: project.imageUrl,
+    image: `${SITE_URL}${project.imageUrl}`,
     url: project.liveUrl || project.githubUrl,
-    author: { "@type": "Person", name: "Akhyar" },
+    author: { "@type": "Person", name: profile.name, url: profile.siteUrl },
   };
+  if (type === "SoftwareApplication") {
+    schema.applicationCategory =
+      project.category === "mobile" ? "MobileApplication" : "WebApplication";
+  }
+  return schema;
 }

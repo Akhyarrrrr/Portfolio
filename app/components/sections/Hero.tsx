@@ -6,6 +6,7 @@ import { HiDownload } from "react-icons/hi";
 import { useLanguage } from "@/context/LanguageProvider";
 import { motion, useReducedMotion } from "framer-motion";
 import { easeMajor } from "@/lib/motion";
+import { profile } from "@/content/profile";
 
 const Lanyard = dynamic(() => import("../Lanyard/Lanyard"), {
   ssr: false,
@@ -175,17 +176,17 @@ export default function Hero() {
                 <div className="flex gap-2">
                   {[
                     {
-                      href: "https://instagram.com/akhyaar._",
+                      href: profile.socials.instagram,
                       Icon: FaInstagram,
                       label: "Instagram",
                     },
                     {
-                      href: "https://www.linkedin.com/in/akhyarrr/",
+                      href: profile.socials.linkedin,
                       Icon: FaLinkedin,
                       label: "LinkedIn",
                     },
                     {
-                      href: "https://github.com/Akhyarrrrr",
+                      href: profile.socials.github,
                       Icon: FaGithub,
                       label: "GitHub",
                     },

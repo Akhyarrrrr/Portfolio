@@ -6,7 +6,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ExternalLink, GithubIcon, Pin } from "lucide-react";
 import { useLanguage, RichText } from "@/context/LanguageProvider";
 import type { ProjectType } from "@/lib/content";
-import { fadeUpMajor, fadeMicro } from "@/lib/motion";
+import { fadeUpMajor } from "@/lib/motion";
 import {
   getFallbackTechIcon,
   getTechDisplayLabel,
@@ -17,20 +17,6 @@ type ProjectCategoryFilter = "all" | "web" | "mobile";
 type ProjectLanguage = "en" | "id";
 
 const PROJECT_FILTERS: ProjectCategoryFilter[] = ["all", "web", "mobile"];
-
-const SkeletonCard = () => (
-  <div className="flex h-[22rem] w-[20rem] flex-col rounded-xl border border-[#61DCA3]/50 bg-black p-4 animate-pulse">
-    <div className="mb-2 h-5 w-36 rounded bg-white/10" />
-    <div className="mb-1.5 h-3 w-48 rounded bg-white/10" />
-    <div className="mb-4 h-3 w-40 rounded bg-white/10" />
-    <div className="mb-4 flex gap-2">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="h-7 w-7 rounded-lg bg-white/10" />
-      ))}
-    </div>
-    <div className="mt-auto h-40 w-full rounded-lg bg-white/10" />
-  </div>
-);
 
 const projectGrid: Variants = {
   hidden: { opacity: 0 },
@@ -137,11 +123,6 @@ export default function Project({
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [projects] = useState<ProjectType[]>(initialProjects);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
 
   useEffect(() => {
     const update = () => {
@@ -243,19 +224,7 @@ export default function Project({
           viewport={{ once: true, amount: 0.12 }}
           variants={projectGrid}
         >
-          {loading &&
-            Array.from({ length: itemsPerPage }).map((_, index) => (
-              <motion.div
-                key={index}
-                variants={fadeMicro}
-                className="flex h-[24rem] w-96 max-w-full items-center justify-center"
-              >
-                <SkeletonCard />
-              </motion.div>
-            ))}
-
-          {!loading &&
-            pageData.map((project) => {
+          {pageData.map((project) => {
               const { title, description } = getLocalizedProjectCopy(project, lang);
               const techList = (project.tech ?? []).filter(Boolean);
               const maxVisibleTech = techList.length > 6 ? 5 : 6;
@@ -323,14 +292,14 @@ export default function Project({
                           <div className="flex gap-2">
                             {detailHref && (
                               <span className="rounded-full border border-[#61DCA3]/20 bg-[#61DCA3]/10 px-2 py-0.5 text-[10px] font-semibold text-[#61DCA3]">
-                                Case Study
+                                {lang === "id" ? "Studi Kasus" : "Case Study"}
                               </span>
                             )}
                           </div>
                           {project.pinned && (
                             <span className="flex items-center gap-1 rounded-full border border-[#61DCA3]/30 bg-[#61DCA3]/15 px-2 py-0.5 text-[10px] font-semibold text-[#61DCA3]">
                               <Pin size={10} />
-                              Featured
+                              {lang === "id" ? "Unggulan" : "Featured"}
                             </span>
                           )}
                         </div>
@@ -359,10 +328,26 @@ export default function Project({
                         {/* View Details indicator and Source/Live inside card */}
                         <div className="mt-3 flex items-center justify-between gap-2">
                           {/* Detail link */}
-                          <span className="flex items-center gap-1 text-[10px] font-semibold text-[#61DCA3] transition-colors group-hover/card:text-white">
-                            {detailHref ? "View Details" : externalHref ? "Visit Project" : ""}
+                          {primaryHref ? (
+                            <a
+                              href={primaryHref}
+                              target={detailHref ? undefined : "_blank"}
+                              rel={detailHref ? undefined : "noopener noreferrer"}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                if (detailHref && onSelectProject) {
+                                  event.preventDefault();
+                                  onSelectProject(project.slug);
+                                }
+                              }}
+                              className="flex items-center gap-1 text-[10px] font-semibold text-[#61DCA3] transition-colors group-hover/card:text-white"
+                            >
+                            {detailHref
+                              ? lang === "id" ? "Lihat Detail" : "View Details"
+                              : lang === "id" ? "Kunjungi Proyek" : "Visit Project"}
                             <span className="transition-transform group-hover/card:translate-x-1">-&gt;</span>
-                          </span>
+                            </a>
+                          ) : null}
 
                           {/* Source / Live buttons */}
                           <div className="flex gap-1.5" onClick={(e) => e.stopPropagation()}>
@@ -374,7 +359,7 @@ export default function Project({
                                 className="flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold text-white/50 transition hover:border-[#61DCA3]/50 hover:bg-[#61DCA3]/10 hover:text-white"
                               >
                                 <GithubIcon size={11} />
-                                Source
+                                {lang === "id" ? "Sumber" : "Source"}
                               </a>
                             )}
                             {liveUrl && (
@@ -398,13 +383,13 @@ export default function Project({
             })}
         </motion.div>
 
-        {!loading && pageData.length === 0 && (
+        {pageData.length === 0 && (
           <p className="py-20 text-center text-sm text-white/30">
             {t("project.noProjects")}
           </p>
         )}
 
-        {!loading && totalPages > 1 && (
+        {totalPages > 1 && (
           <div className="mt-14 flex items-center justify-center gap-2 text-sm">
             <button
               onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}

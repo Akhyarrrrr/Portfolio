@@ -158,7 +158,7 @@ export default function Contact() {
                     id="from_name"
                     type="text"
                     name="from_name"
-                    placeholder={lang === "id" ? "Nama kamu" : "Your name"}
+                    placeholder={lang === "id" ? "Nama Anda" : "Your name"}
                     required
                     disabled={status === "loading"}
                     className={inputClass}
@@ -183,7 +183,7 @@ export default function Contact() {
                   name="message"
                   placeholder={
                     lang === "id"
-                      ? "Ceritakan sistem yang ingin kamu bangun."
+                      ? "Ceritakan sistem yang ingin Anda bangun."
                       : "Tell me what you are building."
                   }
                   required

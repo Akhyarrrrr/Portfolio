@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Poppins } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageProvider";
+import { profile } from "@/content/profile";
 
-const SITE_URL = "https://akhyar.dev";
+const SITE_URL = profile.siteUrl;
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,7 +35,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Akhyar's Portfolio",
+  title: `${profile.name} | ${profile.jobTitle}`,
   description:
     "Full-stack engineer from Banda Aceh building production systems with React, Next.js, and Node.js. 90+ academic journals, AI-powered attendance, and more.",
   robots: { index: true, follow: true },
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     languages: { en: "/", id: "/", "x-default": "/" },
   },
   openGraph: {
-    title: "Akhyar | Full Stack Developer Portfolio",
+    title: `${profile.name} | ${profile.jobTitle}`,
     description:
       "Full-stack engineer building production systems with 90+ academic journals, AI-powered attendance, and more. Built with Next.js.",
     siteName: "Akhyar Portfolio",
@@ -56,16 +57,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Akhyar | Full Stack Developer Portfolio",
+    title: `${profile.name} | ${profile.jobTitle}`,
     description:
       "Full-stack engineer building production systems with React, Next.js, and Node.js.",
   },
-  // `apple` was previously entirely absent — no apple-touch-icon meant a
-  // blank/default icon when someone added the site to an iOS home screen.
-  // app/apple-icon.tsx generates it (the "Y." wordmark, matching the splash
-  // screen). favicon.ico is kept as-is: it already works, no reason to
-  // replace it with a generated equivalent.
-  icons: { icon: "/favicon.ico", apple: "/apple-icon" },
   verification: {
     google: "YF_pXgxB-6KdItwpFEQPtU_CFXo1sGSWH-Y9qL4QeM8",
   },

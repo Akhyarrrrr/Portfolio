@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Canvas,
   extend,
@@ -53,6 +53,42 @@ type LanyardGLTF = {
     metal: THREE.MeshStandardMaterial;
   };
 };
+
+function updatedCardTexture(source: THREE.Texture | null) {
+  const image = source?.image as (CanvasImageSource & { width?: number; height?: number }) | undefined;
+  if (!source || !image?.width || !image.height) return source;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const context = canvas.getContext("2d");
+  if (!context) return source;
+
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#111820";
+  context.fillRect(20, 284, 220, 82);
+
+  context.fillStyle = "#61DCA3";
+  context.beginPath();
+  context.roundRect(40, 290, 174, 40, 9);
+  context.fill();
+
+  context.textAlign = "center";
+  context.fillStyle = "#0B0F15";
+  context.font = "700 20px Poppins, Arial, sans-serif";
+  context.fillText("Full-Stack", 127, 316);
+  context.fillStyle = "#FFFFFF";
+  context.font = "600 20px Poppins, Arial, sans-serif";
+  context.fillText("Engineer", 127, 354);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = source.colorSpace;
+  texture.flipY = source.flipY;
+  texture.wrapS = source.wrapS;
+  texture.wrapT = source.wrapT;
+  texture.needsUpdate = true;
+  return texture;
+}
 
 interface LanyardProps {
   position?: [number, number, number];
@@ -157,6 +193,10 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
 
   const { nodes, materials } = useGLTF(cardGLB) as unknown as LanyardGLTF;
   const texture = useTexture(lanyard);
+  const cardTexture = useMemo(
+    () => updatedCardTexture(materials.base.map),
+    [materials.base.map],
+  );
   const { width, height } = useThree((state) => state.size);
   const gl = useThree((state) => state.gl);
   const pointer = useThree((state) => state.pointer);
@@ -177,6 +217,13 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   const [hovered, hover] = useState(false);
   const pointerRef = useRef(new THREE.Vector2());
   const overlayRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(
+    () => () => {
+      if (cardTexture !== materials.base.map) cardTexture?.dispose();
+    },
+    [cardTexture, materials.base.map],
+  );
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -362,7 +409,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           >
             <mesh geometry={nodes.card.geometry}>
               <meshPhysicalMaterial
-                map={materials.base.map}
+                map={cardTexture}
                 map-anisotropy={16}
                 clearcoat={1}
                 clearcoatRoughness={0.15}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -25,16 +25,11 @@ const rowVariants: Variants = {
   }),
 };
 
-function getLastYear(year: string) {
-  const matches = year.match(/\d{4}/g);
-  return matches ? Number(matches[matches.length - 1]) : 0;
-}
-
-function Logo({ exp }: { exp: ExperienceType }) {
+function Logo({ exp, company }: { exp: ExperienceType; company: string }) {
   if (!exp.logo) {
     return (
       <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#61DCA3]/40 bg-[#61DCA3]/10 text-sm font-semibold text-[#61DCA3]">
-        {exp.company?.charAt(0) ?? "?"}
+        {company.charAt(0) || "?"}
       </div>
     );
   }
@@ -43,7 +38,7 @@ function Logo({ exp }: { exp: ExperienceType }) {
     <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-[#61DCA3]/45 bg-white shadow-[0_0_18px_rgba(97,220,163,0.12)]">
       <Image
         src={exp.logo}
-        alt={`${exp.company} logo`}
+        alt={`${company} logo`}
         fill
         className="object-contain p-1"
         unoptimized
@@ -61,13 +56,7 @@ export default function Experience({
   const reduceMotion = useReducedMotion();
   const timelineRef = useRef<HTMLDivElement>(null);
 
-  const experiences = useMemo(
-    () =>
-      [...rawExperiences].sort(
-        (a, b) => getLastYear(b.year) - getLastYear(a.year),
-      ),
-    [rawExperiences],
-  );
+  const experiences = rawExperiences;
 
   const { scrollYProgress } = useScroll({
     target: timelineRef,
@@ -147,6 +136,11 @@ export default function Experience({
 
         <div className="space-y-14 md:space-y-20">
           {experiences.map((exp, index) => {
+            const title = lang === "id" ? exp.title_id ?? exp.title : exp.title;
+            const company = lang === "id" ? exp.company_id ?? exp.company : exp.company;
+            const year = lang === "id" ? exp.year_id ?? exp.year : exp.year;
+            const description =
+              lang === "id" ? exp.description_id ?? exp.description : exp.description;
             const even = index % 2 === 0;
             const infoClass = even
               ? "md:col-start-1 md:items-end md:text-right"
@@ -173,22 +167,22 @@ export default function Experience({
                 <div className={`flex flex-col gap-3 ${infoClass}`}>
                   <div>
                     <h3 className="text-xl font-semibold leading-tight text-white">
-                      {exp.title}
+                      {title}
                     </h3>
                     <p className="mt-1 text-sm font-medium text-[#61DCA3]">
-                      {exp.company}
+                      {company}
                     </p>
                     <p className="mt-1 text-xs tracking-[0.16em] text-white/35">
-                      {exp.year}
+                      {year}
                     </p>
                   </div>
-                  <Logo exp={exp} />
+                  <Logo exp={exp} company={company} />
                 </div>
 
                 <p
                   className={`max-w-md rounded-xl border border-white/8 bg-white/[0.03] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] text-sm leading-relaxed text-white/60 transition-all duration-300 hover:-translate-y-1 hover:border-[#61DCA3]/25 hover:bg-[#61DCA3]/5 hover:shadow-[0_12px_32px_rgba(97,220,163,0.08)] ${descClass}`}
                 >
-                  {exp.description}
+                  {description}
                 </p>
               </motion.article>
             );

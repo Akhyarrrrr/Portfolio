@@ -50,7 +50,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const lang = normalizeLanguage(body.lang);
-    const systemPrompt = getKnowledgeContext(lang);
+    const systemPrompt = await getKnowledgeContext(lang);
     const messages = Array.isArray(body.messages)
       ? (body.messages as ChatMessage[])
       : [];
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       return Response.json({
         content:
           lang === "id"
-            ? "Aku hanya bisa membantu pertanyaan seputar karya dan project Akhyar. Ada yang ingin kamu tanyakan?"
+            ? "Saya hanya dapat membantu menjawab pertanyaan seputar karya dan proyek Akhyar. Apa yang ingin Anda ketahui?"
             : "I can only help with questions about Akhyar's work and projects. What would you like to know?",
       });
     }

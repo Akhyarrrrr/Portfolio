@@ -37,9 +37,13 @@ export interface ProjectType {
   screenshots?: string[];
   year?: string;
   duration?: string;
+  duration_id?: string;
   role?: string;
   learnings?: string;
   learnings_id?: string;
+  role_id?: string;
+  keyFeatures_id?: string[];
+  schemaType?: "SoftwareApplication" | "WebSite";
 }
 
 export interface ExperienceType {
@@ -49,6 +53,10 @@ export interface ExperienceType {
   year: string;
   logo: string;
   description: string;
+  title_id?: string;
+  company_id?: string;
+  year_id?: string;
+  description_id?: string;
 }
 
 const PROJECTS_DIR = path.join(process.cwd(), "content", "projects");
@@ -86,9 +94,13 @@ function readProjectFile(filename: string): ProjectType {
     screenshots: Array.isArray(data.screenshots) ? data.screenshots : undefined,
     year: data.year,
     duration: data.duration,
+    duration_id: data.duration_id,
     role: data.role,
     learnings: data.learnings,
     learnings_id: data.learnings_id,
+    role_id: data.role_id,
+    keyFeatures_id: Array.isArray(data.keyFeatures_id) ? data.keyFeatures_id : undefined,
+    schemaType: data.schemaType,
   };
 }
 
@@ -111,6 +123,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectType | null
 
 export async function getExperiences(): Promise<ExperienceType[]> {
   const { experiences } = await import("@/content/experience");
-  // Matches the previous Firestore `.orderBy("year", "desc")`.
-  return [...experiences].sort((a, b) => (a.year < b.year ? 1 : a.year > b.year ? -1 : 0));
+  // The source is intentionally ordered newest first; month labels are not
+  // lexicographically sortable (for example, Aug must come before Jul).
+  return [...experiences];
 }

@@ -23,7 +23,7 @@ function getWelcomeMessage(lang: "en" | "id"): Message {
     role: "assistant",
     content:
       lang === "id"
-        ? "Hai! Aku asisten portfolio Akhyar. Tanya apa saja tentang project, skill, atau pengalamannya."
+        ? "Hai! Saya asisten portofolio Akhyar. Silakan tanyakan proyek, keahlian, atau pengalamannya."
         : "Hey! I'm Akhyar's portfolio assistant. Ask me anything about his projects, skills, or experience.",
   };
 }
