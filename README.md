@@ -16,7 +16,7 @@ Public portfolio website with authenticated dashboard for content management, co
 - Featured project pinning with custom ordering
 - Image upload to Cloudinary
 - Contact form via the Resend API
-- CV download with remote GitHub fallback
+- CV download proxied dynamically from GitHub
 - Portfolio chatbot powered by Groq
 - Shared tech-stack registry for badges, labels, and autocomplete
 - JSON-LD structured data (Person, SoftwareApplication)
@@ -89,8 +89,8 @@ EMAIL_RECEIVER=                 # Where contact submissions land
 
 GROQ_API_KEY=                   # Portfolio chatbot
 
-GITHUB_CV_TOKEN=                # Optional — remote CV fallback
-GITHUB_CV_RAW_URL=              # Optional — remote CV fallback
+GITHUB_CV_TOKEN=                # Optional — private GitHub repository access
+GITHUB_CV_RAW_URL=              # Optional — override the official raw CV URL
 ```
 
 `CONTACT_FROM_EMAIL` must be on a domain verified in Resend. Before the domain
