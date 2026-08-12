@@ -1,5 +1,3 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
 
 const fileName = "CV-Akhyar.pdf";
@@ -8,11 +6,7 @@ const repo = "CV";
 const cvPath = "cv_akhyar.pdf";
 const branch = "main";
 
-function pdfResponse(
-  buffer: ArrayBuffer | Buffer,
-  source: "github" | "local",
-  reason?: string
-) {
+function pdfResponse(buffer: ArrayBuffer) {
   // ponytail: TS 5.7+'s stricter lib.dom ArrayBufferView types no longer
   // accept Buffer (or a view over ArrayBufferLike) as BodyInit — copy into
   // a fresh Uint8Array<ArrayBuffer>, which fetch's Response always accepts.
@@ -23,16 +17,20 @@ function pdfResponse(
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename="${fileName}"`,
       "Cache-Control": "no-cache, no-store, must-revalidate",
-      "X-CV-Source": source,
-      ...(reason ? { "X-CV-Fallback-Reason": reason } : {}),
+      "X-CV-Source": "github",
     },
   });
 }
 
-async function getLocalCV(reason?: string) {
-  const localPath = path.join(process.cwd(), "public", fileName);
-  const buffer = await readFile(localPath);
-  return pdfResponse(buffer, "local", reason);
+function unavailableResponse() {
+  return new NextResponse("CV temporarily unavailable", {
+    status: 502,
+    headers: {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      "Retry-After": "60",
+      "X-CV-Source": "github",
+    },
+  });
 }
 
 export async function GET() {
@@ -40,10 +38,6 @@ export async function GET() {
   const cvUrl =
     process.env.GITHUB_CV_RAW_URL ??
     `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${cvPath}`;
-
-  if (!cvUrl) {
-    return getLocalCV("missing-cv-url");
-  }
 
   try {
     const githubApiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${cvPath}?ref=${branch}`;
@@ -59,13 +53,19 @@ export async function GET() {
 
     if (!response.ok) {
       console.warn(`GitHub CV fetch failed with status ${response.status}`);
-      return getLocalCV(`github-${response.status}`);
+      return unavailableResponse();
     }
 
     const buffer = await response.arrayBuffer();
-    return pdfResponse(buffer, "github");
+    const signature = new TextDecoder().decode(buffer.slice(0, 5));
+    if (signature !== "%PDF-") {
+      console.warn("GitHub CV response was not a PDF");
+      return unavailableResponse();
+    }
+
+    return pdfResponse(buffer);
   } catch (error) {
     console.error("CV download error:", error);
-    return getLocalCV("github-error");
+    return unavailableResponse();
   }
 }
