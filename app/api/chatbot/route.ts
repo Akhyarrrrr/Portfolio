@@ -103,7 +103,7 @@ export async function POST(req: Request) {
     const groq = new Groq({ apiKey });
     const response = await groq.chat.completions.create({
       messages: [{ role: "system", content: systemPrompt }, ...finalMessages],
-      model: "llama-3.1-8b-instant",
+      model: process.env.GROQ_MODEL ?? "openai/gpt-oss-20b",
       max_tokens: 320,
       temperature: 0.7,
     });
