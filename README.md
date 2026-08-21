@@ -72,7 +72,7 @@ public/                      Static assets
 
 | Endpoint | Method | Description |
 |---|---|---|
-| `/api/chatbot` | POST | Groq AI chatbot (`llama-3.1-8b-instant`) |
+| `/api/chatbot` | POST | Groq AI chatbot (`openai/gpt-oss-20b`) |
 | `/api/cv` | GET | CV PDF download |
 | `/api/send-email` | POST | Contact form email via the Resend API |
 
