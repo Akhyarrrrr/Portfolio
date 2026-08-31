@@ -4,14 +4,14 @@ import { Fragment, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const achievements = [
-  "90+ Academic Journals Managed",
-  "10+ Projects Shipped",
+  "80+ Active Journals Supported",
+  "3 Recruiter Case Studies",
   "Zero-Data-Loss Migration",
   "Full Server & Infra Ownership",
   "CI/CD & Dockerized Deploys",
   "Cross-Platform Mobile Apps",
   "AI-Powered Tooling",
-  "Production-Ready Systems",
+  "Full-Stack & Production Systems",
 ];
 
 export default function Tape() {

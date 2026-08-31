@@ -63,7 +63,6 @@ export default function SkillsTape() {
       {/* Scrolling categorized rows */}
       <div className="space-y-1">
         {categoryList.map(({ category, techs }, catIdx) => {
-          const isMobile = category === "Mobile";
           return (
             <div key={category}>
               <ScrollVelocity
@@ -79,7 +78,7 @@ export default function SkillsTape() {
                   </div>,
                 ]}
                 velocity={catIdx % 2 === 0 ? 30 : -25}
-                numCopies={isMobile ? 8 : 3}
+                numCopies={3}
                 scrollerClassName="items-center"
               />
             </div>

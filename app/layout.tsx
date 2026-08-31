@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: `${profile.name} | ${profile.jobTitle}`,
   description:
-    "Full-stack engineer from Banda Aceh building production systems with React, Next.js, and Node.js. 90+ academic journals, AI-powered attendance, and more.",
+    "Software Engineer from Banda Aceh building full-stack products and production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
   robots: { index: true, follow: true },
   alternates: {
     canonical: "/",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${profile.name} | ${profile.jobTitle}`,
     description:
-      "Full-stack engineer building production systems with 90+ academic journals, AI-powered attendance, and more. Built with Next.js.",
+      "Software Engineer building full-stack products and production systems, with operational ownership for 80+ active academic journals.",
     siteName: "Akhyar Portfolio",
     url: SITE_URL,
     // No manual `images` here — app/opengraph-image.tsx generates it at
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${profile.name} | ${profile.jobTitle}`,
     description:
-      "Full-stack engineer building production systems with React, Next.js, and Node.js.",
+      "Software Engineer building full-stack products and production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
   },
   verification: {
     google: "YF_pXgxB-6KdItwpFEQPtU_CFXo1sGSWH-Y9qL4QeM8",

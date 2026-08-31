@@ -4,14 +4,14 @@ title: Presence
 title_en: Presence
 title_id: Presence
 description: >-
-  A workforce attendance platform with a public face-recognition kiosk, liveness
-  checks, shift logic, admin dashboard, and PDF reports.
+  A workforce attendance platform with face verification, demo-grade liveness
+  gating, server-side vector matching, shifts, realtime monitoring, and reports.
 desc_en: >-
-  A workforce attendance platform with a public face-recognition kiosk, liveness
-  checks, shift logic, admin dashboard, and PDF reports.
+  A workforce attendance platform with face verification, demo-grade liveness
+  gating, server-side vector matching, shifts, realtime monitoring, and reports.
 desc_id: >-
-  Platform absensi tenaga kerja dengan kiosk face recognition publik, liveness
-  check, logika shift, dashboard admin, dan laporan PDF.
+  Platform absensi tenaga kerja dengan verifikasi wajah, liveness gating tingkat
+  demo, pencocokan vektor server-side, shift, monitoring realtime, dan laporan.
 category: web
 tech:
   - Next.js
@@ -50,12 +50,11 @@ solutionApproach_id: >-
   pgvector RPC, lalu ditulis melalui protected server routes setelah liveness
   dan pengecekan shift lolos.
 impact: >-
-  Presence shows that I can combine AI-in-the-browser, database security,
-  realtime dashboards, and reporting into one production-shaped system.
+  Presence demonstrates one end-to-end attendance workflow while keeping the
+  public recruiter deployment read-only and biometric limitations explicit.
 impact_id: >-
-  Presence menunjukkan bahwa saya bisa menggabungkan AI di browser, keamanan
-  database, dashboard realtime, dan reporting ke dalam satu sistem yang terasa
-  production-ready.
+  Presence menunjukkan alur absensi end-to-end dengan deployment recruiter
+  publik yang read-only serta batasan biometrik yang dijelaskan secara jujur.
 techRationale: >-
   Next.js keeps kiosk, admin, and server routes in one codebase. Supabase gives
   Auth, Postgres, Realtime, and pgvector; TensorFlow plus face-api.js handles
@@ -66,14 +65,14 @@ techRationale_id: >-
   face-api.js menangani recognition tanpa mengirim raw image ke model pihak
   ketiga.
 keyFeatures:
-  - Public face-recognition kiosk
-  - Head-movement liveness check
+  - Read-only public recruiter walkthrough
+  - Demo-grade head-movement liveness gate
   - Server-side pgvector face matching
   - Shift and schedule management
   - Realtime attendance dashboard
   - Monthly PDF report export
 year: '2026'
-duration: MVP + hardening
+duration: Recruiter-ready MVP
 role: Solo Full Stack Developer
 learnings: >-
   I learned that face recognition is mostly an operations problem: calibration,
