@@ -58,6 +58,7 @@ import {
   SiTensorflow,
   SiTypescript,
   SiVercel,
+  SiWordpress,
 } from "react-icons/si";
 import { TbApi, TbBrandCSharp } from "react-icons/tb";
 
@@ -96,6 +97,7 @@ const techCatalog: TechDefinition[] = [
   { key: "php", label: "PHP", icon: <SiPhp className={`${icn} text-indigo-300`} /> },
   { key: "laravel", label: "Laravel", icon: <SiLaravel className={`${icn} text-red-500`} /> },
   { key: "kotlin", label: "Kotlin", icon: <SiKotlin className={`${icn} text-purple-400`} /> },
+  { key: "sql", label: "SQL", icon: L(Database) },
   { key: "java", label: "Java", icon: <BiLogoJava className={`${icn} text-orange-400`} /> },
   { key: "csharp", label: "C#", aliases: ["c#"], icon: <TbBrandCSharp className={`${icn} text-violet-300`} /> },
   { key: "cplusplus", label: "C++", aliases: ["c++"], icon: <BiLogoCPlusPlus className={`${icn} text-sky-300`} /> },
@@ -111,6 +113,7 @@ const techCatalog: TechDefinition[] = [
   { key: "drizzle", label: "Drizzle ORM", aliases: ["drizzle orm"], icon: <SiDrizzle className={`${icn} text-lime-300`} /> },
   { key: "graphql", label: "GraphQL", icon: <SiGraphql className={`${icn} text-pink-400`} /> },
   { key: "restapi", label: "REST API", aliases: ["rest", "api"], icon: <TbApi className={`${icn} text-cyan-300`} /> },
+  { key: "wordpress", label: "WordPress", aliases: ["wp"], icon: <SiWordpress className={`${icn} text-sky-400`} /> },
   { key: "docker", label: "Docker", icon: <SiDocker className={`${icn} text-sky-400`} /> },
   { key: "linux", label: "Linux", icon: <SiLinux className={`${icn} text-amber-200`} /> },
   { key: "vercel", label: "Vercel", icon: <SiVercel className={`${icn} text-white`} /> },
@@ -141,8 +144,8 @@ const techCatalog: TechDefinition[] = [
   { key: "webworkers", label: "Web Workers", aliases: ["web workers", "web worker"], icon: L(Cpu) },
   { key: "githubactions", label: "GitHub Actions", aliases: ["github actions", "gh actions"], icon: <SiGithubactions className={`${icn} text-blue-400`} /> },
   { key: "adonisjs", label: "AdonisJS", aliases: ["adonis", "adonis js"], icon: <SiAdonisjs className={`${icn} text-violet-400`} /> },
-  { key: "gcp", label: "Google Cloud", aliases: ["gcp", "google cloud platform"], icon: <SiGooglecloud className={`${icn} text-blue-300`} /> },
-  { key: "aws", label: "AWS", aliases: ["amazon web services", "amazon"], icon: L(Cloud) },
+  { key: "gcp", label: "GCP", aliases: ["google cloud", "google cloud platform"], icon: <SiGooglecloud className={`${icn} text-blue-300`} /> },
+  { key: "aws", label: "AWS EC2", aliases: ["aws", "amazon web services", "amazon"], icon: L(Cloud) },
   { key: "mariadb", label: "MariaDB", aliases: ["maria db"], icon: <SiMariadb className={`${icn} text-amber-400`} /> },
   { key: "alpinejs", label: "Alpine.js", aliases: ["alpine", "alpine js", "alpine.js"], icon: <SiAlpinedotjs className={`${icn} text-sky-500`} /> },
   { key: "livewire", label: "Livewire", aliases: ["livewire laravel"], icon: <SiLivewire className={`${icn} text-pink-400`} /> },
@@ -169,8 +172,8 @@ for (const tech of techCatalog) {
 }
 
 export const featuredSkills = [
-  "Next.js", "Tailwind CSS", "TypeScript", "React", "Node.js", "Go", "Python",
-  "PostgreSQL", "Drizzle ORM", "Firebase", "Supabase", "Docker", "Vercel", "GitHub", "Figma", "Linux",
+  "TypeScript", "Next.js", "React", "Node.js", "PostgreSQL", "Supabase",
+  "React Native", "Expo", "Laravel", "WordPress", "Docker", "Git",
 ].map((s) => getTechMeta(s) ?? { label: s });
 
 // This list is the Skills-section showcase only — not the full catalog
@@ -181,25 +184,10 @@ export const featuredSkills = [
 // specific project's own tech list names them (e.g. a plain HTML/CSS
 // project with no framework) — only removed from this general showcase.
 export const techCategories = {
-  // TensorFlow and face-api.js added — both genuinely shipped (Presence's
-  // face-recognition + liveness detection), and more distinctive than
-  // generic frontend entries.
-  Frontend: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "TensorFlow", "face-api.js"],
-  // Prisma and Drizzle ORM moved here from Database — they're ORMs (a
-  // backend data-access layer), not databases themselves.
-  // NestJS, Go, and GraphQL removed — no shipped project or knowledge-base
-  // claim backs them; re-add once an actual project uses one.
-  // Groq AI added — powers this site's own chatbot and LacakKarirku's
-  // CV/job matching, both real shipped usage.
-  Backend: ["Node.js", "Express.js", "Python", "PHP", "Laravel", "REST API", "Prisma", "Drizzle ORM", "Groq AI"],
-  // Redis removed (no shipped project or knowledge-base claim). MongoDB
-  // and Linux kept per explicit confirmation — genuinely known, just not
-  // yet reflected in a shipped project.
-  // pgvector added — the vector-similarity search behind Presence's
-  // face-matching, a genuinely distinctive database skill.
-  Database: ["PostgreSQL", "MySQL", "MongoDB", "Firebase", "Supabase", "pgvector"],
-  "DevOps & Tools": ["Docker", "Linux", "Git", "GitHub", "Vercel", "Railway", "Cloudinary", "Figma"],
-  Mobile: ["React Native", "Expo", "Kotlin", "Java"],
+  Languages: ["TypeScript", "JavaScript", "PHP", "Python", "SQL", "Kotlin"],
+  "Frontend & Mobile": ["React", "Next.js", "React Native", "Expo", "Tailwind CSS"],
+  "Backend & Platforms": ["Node.js", "Express.js", "Laravel", "WordPress", "REST API"],
+  "Data & Infrastructure": ["PostgreSQL", "MySQL", "Supabase", "Drizzle ORM", "pgvector", "Docker", "AWS EC2", "GCP", "Git"],
 } as const;
 
 export type TechCategory = keyof typeof techCategories;

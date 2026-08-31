@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Akhyar's Portfolio",
     short_name: "Akhyar",
     description:
-      "Full-stack engineer building production systems with React, Next.js, and Node.js.",
+      "Software Engineer building full-stack products and production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
     start_url: "/",
     display: "standalone",
     background_color: "#0B0F15",

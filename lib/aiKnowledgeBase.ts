@@ -44,8 +44,8 @@ Role: ${profile.jobTitle}
 Location: ${profile.location}
 ${
   isId
-    ? "Akhyar terbuka untuk peluang full-time atau remote serta proyek freelance terpilih."
-    : "Akhyar is open to full-time or remote opportunities and selected freelance projects."
+    ? "Akhyar hanya mencari peluang remote untuk full-time, kontrak, atau proyek freelance terpilih, dengan waktu transisi sekitar satu hingga dua minggu setelah menerima offer."
+    : "Akhyar is seeking remote-only full-time, contract, or selected freelance opportunities, with approximately one to two weeks of transition time after accepting an offer."
 }
 
 EXPERIENCE AND EDUCATION:

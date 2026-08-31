@@ -1,7 +1,7 @@
 export const profile = {
   name: "Akhyar",
   alternateName: "Yar",
-  jobTitle: "Full-Stack Engineer",
+  jobTitle: "Software Engineer",
   location: "Banda Aceh, Indonesia",
   email: "ahyar12324@gmail.com",
   phone: "(+62) 822-7533-1698",
@@ -28,7 +28,6 @@ export const profile = {
     "PostgreSQL",
     "MySQL",
     "Supabase",
-    "Firebase",
     "Docker",
   ],
 } as const;

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Akhyar — Full-Stack Developer Portfolio";
+export const alt = "Akhyar - Software Engineer Portfolio";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -30,7 +30,7 @@ export default function OpengraphImage() {
             display: "flex",
           }}
         >
-          Portfolio of shipped systems
+          Software Engineer | Full-Stack Products & Production Systems
         </div>
         <div
           style={{
@@ -55,8 +55,8 @@ export default function OpengraphImage() {
             display: "flex",
           }}
         >
-          Full-stack engineer building reliable web systems from
-          infrastructure to interface.
+          Full-stack products and reliable production systems with TypeScript,
+          Next.js, Node.js, and PostgreSQL.
         </div>
       </div>
     ),

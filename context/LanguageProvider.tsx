@@ -25,17 +25,17 @@ const dict = {
       language: "Language",
     },
     hero: {
-      welcome: "Portfolio of shipped systems",
+      welcome: "Software Engineer | Full-Stack Products & Production Systems",
       hey: "Hey, I'm",
       name: profile.name,
       tagline:
-        "Full-stack engineer building reliable web systems from infrastructure to interface.",
+        "I build full-stack products and reliable production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
       download_cv: "Download CV",
     },
     skills: {
       badge: "Tech Stack",
       heading: "Tools I <span>Work With</span>",
-      sub: "Technologies I use to build production-ready systems end to end.",
+      sub: "Technologies I use to build full-stack products and reliable systems end to end.",
     },
     experience: {
       heading: "My Journey Through <span>Code & Impact</span>",
@@ -43,7 +43,7 @@ const dict = {
     },
     project: {
       heading: "Snippets of My <span>Selected Works</span>",
-      sub: "Selected products with real users, real constraints, and maintainable code.",
+      sub: "Three selected products with clear workflows, architecture, trade-offs, and honest limitations.",
       filter_all: "All",
       filter_web: "Web",
       filter_mobile: "Mobile",
@@ -75,17 +75,17 @@ const dict = {
       language: "Bahasa",
     },
     hero: {
-      welcome: "Portofolio sistem yang telah dipublikasikan",
+      welcome: "Software Engineer | Full-Stack Products & Production Systems",
       hey: "Hai, saya",
       name: profile.name,
       tagline:
-        "Full-stack engineer yang membangun sistem web andal dari infrastruktur hingga antarmuka.",
+        "Saya membangun produk full-stack dan sistem produksi yang andal dengan TypeScript, Next.js, Node.js, dan PostgreSQL.",
       download_cv: "Unduh CV",
     },
     skills: {
       badge: "Tech Stack",
       heading: "Tools <span>yang saya gunakan</span>",
-      sub: "Teknologi yang saya gunakan untuk membangun sistem yang terukur, efisien, dan siap digunakan.",
+      sub: "Teknologi yang saya gunakan untuk membangun produk full-stack dan sistem yang andal dari awal hingga akhir.",
     },
     experience: {
       heading: "Perjalanan Saya Lewat <span>Code & Impact</span>",
@@ -93,7 +93,7 @@ const dict = {
     },
     project: {
       heading: "Kumpulan <span>Karya Terpilih</span> Saya",
-      sub: "Produk terpilih yang dibangun untuk kebutuhan nyata dengan kode yang dapat dipelihara.",
+      sub: "Tiga produk terpilih dengan workflow, arsitektur, trade-off, dan batasan yang dijelaskan secara jujur.",
       filter_all: "Semua",
       filter_web: "Web",
       filter_mobile: "Mobile",
