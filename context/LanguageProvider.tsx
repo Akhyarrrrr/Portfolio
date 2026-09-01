@@ -29,7 +29,7 @@ const dict = {
       hey: "Hey, I'm",
       name: profile.name,
       tagline:
-        "I build full-stack products and reliable production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
+        "I turn real-world needs into useful, reliable software—from the first requirement to launch and ongoing improvement.",
       download_cv: "Download CV",
     },
     skills: {
@@ -42,8 +42,8 @@ const dict = {
       sub: "Roles, teaching, and production ownership that shaped how I build.",
     },
     project: {
-      heading: "Snippets of My <span>Selected Works</span>",
-      sub: "Three selected products with clear workflows, architecture, trade-offs, and honest limitations.",
+      heading: "A Collection of <span>Projects I've Built</span>",
+      sub: "A complete project collection, with flagship work first and clear details about workflows, architecture, trade-offs, and limitations.",
       filter_all: "All",
       filter_web: "Web",
       filter_mobile: "Mobile",
@@ -79,7 +79,7 @@ const dict = {
       hey: "Hai, saya",
       name: profile.name,
       tagline:
-        "Saya membangun produk full-stack dan sistem produksi yang andal dengan TypeScript, Next.js, Node.js, dan PostgreSQL.",
+        "Saya mengubah kebutuhan nyata menjadi software yang berguna dan andal—dari requirement awal hingga peluncuran dan pengembangan berkelanjutan.",
       download_cv: "Unduh CV",
     },
     skills: {
@@ -92,8 +92,8 @@ const dict = {
       sub: "Peran, pengalaman mengajar, dan tanggung jawab produksi yang membentuk cara saya bekerja.",
     },
     project: {
-      heading: "Kumpulan <span>Karya Terpilih</span> Saya",
-      sub: "Tiga produk terpilih dengan workflow, arsitektur, trade-off, dan batasan yang dijelaskan secara jujur.",
+      heading: "Kumpulan <span>Proyek yang Saya Bangun</span>",
+      sub: "Kumpulan proyek lengkap dengan karya unggulan di awal serta penjelasan yang jelas tentang workflow, arsitektur, trade-off, dan batasannya.",
       filter_all: "Semua",
       filter_web: "Web",
       filter_mobile: "Mobile",

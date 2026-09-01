@@ -20,7 +20,7 @@ const aboutData = {
       { icon: Briefcase,title: "Production Ownership",   desc: "I operate a university publishing platform supporting 80+ active journals, including monitoring, backups, security response, and migration work." },
     ],
     stats: [
-      { label: "Selected Projects", value: 0, suffix: "" },
+      { label: "Projects", value: 0, suffix: "" },
       { label: "Active Journals Supported",value: 80, suffix: "+" },
       { label: "Teaching Sessions",value: 32, suffix: "" },
     ],
@@ -39,7 +39,7 @@ const aboutData = {
       { icon: Briefcase,title: "Tanggung Jawab Produksi",  desc: "Saya mengoperasikan platform publikasi universitas untuk 80+ jurnal aktif, termasuk monitoring, backup, respons keamanan, dan migrasi." },
     ],
     stats: [
-      { label: "Proyek Terpilih",             value: 0, suffix: "" },
+      { label: "Proyek",                      value: 0, suffix: "" },
       { label: "Jurnal Aktif yang Didukung",  value: 80, suffix: "+" },
       { label: "Sesi Mengajar",               value: 32, suffix: "" },
     ],

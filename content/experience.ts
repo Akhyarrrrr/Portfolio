@@ -25,7 +25,7 @@ export const experiences: ExperienceType[] = [
     company_id: "Remote Project Team",
     year: "Jul 2026 - Present",
     year_id: "Jul 2026 - Sekarang",
-    logo: "",
+    logo: "/experience/remote-project-team.svg",
     description:
       "Deliver scoped web, WordPress, and full-stack engagements through a claim-based remote team workflow, covering requirements, interfaces, backend and data changes, staging, and client review.",
     description_id:

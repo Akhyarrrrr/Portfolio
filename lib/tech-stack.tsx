@@ -187,7 +187,7 @@ export const techCategories = {
   Languages: ["TypeScript", "JavaScript", "PHP", "Python", "SQL", "Kotlin"],
   "Frontend & Mobile": ["React", "Next.js", "React Native", "Expo", "Tailwind CSS"],
   "Backend & Platforms": ["Node.js", "Express.js", "Laravel", "WordPress", "REST API"],
-  "Data & Infrastructure": ["PostgreSQL", "MySQL", "Supabase", "Drizzle ORM", "pgvector", "Docker", "AWS EC2", "GCP", "Git"],
+  "Data & Infrastructure": ["PostgreSQL", "MySQL", "Supabase", "Docker", "AWS EC2", "GCP", "Git"],
 } as const;
 
 export type TechCategory = keyof typeof techCategories;

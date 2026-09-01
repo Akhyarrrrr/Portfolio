@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Remote Project Team monogram</title>
+  <desc id="desc">A neutral RP monogram for project-based remote software engineering work.</desc>
+  <rect width="96" height="96" rx="18" fill="#111820"/>
+  <rect x="5" y="5" width="86" height="86" rx="14" fill="none" stroke="#61DCA3" stroke-opacity=".45" stroke-width="2"/>
+  <path d="M25 69V27h20c10.5 0 17 5.5 17 14.5 0 6.8-3.8 11.6-10.2 13.5L65 69H52.7L41.5 56.5H36V69H25Zm11-22h8.2c4.4 0 6.8-1.8 6.8-5.4 0-3.5-2.4-5.2-6.8-5.2H36V47Z" fill="#F5F7F8"/>
+  <path d="M65 27h8v42h-8z" fill="#61DCA3"/>
+</svg>

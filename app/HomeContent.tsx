@@ -32,10 +32,6 @@ type HomeContentProps = {
 
 export default function HomeContent({ projects, experiences }: HomeContentProps) {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
-  const featuredProjects = useMemo(
-    () => projects.filter((project) => project.pinned),
-    [projects],
-  );
 
   // Find selected project + related
   const selectedProject = useMemo(
@@ -92,7 +88,7 @@ export default function HomeContent({ projects, experiences }: HomeContentProps)
             <Hero />
           </Suspense>
           <Suspense fallback={null}>
-            <About projectCount={featuredProjects.length} />
+            <About projectCount={projects.length} />
           </Suspense>
           <Suspense fallback={null}>
             <Experience experiences={experiences} />
@@ -101,7 +97,7 @@ export default function HomeContent({ projects, experiences }: HomeContentProps)
             <Tape />
           </Suspense>
           <Suspense fallback={null}>
-            <Project projects={featuredProjects} onSelectProject={handleSelectProject} />
+            <Project projects={projects} onSelectProject={handleSelectProject} />
           </Suspense>
           <Suspense fallback={null}>
             <Skills />
