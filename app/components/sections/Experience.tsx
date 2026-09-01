@@ -35,13 +35,17 @@ function Logo({ exp, company }: { exp: ExperienceType; company: string }) {
   }
 
   return (
-    <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-[#61DCA3]/45 bg-white shadow-[0_0_18px_rgba(97,220,163,0.12)]">
+    <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-[#61DCA3]/45 bg-[#111820] text-xs font-semibold text-[#61DCA3] shadow-[0_0_18px_rgba(97,220,163,0.12)]">
+      <span aria-hidden>{company.split(/\s+/).map((word) => word[0]).join("").slice(0, 2).toUpperCase() || "?"}</span>
       <Image
         src={exp.logo}
         alt={`${company} logo`}
         fill
-        className="object-contain p-1"
+        className="bg-white object-contain p-1"
         unoptimized
+        onError={(event) => {
+          event.currentTarget.style.display = "none";
+        }}
       />
     </div>
   );

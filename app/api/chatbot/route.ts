@@ -105,7 +105,7 @@ export async function POST(req: Request) {
       messages: [{ role: "system", content: systemPrompt }, ...finalMessages],
       model: process.env.GROQ_MODEL ?? "openai/gpt-oss-20b",
       max_tokens: 320,
-      temperature: 0.7,
+      temperature: 0.2,
     });
 
     return Response.json({

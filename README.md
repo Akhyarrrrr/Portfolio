@@ -1,20 +1,18 @@
 # Akhyar's Portfolio
 
-Personal portfolio built with Next.js 16, TypeScript, Tailwind CSS, Firebase, and a custom admin dashboard.
+Personal portfolio built with Next.js 16, TypeScript, Tailwind CSS, source-controlled MDX content, and a constrained AI assistant.
 
 ## Overview
 
-Public portfolio website with authenticated dashboard for content management, contact form, CV download, and a Groq-powered chatbot. The homepage fetches data server-side; project detail pages support individual case-study URLs with structured data.
+Public portfolio website with bilingual case studies, a contact form, CV download, and a Groq-powered chatbot. The homepage reads project and experience data server-side; project detail pages provide individual case-study URLs with structured data.
 
 ## Features
 
 - Server-rendered homepage with animated client sections
 - Individual project detail pages (`/projects/[slug]`) with related projects
 - Bilingual content (EN/ID)
-- Firebase Auth — Google login gated to admin email
-- Dashboard CRUD for projects and experiences
 - Featured project pinning with custom ordering
-- Image upload to Cloudinary
+- Source-controlled MDX project content
 - Contact form via the Resend API
 - CV download proxied dynamically from GitHub
 - Portfolio chatbot powered by Groq
@@ -30,7 +28,7 @@ Public portfolio website with authenticated dashboard for content management, co
 | Core | Next.js 16, React 19, TypeScript, Tailwind CSS 4 |
 | Motion | Framer Motion, Lottie (dotlottie-react) |
 | 3D | Three.js, React Three Fiber, Drei, Rapier, meshline |
-| Data | Firebase Auth, Firestore (client + admin), Cloudinary |
+| Data | MDX frontmatter, typed TypeScript content |
 | Server | Resend (email), Groq SDK |
 | UI | React Icons, Lucide React, clsx, tailwind-merge |
 
@@ -46,14 +44,10 @@ app/
     schema/                  JsonLd component
     splash/                  SplashScreen intro
     ui/                      Reusable primitives (3d-pin, SectionHeading, TechInitials, etc.)
-  dashboard/
-    _components/             Shared dashboard UI
-    projects/                Project CRUD page
-    experiences/             Experience CRUD page
   projects/[slug]/           Dynamic project detail page (SSR + static params)
-  login/                     Firebase Google Auth
-context/                     AuthContext, LanguageProvider (i18n)
-lib/                         Firebase, Firestore CRUD, Firestore server, Cloudinary, tech-stack, schema generator
+context/                     LanguageProvider (i18n)
+content/                     MDX projects, typed experience and profile data
+lib/                         Content reader, tech-stack, schema generator, rate limiter
 public/                      Static assets
 ```
 
@@ -63,10 +57,6 @@ public/                      Static assets
 |---|---|
 | `/` | Landing — SSR data fetch, lazy-mounted animated sections |
 | `/projects/[slug]` | Individual project case study with related projects |
-| `/login` | Firebase Google Auth, restricted to admin email |
-| `/dashboard` | Admin hub (client-side auth gate) |
-| `/dashboard/projects` | Project CRUD |
-| `/dashboard/experiences` | Experience CRUD |
 
 ## API Routes
 
@@ -78,9 +68,9 @@ public/                      Static assets
 
 ## Environment Variables
 
-These six are every variable the code actually reads. The Firebase, Cloudinary
-and admin keys this file used to list died with the Firebase removal
-(`5b5213d`) and are no longer referenced anywhere.
+These six variables are the complete runtime configuration. The previous
+Firebase, Cloudinary, and admin keys were removed with the retired dashboard
+workflow and are no longer referenced.
 
 ```env
 RESEND_API_KEY=                 # Resend API key (contact form)
@@ -115,11 +105,11 @@ npm run start    # Start production server
 npm run lint     # TypeScript type-check (tsc --noEmit)
 ```
 
-## Admin Workflow
+## Content Workflow
 
-1. Login at `/login` with the allowed Google account.
-2. Navigate to `/dashboard`.
-3. Manage projects and experiences — add tech tags, pin featured items, upload images.
+1. Edit project frontmatter under `content/projects/` or typed experience data in `content/experience.ts`.
+2. Run lint and production build checks.
+3. Review bilingual copy, project routes, and public links before publishing.
 
 ## Deployment
 
