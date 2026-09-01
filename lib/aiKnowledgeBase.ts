@@ -33,6 +33,9 @@ function projectText(item: ProjectType, lang: KnowledgeLanguage) {
 
 export async function getKnowledgeContext(lang: KnowledgeLanguage): Promise<string> {
   const [experiences, projects] = await Promise.all([getExperiences(), getProjects()]);
+  const flagshipProjects = projects
+    .filter((project) => project.pinned)
+    .sort((a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER));
   const isId = lang === "id";
 
   return `You are ${profile.name}'s portfolio AI assistant. Use only the verified information below.
@@ -54,6 +57,9 @@ ${experiences.map((item) => experienceText(item, lang)).join("\n\n")}
 PROJECTS:
 ${projects.map((item) => projectText(item, lang)).join("\n\n")}
 
+FLAGSHIP PROJECTS IN DISPLAY ORDER:
+${flagshipProjects.map((item, index) => `${index + 1}. ${item.title_en ?? item.title ?? item.slug}`).join("\n")}
+
 SKILLS:
 ${profile.skills.join(", ")}
 
@@ -69,6 +75,7 @@ INSTRUCTIONS:
 - Answer only about ${profile.name}'s work, projects, skills, experience, education, and availability.
 - Politely redirect unrelated questions back to the portfolio.
 - Do not invent clients, revenue, user counts, rankings, or impact metrics.
+- Do not infer a work arrangement such as remote, onsite, or hybrid unless it is stated in the verified experience data.
 - Do not describe a project as live or deployed unless a URL is included in that project's verified data.
 - If a project has no URL, describe the work without suggesting that a public demo is currently available.
 - Keep responses concise, professional, friendly, and under 120 words unless details are requested.
