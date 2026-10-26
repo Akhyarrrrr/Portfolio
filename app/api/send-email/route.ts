@@ -1,23 +1,6 @@
-// Resend's REST API over plain fetch — no SDK. It is one POST to one
-// endpoint, so a dependency would buy nothing a dozen lines don't already do,
-// and it lets this route own its own error surface.
-// ponytail: swap to the `resend` package only if we start needing batching,
-// attachments, audiences, or React email templates.
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
-
-type SendEmailBody = {
-  from_name?: string;
-  from_email?: string;
-  message?: string;
-  // Honeypot: a hidden field real users never fill in. Bots that
-  // auto-fill every input trip it and get silently no-op'd. Deliberately
-  // NOT named "company" — that matches Chrome's ORGANIZATION autofill
-  // type, so a real visitor's browser could fill it and get silently
-  // dropped while the UI reported success.
-  website?: string;
-};
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_NAME_LEN = 100;
@@ -55,7 +38,7 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: SendEmailBody;
+  let body: unknown;
 
   try {
     body = await req.json();
@@ -63,26 +46,37 @@ export async function POST(req: Request) {
     return Response.json({ message: "Invalid request body" }, { status: 400 });
   }
 
-  const { from_name, from_email, message, website } = body;
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return Response.json({ message: "Invalid request body" }, { status: 400 });
+  }
+
+  const { from_name, from_email, message, website } = body as Record<string, unknown>;
+  if (
+    typeof from_name !== "string" ||
+    typeof from_email !== "string" ||
+    typeof message !== "string" ||
+    (website !== undefined && typeof website !== "string")
+  ) {
+    return Response.json({ message: "Invalid fields" }, { status: 400 });
+  }
 
   // Honeypot tripped — pretend success so the bot doesn't learn to skip it.
   if (website) {
     return Response.json({ message: "Email sent successfully" });
   }
 
-  if (!from_name || !from_email || !message) {
+  if (!from_name.trim() || !from_email.trim() || !message.trim()) {
     return Response.json({ message: "Missing fields" }, { status: 400 });
   }
 
   if (
     hasHeaderInjection(from_name) ||
-    hasHeaderInjection(from_email) ||
-    hasHeaderInjection(message)
+    hasHeaderInjection(from_email)
   ) {
     return Response.json({ message: "Invalid characters in submission" }, { status: 400 });
   }
 
-  if (from_name.length > MAX_NAME_LEN || message.length > MAX_MESSAGE_LEN) {
+  if (from_name.length > MAX_NAME_LEN || from_email.length > 254 || message.length > MAX_MESSAGE_LEN) {
     return Response.json({ message: "Submission too long" }, { status: 400 });
   }
 

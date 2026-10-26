@@ -47,15 +47,29 @@ export async function POST(req: Request) {
     );
   }
 
+  let body: unknown;
   try {
-    const body = await req.json();
-    const lang = normalizeLanguage(body.lang);
+    body = await req.json();
+  } catch {
+    return Response.json({ message: "Invalid request body" }, { status: 400 });
+  }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return Response.json({ message: "Invalid request body" }, { status: 400 });
+  }
+
+  try {
+    const input = body as Record<string, unknown>;
+    const lang = normalizeLanguage(input.lang);
     const systemPrompt = await getKnowledgeContext(lang);
-    const messages = Array.isArray(body.messages)
-      ? (body.messages as ChatMessage[])
+    const messages = Array.isArray(input.messages)
+      ? input.messages.slice(-8).filter((message): message is ChatMessage =>
+          message !== null && typeof message === "object" &&
+          (message.role === "user" || message.role === "assistant") &&
+          typeof message.content === "string",
+        )
       : [];
     const userMessage =
-      typeof body.userMessage === "string" ? body.userMessage.trim() : "";
+      typeof input.userMessage === "string" ? input.userMessage.trim().slice(0, 1000) : "";
 
     const injectionBlocked =
       containsInjection(userMessage) ||
@@ -73,13 +87,7 @@ export async function POST(req: Request) {
     }
 
     const safeHistory = messages
-      .filter(
-        (message) =>
-          (message.role === "user" || message.role === "assistant") &&
-          typeof message.content === "string" &&
-          message.content.trim()
-      )
-      .slice(-8)
+      .filter((message) => message.content.trim())
       .map((message) => ({
         role: message.role,
         content: message.content.slice(0, 1000),
