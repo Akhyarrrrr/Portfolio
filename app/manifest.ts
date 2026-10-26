@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
+import { profile } from "@/content/profile";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Akhyar's Portfolio",
     short_name: "Akhyar",
-    description:
-      "Software Engineer building full-stack products and production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
+    description: profile.description,
     start_url: "/",
     display: "standalone",
     background_color: "#0B0F15",

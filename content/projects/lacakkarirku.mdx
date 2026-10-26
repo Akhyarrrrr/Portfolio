@@ -27,7 +27,7 @@ href: 'https://lacakkarirku.akhyar.dev'
 githubUrl: 'https://github.com/Akhyarrrrr/lacakkarirku'
 liveUrl: 'https://lacakkarirku.akhyar.dev'
 pinned: true
-order: 3
+order: 4
 problemStatement: >-
   Job seekers often save links everywhere, read job descriptions repeatedly, and
   still do not know which roles are worth applying to first. I wanted one
@@ -38,20 +38,24 @@ problemStatement_id: >-
   dulu. Saya ingin membuat satu workspace yang menghubungkan CV, sumber
   lowongan, dan aksi berikutnya.
 solutionApproach: >-
-  I built CV upload and parsing, multi-source job aggregation, manual job input,
-  match scoring, and AI suggestions. The app stores jobs, CV data, and matches
-  in Neon through Drizzle, with Better Auth handling verified email sessions.
+  I built PDF CV upload and parsing, job aggregation with manual entry as a
+  fallback, heuristic CV-to-job matching, LLM-assisted suggestions, and
+  application tracking with follow-up. Neon Postgres and Drizzle store the data,
+  while Better Auth handles authentication.
 solutionApproach_id: >-
-  Saya membangun upload dan parsing CV, agregasi lowongan dari banyak sumber,
-  input lowongan manual, match scoring, dan saran AI. Data job, CV, dan match
-  disimpan di Neon lewat Drizzle, dengan Better Auth untuk sesi email terverifikasi.
+  Saya membangun upload dan parsing CV PDF, agregasi lowongan dengan input
+  manual sebagai fallback, pencocokan heuristik CV dengan lowongan, saran
+  berbantuan LLM, serta tracking lamaran dan follow-up. Neon Postgres dan
+  Drizzle menyimpan data, sementara Better Auth menangani autentikasi.
 impact: >-
-  The app turns scattered job hunting into a more deliberate workflow: collect
-  roles, compare fit, improve the CV, then track progress.
+  A working job-search workspace connecting CV review, job collection, matching,
+  and application progress. Match scores are heuristic guidance, not hiring
+  predictions; external job-source availability can change.
 impact_id: >-
-  Aplikasi ini mengubah proses cari kerja yang tercecer menjadi workflow yang
-  lebih terarah: kumpulkan lowongan, bandingkan kecocokan, perbaiki CV, lalu
-  track progres.
+  Workspace pencarian kerja yang menghubungkan review CV, pengumpulan lowongan,
+  pencocokan, dan progres lamaran. Skor kecocokan menjadi panduan heuristik,
+  bukan prediksi penerimaan kerja; ketersediaan sumber lowongan eksternal dapat
+  berubah.
 techRationale: >-
   Next.js gave the project one place for UI and API routes. Cheerio handled
   stable sources, Groq handled CV and suggestion tasks, and Drizzle kept the
@@ -62,14 +66,13 @@ techRationale_id: >-
   layer database tetap mudah dibaca.
 keyFeatures:
   - CV PDF upload and parsing
-  - Multi-source job aggregation
-  - Manual job capture
-  - CV-to-job match score
-  - AI CV improvement suggestions
-  - Application pipeline tracking
+  - Job aggregation with manual input fallback
+  - Heuristic CV-to-job matching
+  - LLM-assisted CV suggestions
+  - Application pipeline tracking and follow-up
 year: '2026'
 duration: Independent product build
-role: Solo Full-Stack Developer
+role: Solo Software Engineer
 learnings: >-
   The hardest part was not the AI prompt, but making the messy edges of public
   job sources fail gracefully and still giving users a useful fallback.
@@ -77,5 +80,12 @@ learnings_id: >-
   Bagian tersulit bukan prompt AI-nya, melainkan membuat sumber lowongan publik
   yang tidak stabil tetap gagal dengan rapi dan punya fallback yang berguna.
 imageUrl: /projects/lacakkarirku.png
+duration_id: Pengembangan produk mandiri
+role_id: Solo Software Engineer
+keyFeatures_id:
+  - Upload dan parsing CV PDF
+  - Agregasi lowongan dengan fallback input manual
+  - Pencocokan heuristik CV dengan lowongan
+  - Saran CV berbantuan LLM
+  - Tracking alur lamaran dan follow-up
 ---
-

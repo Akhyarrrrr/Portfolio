@@ -1,116 +1,89 @@
 # Akhyar's Portfolio
 
-Personal portfolio built with Next.js 16, TypeScript, Tailwind CSS, source-controlled MDX content, and a constrained AI assistant.
+Bilingual portfolio for recruiters, engineering teams, and clients considering Akhyar for remote software-engineering work. Built with Next.js 16, React 19, TypeScript, and Tailwind CSS 4.
 
-## Overview
+The site presents full-stack development and production-system experience, project evidence, education, availability, contact details, and the current CV. Keep the established visual identity, readable recruiter paths, keyboard access, and reduced-motion behavior.
 
-Public portfolio website with bilingual case studies, a contact form, CV download, and a Groq-powered chatbot. The homepage reads project and experience data server-side; project detail pages provide individual case-study URLs with structured data.
+## Run and verify
 
-## Features
+```powershell
+npm ci
+npm run dev
+npm run lint
+npm run build
+npm run start
+```
 
-- Server-rendered homepage with animated client sections
-- Individual project detail pages (`/projects/[slug]`) with related projects
-- Bilingual content (EN/ID)
-- Featured project pinning with custom ordering
-- Source-controlled MDX project content
-- Contact form via the Resend API
-- CV download proxied dynamically from GitHub
-- Portfolio chatbot powered by Groq
-- Shared tech-stack registry for badges, labels, and autocomplete
-- JSON-LD structured data (Person, SoftwareApplication)
-- Splash screen intro animation
-- SEO: sitemap.xml, robots.txt, per-page metadata, OG images
+`lint` runs ESLint and TypeScript. `build` produces the production application with webpack. CI runs both on Node.js 22. Review the homepage, English/Indonesian switch, project filters and details, mobile layout, and CV download before publishing.
 
-## Tech Stack
-
-| Layer | Packages |
-|---|---|
-| Core | Next.js 16, React 19, TypeScript, Tailwind CSS 4 |
-| Motion | Framer Motion, Lottie (dotlottie-react) |
-| 3D | Three.js, React Three Fiber, Drei, Rapier, meshline |
-| Data | MDX frontmatter, typed TypeScript content |
-| Server | Resend (email), Groq SDK |
-| UI | React Icons, Lucide React, clsx, tailwind-merge |
-
-## Project Structure
+## Source layout
 
 ```text
 app/
-  api/                       Route handlers (chatbot, cv, send-email, upload)
-  components/
-    layout/                  Navbar, footer, background, scroll-to-top
-    sections/                Homepage sections (Hero, Skills, Project, Experience, Contact, Tape)
-    projects/                ProjectModal for detail overlay
-    schema/                  JsonLd component
-    splash/                  SplashScreen intro
-    ui/                      Reusable primitives (3d-pin, SectionHeading, TechInitials, etc.)
-  projects/[slug]/           Dynamic project detail page (SSR + static params)
-context/                     LanguageProvider (i18n)
-content/                     MDX projects, typed experience and profile data
-lib/                         Content reader, tech-stack, schema generator, rate limiter
-public/                      Static assets
+  api/                       chatbot, cv, and send-email handlers
+  components/                homepage sections, navigation, chatbot, and 3D scene
+  projects/[slug]/           individual case studies
+content/
+  profile.ts                 identity, positioning, availability, and shared skill groups
+  experience.ts              bilingual work and education timeline
+  projects/*.mdx             bilingual project frontmatter
+context/LanguageProvider.tsx  interface translations and language preference
+lib/                         content reader, badges, AI context, schemas, motion, rate limiting
+public/                      referenced images, animation/3D assets, and cv_akhyar.pdf
+types/                       asset and meshline declarations
+.github/workflows/ci.yml      lint and production build
 ```
 
-## Pages
+The homepage reads content on the server. Detail routes use the same project records. The chatbot context and structured data reuse the profile, experience, and project sources.
 
-| Route | Description |
-|---|---|
-| `/` | Landing — SSR data fetch, lazy-mounted animated sections |
-| `/projects/[slug]` | Individual project case study with related projects |
+## Content and evidence
 
-## API Routes
+Facts were reconciled with the owner and the final CV on 26 October 2026. The local career record is `D:\PROJECT\CV_Akhyar\career_master.md`; this portfolio is a public presentation, not a copy of private operational notes.
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/api/chatbot` | POST | Groq AI chatbot (`openai/gpt-oss-20b`) |
-| `/api/cv` | GET | CV PDF download |
-| `/api/send-email` | POST | Contact form email via the Resend API |
+- Positioning: **Software Engineer — Full-Stack Development & Production Systems**.
+- LPPM remains Aug 2025–Present. Freelance work began in 2024; Joki IT assignments began in July 2026.
+- The master's program is Aug 2026–Present at Universitas Syiah Kuala. No estimated graduation date or completed degree is claimed.
+- Featured order: Gilir, RWikiStat, Presence, LacakKarirku, and the Dicoding ML course projects. Earlier projects remain available in the gallery.
+- Gilir has launched without active tenants yet; Mayar has been tested with a real production payment.
+- RWikiStat's 88.26% UMUX result is a usability evaluation with 22 Statistics students. Its App Store release is historical and currently unavailable.
+- Presence liveness is demonstration-grade. Dicoding work has no published accuracy or certification claim.
+- OJS data transfers were assisted through dashboards. The OJS 3.3 to 3.5 upgrade was tested locally; do not describe it as a production migration.
+- Class sizes are 44 Web Programming and 41 Software Engineering students, not 85 unique students.
+- Coding-agent planning, context, review, and validation are distinct from ML model training.
 
-## Environment Variables
+Edit shared identity and skills in `content/profile.ts`, timeline entries in `content/experience.ts`, and case studies in `content/projects/`. Keep English and Indonesian facts equivalent. Each MDX file uses frontmatter parsed by gray-matter; its body is not rendered. The TypeScript interfaces in `lib/content.ts` define supported fields. Project categories are `web`, `mobile`, and `ml`; coursework uses `CreativeWork` structured data.
 
-These six variables are the complete runtime configuration. The previous
-Firebase, Cloudinary, and admin keys were removed with the retired dashboard
-workflow and are no longer referenced.
+Do not publish internal server paths, forensic details, credentials, unverified adoption metrics, or absolute security guarantees.
 
-```env
-RESEND_API_KEY=                 # Resend API key (contact form)
-CONTACT_FROM_EMAIL=             # Verified sender, e.g. "Portfolio <noreply@akhyar.dev>"
-EMAIL_RECEIVER=                 # Where contact submissions land
+## CV download
 
-GROQ_API_KEY=                   # Portfolio chatbot
+`public/cv_akhyar.pdf` is a distribution copy of the final two-page CV. `GET /api/cv` validates the PDF signature and serves it as an attachment. It uses no GitHub token or network request. File tracing explicitly includes the PDF in the server route.
 
-GITHUB_CV_TOKEN=                # Optional — private GitHub repository access
-GITHUB_CV_RAW_URL=              # Optional — override the official raw CV URL
+After changing the canonical CV, copy the new PDF and verify the checksum:
+
+```powershell
+Copy-Item -LiteralPath D:\PROJECT\CV_Akhyar\cv_akhyar.pdf -Destination .\public\cv_akhyar.pdf
+node -e "const fs=require('node:fs'),crypto=require('node:crypto'); for (const p of process.argv.slice(1)) console.log(crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),p)" D:\PROJECT\CV_Akhyar\cv_akhyar.pdf .\public\cv_akhyar.pdf
 ```
 
-`CONTACT_FROM_EMAIL` must be on a domain verified in Resend. Before the domain
-is verified, Resend's shared sender works: `Portfolio <onboarding@resend.dev>`.
+## Optional service configuration
 
-## Content Model
+Store local secrets in `.env.local`; never commit them.
 
-### Project
+| Variable | Purpose |
+| --- | --- |
+| `RESEND_API_KEY` | Contact form delivery |
+| `CONTACT_FROM_EMAIL` | Resend-verified sender |
+| `EMAIL_RECEIVER` | Contact form recipient |
+| `GROQ_API_KEY` | Portfolio chatbot |
+| `GROQ_MODEL` | Optional model override; defaults to `openai/gpt-oss-20b` |
 
-`title`, `title_en`, `title_id`, `slug`, `description`, `desc_en`, `desc_id`, `category`, `tech[]`, `imageUrl`, `githubUrl`, `liveUrl`, `pinned`, `order`, `problemStatement`, `problemStatement_id`, `solutionApproach`, `solutionApproach_id`, `impact`, `impact_id`, `techRationale`, `techRationale_id`, `keyFeatures[]`, `screenshots[]`, `year`, `duration`, `role`, `learnings`, `learnings_id`
+Contact delivery uses the Resend HTTP API; the chatbot uses the Groq SDK. Without the corresponding configuration, these services return an unavailable response. Profile pages and CV download work independently.
 
-### Experience
+The contact endpoint validates JSON field types, allows multiline messages, blocks header injection in sender fields, uses a honeypot, and rate-limits requests. The chatbot validates history entries, bounds the conversation sent to Groq, and uses owner-confirmed portfolio context. Rate limits are in-memory per server instance; a multi-instance deployment needs shared storage if a global limit is required.
 
-`title`, `company`, `year`, `logo`, `description`
+## Maintenance and deployment
 
-## Scripts
+Unused Claude launch configuration, completed design plans/specifications, redundant product documentation, unreferenced assets, and dead badge helpers were removed. Necessary product guidance is consolidated here. Active environment files, Vercel configuration, CI, and referenced media are preserved.
 
-```bash
-npm run dev      # Next.js dev server (webpack)
-npm run build    # Production build
-npm run start    # Start production server
-npm run lint     # TypeScript type-check (tsc --noEmit)
-```
-
-## Content Workflow
-
-1. Edit project frontmatter under `content/projects/` or typed experience data in `content/experience.ts`.
-2. Run lint and production build checks.
-3. Review bilingual copy, project routes, and public links before publishing.
-
-## Deployment
-
-Optimized for Vercel. Runs on any platform supporting Next.js with the required environment variables.
+The application supports Vercel or a Node.js Next.js host. Publishing is a separate step from local editing and verification.

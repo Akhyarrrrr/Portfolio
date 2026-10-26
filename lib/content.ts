@@ -2,11 +2,6 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-// Replaces lib/firestoreServer.ts (Fase 2) — same shapes, same function
-// names, so app/page.tsx, app/sitemap.ts, and app/projects/[slug]/page.tsx
-// need no changes. Content now lives in content/projects/*.mdx and
-// content/experience.ts instead of Firestore.
-
 export interface ProjectType {
   id: string;
   slug: string;
@@ -43,7 +38,7 @@ export interface ProjectType {
   learnings_id?: string;
   role_id?: string;
   keyFeatures_id?: string[];
-  schemaType?: "SoftwareApplication" | "WebSite";
+  schemaType?: "SoftwareApplication" | "WebSite" | "CreativeWork";
 }
 
 export interface ExperienceType {
@@ -57,6 +52,7 @@ export interface ExperienceType {
   company_id?: string;
   year_id?: string;
   description_id?: string;
+  links?: { label: string; href: string }[];
 }
 
 const PROJECTS_DIR = path.join(process.cwd(), "content", "projects");
@@ -104,12 +100,9 @@ function readProjectFile(filename: string): ProjectType {
   };
 }
 
-// ── Projects ──────────────────────────────────────────────────
-
 export async function getProjects(): Promise<ProjectType[]> {
   const files = readdirSync(PROJECTS_DIR).filter((f) => f.endsWith(".mdx"));
   const projects = files.map(readProjectFile);
-  // Matches the previous Firestore `.orderBy("title")` (ascending).
   projects.sort((a, b) => (a.title ?? "").localeCompare(b.title ?? ""));
   return projects;
 }
@@ -119,11 +112,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectType | null
   return projects.find((p) => p.slug === slug) ?? null;
 }
 
-// ── Experiences ───────────────────────────────────────────────
-
 export async function getExperiences(): Promise<ExperienceType[]> {
   const { experiences } = await import("@/content/experience");
-  // The source is intentionally ordered newest first; month labels are not
-  // lexicographically sortable (for example, Aug must come before Jul).
   return [...experiences];
 }

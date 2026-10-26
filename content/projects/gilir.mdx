@@ -4,14 +4,14 @@ title: Gilir
 title_en: Gilir
 title_id: Gilir
 description: >-
-  A public-preview barbershop operating system for booking, walk-ins, live queues,
-  barber schedules, checkout, and daily reporting.
+  A multi-tenant barbershop SaaS with per-shop subdomains, configurable themes,
+  booking, live queues, and subscription payments.
 desc_en: >-
-  A public-preview barbershop operating system for booking, walk-ins, live queues,
-  barber schedules, checkout, and daily reporting.
+  A multi-tenant barbershop SaaS with per-shop subdomains, configurable themes,
+  booking, live queues, and subscription payments.
 desc_id: >-
-  Sistem operasional barbershop dalam tahap public preview untuk booking, walk-in,
-  antrean live, jadwal barber, checkout, dan laporan harian.
+  SaaS barbershop multi-tenant dengan subdomain per toko, tema yang dapat
+  disesuaikan, booking, antrean live, dan pembayaran langganan.
 category: web
 tech:
   - Next.js
@@ -20,6 +20,9 @@ tech:
   - Supabase
   - PostgreSQL
   - Row Level Security
+  - Mayar
+  - Docker
+  - Coolify
 liveUrl: 'https://gilir.id/'
 pinned: true
 order: 1
@@ -33,44 +36,54 @@ problemStatement_id: >-
   melalui chat serta catatan manual yang terpisah. Kondisi ini membuat antrean
   berikutnya dan status operasional saat ini sulit terlihat.
 solutionApproach: >-
-  I designed Gilir as one role-aware workflow for owners, cashiers, barbers, and
-  customers. The public preview connects booking and walk-in intake to a live
-  queue, barber schedules, checkout, and daily reporting.
+  I built the product from the initial idea through deployment: each shop gets
+  its own subdomain and configurable theme, while owners, cashiers, barbers, and
+  customers share role-based workflows. Booking and walk-ins feed live queues,
+  schedules, checkout, and reporting. I manage the backend and hosting so shop
+  owners can focus on their dashboard.
 solutionApproach_id: >-
-  Saya merancang Gilir sebagai satu workflow berbasis role untuk owner, kasir,
-  barber, dan pelanggan. Public preview menghubungkan booking dan walk-in dengan
-  antrean live, jadwal barber, checkout, dan laporan harian.
+  Saya membangun produk dari ide hingga deployment: setiap toko mendapat
+  subdomain dan tema yang dapat disesuaikan, sementara owner, kasir, barber, dan
+  pelanggan memiliki alur sesuai perannya. Booking serta walk-in terhubung
+  dengan antrean live, jadwal, checkout, dan laporan. Saya mengelola backend
+  serta hosting agar owner cukup mengurus dashboard tokonya.
 impact: >-
-  Gilir is live as a public product preview and demonstrates the complete
-  operating loop without claiming production payments or user adoption.
+  Launched and preparing for marketing; there are no active tenants yet. A real
+  payment through Mayar was successfully tested in production. That test
+  verifies the payment flow, not customer adoption or revenue.
 impact_id: >-
-  Gilir sudah live sebagai public product preview dan menunjukkan alur operasional
-  lengkap tanpa mengklaim pembayaran production atau adopsi pengguna.
+  Sudah diluncurkan dan sedang menyiapkan pemasaran; belum ada tenant aktif.
+  Pembayaran sungguhan melalui Mayar berhasil diuji di produksi. Pengujian ini
+  membuktikan alur pembayaran, bukan adopsi pelanggan atau pendapatan.
 techRationale: >-
-  Next.js keeps the product and server routes together, while Supabase provides
-  Postgres, authentication, and Row Level Security for a multi-role system.
+  Next.js brings the interface and server routes together. Supabase provides
+  Postgres, authentication, realtime updates, and Row Level Security for tenant
+  data access. Docker and Coolify support deployment on a VPS, with Mayar
+  handling subscriptions.
 techRationale_id: >-
-  Next.js menyatukan produk dan server routes, sedangkan Supabase menyediakan
-  Postgres, autentikasi, dan Row Level Security untuk sistem multi-role.
+  Next.js menyatukan antarmuka dan server route. Supabase menyediakan Postgres,
+  autentikasi, pembaruan realtime, dan Row Level Security untuk akses data
+  tenant. Docker dan Coolify mendukung deployment di VPS, sementara Mayar
+  menangani langganan.
 keyFeatures:
+  - Per-shop subdomains and configurable themes
+  - 'Role-based owner, cashier, barber, and customer workflows'
   - Online booking and walk-in intake
-  - Live queue management
-  - Barber schedules and availability
-  - Role-based workspaces
-  - Cash checkout workflow
-  - Daily operational reports
+  - Live queues and barber schedules
+  - Checkout and operational reports
+  - Mayar subscription payment integration
 keyFeatures_id:
+  - Subdomain per toko dan tema yang dapat disesuaikan
+  - 'Alur owner, kasir, barber, dan pelanggan sesuai peran'
   - Booking online dan penerimaan walk-in
-  - Manajemen antrean live
-  - Jadwal dan ketersediaan barber
-  - Workspace berbasis role
-  - Workflow checkout tunai
-  - Laporan operasional harian
+  - Antrean live dan jadwal barber
+  - Checkout dan laporan operasional
+  - Integrasi pembayaran langganan Mayar
 year: '2026'
-duration: Active development · Public preview
-duration_id: Pengembangan aktif · Public preview
-role: Founder & Solo Full-Stack Engineer
-role_id: Founder & Solo Full-Stack Engineer
+duration: Launched · Before first active tenants
+duration_id: Sudah diluncurkan · Belum ada tenant aktif
+role: Founder & Solo Software Engineer
+role_id: Founder & Solo Software Engineer
 learnings: >-
   Building a multi-tenant operational product reinforced that authorization,
   status transitions, and recovery paths matter more than surface feature count.

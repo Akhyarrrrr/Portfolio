@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { profile } from "@/content/profile";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -30,7 +31,7 @@ export default function OpengraphImage() {
             display: "flex",
           }}
         >
-          Software Engineer | Full-Stack Products & Production Systems
+          {profile.jobTitle}
         </div>
         <div
           style={{
@@ -44,7 +45,7 @@ export default function OpengraphImage() {
           }}
         >
           <span style={{ display: "flex" }}>Hey, I&apos;m</span>
-          <span style={{ display: "flex", color: "#61DCA3" }}>Akhyar</span>
+          <span style={{ display: "flex", color: "#61DCA3" }}>{profile.name}</span>
         </div>
         <div
           style={{
@@ -55,8 +56,7 @@ export default function OpengraphImage() {
             display: "flex",
           }}
         >
-          Full-stack products and reliable production systems with TypeScript,
-          Next.js, Node.js, and PostgreSQL.
+          {profile.focus}
         </div>
       </div>
     ),

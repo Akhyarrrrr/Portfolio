@@ -76,7 +76,7 @@ function updatedCardTexture(source: THREE.Texture | null) {
   context.textAlign = "center";
   context.fillStyle = "#0B0F15";
   context.font = "700 20px Poppins, Arial, sans-serif";
-  context.fillText("Full-Stack", 127, 316);
+  context.fillText("Software", 127, 316);
   context.fillStyle = "#FFFFFF";
   context.font = "600 20px Poppins, Arial, sans-serif";
   context.fillText("Engineer", 127, 354);
@@ -192,7 +192,13 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   };
 
   const { nodes, materials } = useGLTF(cardGLB) as unknown as LanyardGLTF;
-  const texture = useTexture(lanyard);
+  const sourceTexture = useTexture(lanyard);
+  const texture = useMemo(() => {
+    const map = sourceTexture.clone();
+    map.wrapS = map.wrapT = THREE.RepeatWrapping;
+    map.needsUpdate = true;
+    return map;
+  }, [sourceTexture]);
   const cardTexture = useMemo(
     () => updatedCardTexture(materials.base.map),
     [materials.base.map],
@@ -211,12 +217,14 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
         new THREE.Vector3(),
         new THREE.Vector3(),
         new THREE.Vector3(),
-      ])
+      ], false, "chordal")
   );
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
   const [hovered, hover] = useState(false);
   const pointerRef = useRef(new THREE.Vector2());
   const overlayRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => () => texture.dispose(), [texture]);
 
   useEffect(
     () => () => {
@@ -295,7 +303,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
       overlay.remove();
       overlayRef.current = null;
     };
-  }, [dragged]);
+  }, [dragged, gl.domElement]);
 
   useFrame((state, delta) => {
     if (!dragged) {
@@ -347,9 +355,6 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
       );
     }
   });
-
-  curve.curveType = "chordal";
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
   return (
     <>

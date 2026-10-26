@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#0b0f15"/>
+  <g font-family="Arial, sans-serif">
+    <text x="80" y="120" fill="#61dca3" font-size="26">DICODING · COURSE PROJECTS</text>
+    <text x="80" y="215" fill="#fff" font-size="52" font-weight="700">Image classification</text>
+    <text x="80" y="280" fill="#fff" font-size="52" font-weight="700">&amp; sentiment analysis</text>
+    <path d="M80 336H1200" stroke="#293e36" stroke-width="2"/>
+    <text x="80" y="402" fill="#61dca3" font-size="23">IMAGE DATA</text>
+    <text x="80" y="447" fill="#e2e8f0" font-size="28">Six-class CNN</text>
+    <text x="670" y="402" fill="#61dca3" font-size="23">TEXT DATA</text>
+    <text x="670" y="447" fill="#e2e8f0" font-size="28">BiLSTM · Conv1D · LinearSVC</text>
+    <path d="M80 520H1200" stroke="#293e36" stroke-width="2"/>
+    <text x="80" y="585" fill="#94a3b8" font-size="26">Prepare data</text>
+    <text x="490" y="585" fill="#94a3b8" font-size="26">Train models</text>
+    <text x="910" y="585" fill="#94a3b8" font-size="26">Evaluate</text>
+    <text x="80" y="658" fill="#64748b" font-size="20">PROJECT OVERVIEW · NOT AN EXPERIMENT SCREENSHOT</text>
+  </g>
+</svg>

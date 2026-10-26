@@ -30,7 +30,7 @@ href: 'https://presence.akhyar.dev/'
 githubUrl: 'https://github.com/Akhyarrrrr/presence'
 liveUrl: 'https://presence.akhyar.dev/'
 pinned: true
-order: 2
+order: 3
 problemStatement: >-
   Attendance systems often stop at forms or QR codes, which can be shared
   around. I wanted to test a more accountable flow where the check-in is tied to
@@ -50,11 +50,15 @@ solutionApproach_id: >-
   pgvector RPC, lalu ditulis melalui protected server routes setelah liveness
   dan pengecekan shift lolos.
 impact: >-
-  Presence demonstrates one end-to-end attendance workflow while keeping the
-  public recruiter deployment read-only and biometric limitations explicit.
+  A public MVP demonstrating browser face embeddings, server-side pgvector
+  matching, shift checks, realtime monitoring, and PDF reports. Head-movement
+  liveness is demonstration-grade and has not been validated as production
+  anti-spoofing.
 impact_id: >-
-  Presence menunjukkan alur absensi end-to-end dengan deployment recruiter
-  publik yang read-only serta batasan biometrik yang dijelaskan secara jujur.
+  MVP publik yang mendemonstrasikan embedding wajah di browser, pencocokan
+  pgvector server-side, pengecekan shift, monitoring realtime, dan laporan PDF.
+  Liveness berbasis gerakan kepala masih tingkat demonstrasi dan belum
+  divalidasi sebagai anti-spoofing produksi.
 techRationale: >-
   Next.js keeps kiosk, admin, and server routes in one codebase. Supabase gives
   Auth, Postgres, Realtime, and pgvector; TensorFlow plus face-api.js handles
@@ -65,15 +69,15 @@ techRationale_id: >-
   face-api.js menangani recognition tanpa mengirim raw image ke model pihak
   ketiga.
 keyFeatures:
-  - Read-only public recruiter walkthrough
+  - Browser-side face embeddings
   - Demo-grade head-movement liveness gate
   - Server-side pgvector face matching
   - Shift and schedule management
   - Realtime attendance dashboard
   - Monthly PDF report export
 year: '2026'
-duration: Recruiter-ready MVP
-role: Solo Full Stack Developer
+duration: Public MVP · Demo-grade liveness
+role: Solo Software Engineer
 learnings: >-
   I learned that face recognition is mostly an operations problem: calibration,
   duplicate checks, security boundaries, and clear feedback matter as much as
@@ -83,5 +87,13 @@ learnings_id: >-
   kalibrasi, pengecekan duplikat, batas keamanan, dan feedback yang jelas sama
   pentingnya dengan modelnya.
 imageUrl: /projects/presence.png
+duration_id: MVP publik · Liveness tingkat demonstrasi
+role_id: Solo Software Engineer
+keyFeatures_id:
+  - Embedding wajah di browser
+  - Liveness gerakan kepala tingkat demonstrasi
+  - Pencocokan wajah pgvector di server
+  - Pengelolaan shift dan jadwal
+  - Dashboard absensi realtime
+  - Ekspor laporan PDF bulanan
 ---
-

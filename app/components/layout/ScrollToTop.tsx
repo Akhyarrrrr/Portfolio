@@ -1,27 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 import {
   motion,
   AnimatePresence,
-  useMotionValueEvent,
   useReducedMotion,
   useScroll,
 } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
 export default function ScrollToTop() {
-  const [show, setShow] = useState(false);
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
 
-  useEffect(() => {
-    setShow(scrollY.get() > 400);
-  }, [scrollY]);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const next = latest > 400;
-    setShow((current) => (current === next ? current : next));
-  });
+  const show = useSyncExternalStore(
+    useCallback((notify) => scrollY.on("change", notify), [scrollY]),
+    () => scrollY.get() > 400,
+    () => false,
+  );
 
   return (
     <AnimatePresence>

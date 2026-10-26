@@ -2,19 +2,15 @@
 
 import { Fragment, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageProvider";
 
-const achievements = [
-  "80+ Active Journals Supported",
-  "3 Recruiter Case Studies",
-  "Zero-Data-Loss Migration",
-  "Full Server & Infra Ownership",
-  "CI/CD & Dockerized Deploys",
-  "Cross-Platform Mobile Apps",
-  "AI-Powered Tooling",
-  "Full-Stack & Production Systems",
-];
+const achievements = {
+  en: ["80+ Academic Journals Supported", "5 Publishing VMs", "Production Incident Recovery", "Multi-Tenant SaaS", "Web & Mobile Development", "Monitoring & Backups", "AI-Assisted Development"],
+  id: ["80+ Jurnal Akademik", "5 VM Publikasi", "Pemulihan Insiden Produksi", "SaaS Multi-Tenant", "Pengembangan Web & Mobile", "Monitoring & Backup", "Pengembangan Berbantuan AI"],
+};
 
 export default function Tape() {
+  const { lang } = useLanguage();
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,7 +41,7 @@ export default function Tape() {
           >
             {[...new Array(2)].fill(0).map((_, idx) => (
               <Fragment key={idx}>
-                {achievements.map((achievement) => (
+                {achievements[lang].map((achievement) => (
                   <div
                     key={achievement}
                     className="inline-flex items-center gap-5"

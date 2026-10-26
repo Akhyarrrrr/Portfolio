@@ -8,17 +8,11 @@ const SITE_URL = profile.siteUrl;
 
 const poppins = Poppins({
   subsets: ["latin"],
-  // Cut from 6 weights to 4 — fewer weights forces every remaining one
-  // to carry real hierarchy meaning instead of being interchangeable.
   weight: ["400", "500", "600", "800"],
   variable: "--font-poppins",
   display: "swap",
 });
 
-// Serif accent — hero name, section headings, pull quotes only (never
-// nav links, badges, buttons, or form labels; see Global Constraints).
-// Fraunces' optical-size axis keeps it warm and characterful at large
-// hero sizes without going illegible at smaller heading sizes.
 const fraunces = Fraunces({
   subsets: ["latin"],
   weight: ["500", "600"],
@@ -36,8 +30,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: `${profile.name} | ${profile.jobTitle}`,
-  description:
-    "Software Engineer from Banda Aceh building full-stack products and production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
+  description: profile.description,
   robots: { index: true, follow: true },
   alternates: {
     canonical: "/",
@@ -45,21 +38,16 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: `${profile.name} | ${profile.jobTitle}`,
-    description:
-      "Software Engineer building full-stack products and production systems, with operational ownership for 80+ active academic journals.",
+    description: profile.description,
     siteName: "Akhyar Portfolio",
     url: SITE_URL,
-    // No manual `images` here — app/opengraph-image.tsx generates it at
-    // build time (the old hardcoded path 404'd; every shared link showed
-    // a blank preview).
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: `${profile.name} | ${profile.jobTitle}`,
-    description:
-      "Software Engineer building full-stack products and production systems with TypeScript, Next.js, Node.js, and PostgreSQL.",
+    description: profile.description,
   },
   verification: {
     google: "YF_pXgxB-6KdItwpFEQPtU_CFXo1sGSWH-Y9qL4QeM8",
@@ -69,8 +57,6 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  // scroll-behavior lives in globals.css next to its reduced-motion override —
-  // the `scroll-smooth` class that used to be on <html> was a duplicate.
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${fraunces.variable} font-sans antialiased`}>

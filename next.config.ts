@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "/api/cv": ["./public/cv_akhyar.pdf"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
   },
@@ -10,10 +13,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // ponytail: Content-Security-Policy deliberately left out here —
-        // it needs the final SSR/script inventory from the SEO phase
-        // (next/script usage, inline styles from framer-motion, WASM for
-        // Rapier physics) to avoid shipping a policy that breaks the site.
+        // CSP needs an inventory of inline scripts and Rapier WASM before enforcement.
         source: "/:path*",
         headers: [
           { key: "X-Frame-Options", value: "DENY" },

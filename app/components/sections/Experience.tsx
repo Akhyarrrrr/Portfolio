@@ -71,13 +71,7 @@ export default function Experience({
     damping: 30,
     restDelta: 0.01,
   });
-  // The dot used to animate `top` from "0%" to "100%". `top` is a layout
-  // property, so every scroll frame forced layout + paint on the main thread
-  // instead of staying on the compositor — with a scroll-linked spring
-  // driving it, that ran for the whole time the timeline was on screen.
-  // Translating instead needs the timeline's pixel height; a ref (not state)
-  // keeps resizes from re-rendering the section, and reading it inside the
-  // transform means no stale closure.
+  // Read resized height without adding layout work to every scroll frame.
   const timelineHeightRef = useRef(0);
 
   useEffect(() => {
@@ -183,11 +177,20 @@ export default function Experience({
                   <Logo exp={exp} company={company} />
                 </div>
 
-                <p
+                <div
                   className={`max-w-md rounded-xl border border-white/8 bg-white/[0.03] p-5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] text-sm leading-relaxed text-white/60 transition-all duration-300 hover:-translate-y-1 hover:border-[#61DCA3]/25 hover:bg-[#61DCA3]/5 hover:shadow-[0_12px_32px_rgba(97,220,163,0.08)] ${descClass}`}
                 >
-                  {description}
-                </p>
+                  <p>{description}</p>
+                  {exp.links && (
+                    <div className={`mt-4 flex flex-wrap gap-x-4 gap-y-2 ${even ? "" : "md:justify-end"}`}>
+                      {exp.links.map((link) => (
+                        <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="rounded-sm text-[#61DCA3] underline underline-offset-4 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#61DCA3]">
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </motion.article>
             );
           })}
