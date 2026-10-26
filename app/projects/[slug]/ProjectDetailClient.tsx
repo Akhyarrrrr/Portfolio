@@ -3,6 +3,7 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   ArrowLeft,
+  BrainCircuit,
   Calendar,
   Check,
   Clock,
@@ -65,7 +66,7 @@ function TechBadge({ tech }: { tech: string }) {
       title={label}
       className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 text-sm text-white/90"
     >
-      {meta?.icon ?? getFallbackTechIcon(tech)}
+      {meta?.icon ?? getFallbackTechIcon()}
       <span className="text-xs font-medium">{label}</span>
     </span>
   );
@@ -204,6 +205,8 @@ export default function ProjectDetailClient({
                   <MonitorSmartphone size={14} />
                   Mobile
                 </>
+              ) : project.category === "ml" ? (
+                <><BrainCircuit size={14} />AI / ML</>
               ) : (
                 <>
                   <Globe size={14} />

@@ -13,10 +13,10 @@ import {
   getTechMeta,
 } from "@/lib/tech-stack";
 
-type ProjectCategoryFilter = "all" | "web" | "mobile";
+type ProjectCategoryFilter = "all" | "web" | "mobile" | "ml";
 type ProjectLanguage = "en" | "id";
 
-const PROJECT_FILTERS: ProjectCategoryFilter[] = ["all", "web", "mobile"];
+const PROJECT_FILTERS: ProjectCategoryFilter[] = ["all", "web", "mobile", "ml"];
 
 const projectGrid: Variants = {
   hidden: { opacity: 0 },
@@ -52,7 +52,7 @@ function TechBadge({ tech }: { tech: string }) {
       title={label}
       className="inline-flex h-7 min-w-7 items-center justify-center gap-1 rounded-lg border border-white/10 bg-white/[0.04] px-1.5 text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
     >
-      {meta?.icon ?? getFallbackTechIcon(tech)}
+      {meta?.icon ?? getFallbackTechIcon()}
     </span>
   );
 }
@@ -120,7 +120,7 @@ export default function Project({
   const { lang, t } = useLanguage();
   const reduceMotion = useReducedMotion();
   const [filter, setFilter] = useState<ProjectCategoryFilter>("all");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [projects] = useState<ProjectType[]>(initialProjects);
 
@@ -141,21 +141,13 @@ export default function Project({
   );
 
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage) || 1;
+  const currentPage = Math.min(selectedPage, totalPages);
   const pageData = filteredProjects.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
 
-  useEffect(() => {
-    setCurrentPage((page) => Math.min(page, totalPages));
-  }, [totalPages]);
-
-  const filterLabel = (category: ProjectCategoryFilter) =>
-    category === "all"
-      ? t("project.filter_all")
-      : category === "web"
-        ? t("project.filter_web")
-        : t("project.filter_mobile");
+  const filterLabel = (category: ProjectCategoryFilter) => t(`project.filter_${category}`);
 
   return (
     <section
@@ -392,7 +384,7 @@ export default function Project({
         {totalPages > 1 && (
           <div className="mt-14 flex items-center justify-center gap-2 text-sm">
             <button
-              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
               className="cursor-pointer rounded-xl border border-white/10 px-4 py-2 text-white/50 transition-all duration-200 hover:border-[#61DCA3]/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
             >
@@ -415,7 +407,7 @@ export default function Project({
             )}
             <button
               onClick={() =>
-                setCurrentPage((page) => Math.min(totalPages, page + 1))
+                setCurrentPage(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages}
               className="cursor-pointer rounded-xl border border-white/10 px-4 py-2 text-white/50 transition-all duration-200 hover:border-[#61DCA3]/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"

@@ -5,7 +5,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
 } from "react";
 import { profile } from "@/content/profile";
 
@@ -25,11 +25,10 @@ const dict = {
       language: "Language",
     },
     hero: {
-      welcome: "Software Engineer | Full-Stack Products & Production Systems",
+      welcome: profile.headline,
       hey: "Hey, I'm",
       name: profile.name,
-      tagline:
-        "I turn real-world needs into useful, reliable software—from the first requirement to launch and ongoing improvement.",
+      tagline: profile.tagline.en,
       download_cv: "Download CV",
     },
     skills: {
@@ -47,6 +46,7 @@ const dict = {
       filter_all: "All",
       filter_web: "Web",
       filter_mobile: "Mobile",
+      filter_ml: "AI / ML",
       prev: "Prev",
       next: "Next",
       view_github: "View Project",
@@ -75,11 +75,10 @@ const dict = {
       language: "Bahasa",
     },
     hero: {
-      welcome: "Software Engineer | Full-Stack Products & Production Systems",
+      welcome: profile.headline,
       hey: "Hai, saya",
       name: profile.name,
-      tagline:
-        "Saya mengubah kebutuhan nyata menjadi software yang berguna dan andal—dari requirement awal hingga peluncuran dan pengembangan berkelanjutan.",
+      tagline: profile.tagline.id,
       download_cv: "Unduh CV",
     },
     skills: {
@@ -97,6 +96,7 @@ const dict = {
       filter_all: "Semua",
       filter_web: "Web",
       filter_mobile: "Mobile",
+      filter_ml: "AI / ML",
       prev: "Sebelumnya",
       next: "Berikutnya",
       view_github: "Lihat Proyek",
@@ -132,21 +132,38 @@ function resolveTranslation(source: TranslationNode, key: string) {
   return typeof current === "string" ? current : undefined;
 }
 
+let currentLanguage: Lang = "en";
+
+function readLanguage(): Lang {
+  try {
+    const saved = localStorage.getItem("lang");
+    if (saved === "id" || saved === "en") return saved;
+  } catch {}
+  return currentLanguage;
+}
+
+function subscribeLanguage(notify: () => void) {
+  window.addEventListener("storage", notify);
+  window.addEventListener("portfolio-language", notify);
+  return () => {
+    window.removeEventListener("storage", notify);
+    window.removeEventListener("portfolio-language", notify);
+  };
+}
+
+function setLang(lang: Lang) {
+  currentLanguage = lang;
+  try {
+    localStorage.setItem("lang", lang);
+  } catch {}
+  window.dispatchEvent(new Event("portfolio-language"));
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const lang = useSyncExternalStore<Lang>(subscribeLanguage, readLanguage, () => "en");
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("lang") as Lang | null;
-      if (saved === "id" || saved === "en") setLang(saved);
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    if (typeof document !== "undefined") document.documentElement.lang = lang;
-    try {
-      localStorage.setItem("lang", lang);
-    } catch {}
+    document.documentElement.lang = lang;
   }, [lang]);
 
   const t = useCallback(

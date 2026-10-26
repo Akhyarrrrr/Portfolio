@@ -13,9 +13,6 @@ const Lanyard = dynamic(() => import("../Lanyard/Lanyard"), {
   loading: () => <LanyardPoster />,
 });
 
-// ponytail: a real captured screenshot of the rendered card would read
-// nicer than a gradient placeholder — deferred to the UI pass (Fase 6),
-// since it needs a design decision (what angle/lighting), not just code.
 function LanyardPoster() {
   return (
     <div
@@ -25,11 +22,7 @@ function LanyardPoster() {
   );
 }
 
-// Desktop only, and only once the browser has idle time — the Rapier
-// physics + Three.js WebGL scene is the single heaviest thing on this
-// page (see Fase 0 Lighthouse baseline: it kept the tab from ever
-// reaching a CPU-idle window at all). Mobile and reduced-motion users
-// get the static poster and never pay that cost.
+// Keep the WebGL scene off mobile and reduced-motion devices.
 function useShouldMountLanyard() {
   const [shouldMount, setShouldMount] = useState(false);
 
@@ -46,9 +39,6 @@ function useShouldMountLanyard() {
     };
 
     if (win.requestIdleCallback) {
-      // Timeout capped at 600ms (was 2000ms) — long enough to stay off
-      // the initial-load critical path, short enough that the card
-      // doesn't read as "stuck" on the poster before it's clearly idle.
       const handle = win.requestIdleCallback(() => setShouldMount(true), {
         timeout: 600,
       });
@@ -63,11 +53,7 @@ function useShouldMountLanyard() {
   return shouldMount;
 }
 
-// Pauses the Lanyard's WebGL render loop (and the physics step it
-// drives) while the page is actively scrolling. A continuous R3F
-// frameloop competes with the browser's scroll compositor on the same
-// thread — pausing it during scroll bursts is what actually fixes
-// scroll feeling janky, not just lowering its overall draw frequency.
+// Pause WebGL during scroll to avoid competing with the compositor.
 function useIsScrolling() {
   const [isScrolling, setIsScrolling] = useState(false);
 

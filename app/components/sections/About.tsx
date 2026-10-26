@@ -1,28 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Briefcase, Code2, Users, Zap } from "lucide-react";
 import { useLanguage } from "@/context/LanguageProvider";
 import { fadeUpMajor, fadeMicro } from "@/lib/motion";
+import { profile } from "@/content/profile";
 
-/* ─── i18n data ─────────────────────────────────────────────── */
 const aboutData = {
   en: {
     heading: "About Me",
     badge: "Who I am",
-    intro: "Software Engineer based in Banda Aceh, Indonesia (UTC+7), focused on full-stack products and production systems.",
-    mission: "I take ownership across interfaces, APIs, databases, deployment, monitoring, and incident response.",
+    intro: profile.summary.en,
     highlights: [
-      { icon: Code2,    title: "Product Delivery",       desc: "I turn scoped requirements into review-ready interfaces, server routes, data changes, staging releases, and documented limitations." },
-      { icon: Zap,      title: "Full-Stack Systems",     desc: "I work with TypeScript, Next.js, Node.js, PostgreSQL, and supporting infrastructure across the product lifecycle." },
-      { icon: Users,    title: "Teaching & Collaboration", desc: "I taught 85 students across 32 Web Programming and Software Engineering sessions and guided practical DevOps labs." },
-      { icon: Briefcase,title: "Production Ownership",   desc: "I operate a university publishing platform supporting 80+ active journals, including monitoring, backups, security response, and migration work." },
+      { icon: Code2, title: "From Idea to Product", desc: "I work across interfaces, APIs, databases, and deployment. Gilir brings that together in a multi-tenant SaaS with per-shop subdomains, live queues, themes, and payments." },
+      { icon: Zap, title: "AI-Assisted Development", desc: "I direct coding agents through planning and context, then review code and verify the result. My ML coursework separately covers image classification and sentiment analysis." },
+      { icon: Users, title: "Teaching & Collaboration", desc: "I led 16 sessions for 44 Web Programming students and 16 sessions for 41 Software Engineering students, alongside practical DevOps labs." },
+      { icon: Briefcase, title: "Production Responsibility", desc: "I administer five university publishing VMs and have handled incident recovery, OJS setup, website redesigns, monitoring, and backups." },
     ],
     stats: [
       { label: "Projects", value: 0, suffix: "" },
-      { label: "Active Journals Supported",value: 80, suffix: "+" },
-      { label: "Teaching Sessions",value: 32, suffix: "" },
+      { label: "Academic Journals Supported",value: 80, suffix: "+" },
+      { label: "Publishing VMs Managed",value: 5, suffix: "" },
     ],
     cta: "Interested in working together?",
     ctaBtn: "Get in Touch",
@@ -30,61 +28,28 @@ const aboutData = {
   id: {
     heading: "Tentang Saya",
     badge: "Siapa saya",
-    intro: "Saya Software Engineer dari Banda Aceh, Indonesia (UTC+7), dengan fokus pada produk full-stack dan sistem produksi.",
-    mission: "Saya menangani antarmuka, API, database, deployment, monitoring, dan incident response secara end-to-end.",
+    intro: profile.summary.id,
     highlights: [
-      { icon: Code2,    title: "Delivery Produk",          desc: "Saya menerjemahkan scope menjadi antarmuka, server route, perubahan data, staging, hasil siap review, dan batasan yang terdokumentasi." },
-      { icon: Zap,      title: "Sistem Full-Stack",        desc: "Saya bekerja dengan TypeScript, Next.js, Node.js, PostgreSQL, dan infrastruktur pendukung sepanjang siklus produk." },
-      { icon: Users,    title: "Mengajar & Kolaborasi",    desc: "Saya mengajar 85 mahasiswa dalam 32 sesi Pemrograman Web dan Rekayasa Perangkat Lunak serta membimbing praktikum DevOps." },
-      { icon: Briefcase,title: "Tanggung Jawab Produksi",  desc: "Saya mengoperasikan platform publikasi universitas untuk 80+ jurnal aktif, termasuk monitoring, backup, respons keamanan, dan migrasi." },
+      { icon: Code2, title: "Dari Ide Menjadi Produk", desc: "Saya mengerjakan antarmuka, API, database, hingga deployment. Gilir menyatukannya dalam SaaS multi-tenant dengan subdomain per toko, antrean live, tema, dan pembayaran." },
+      { icon: Zap, title: "Pengembangan Berbantuan AI", desc: "Saya mengarahkan coding agent melalui perencanaan dan konteks, lalu mereview kode serta memverifikasi hasilnya. Proyek kursus ML saya mencakup klasifikasi gambar dan analisis sentimen." },
+      { icon: Users, title: "Mengajar & Kolaborasi", desc: "Saya membimbing 16 sesi untuk 44 mahasiswa Pemrograman Web dan 16 sesi untuk 41 mahasiswa Rekayasa Perangkat Lunak, serta praktikum DevOps." },
+      { icon: Briefcase, title: "Tanggung Jawab Produksi", desc: "Saya mengelola lima VM publikasi universitas serta menangani pemulihan insiden, setup OJS, redesign situs, monitoring, dan backup." },
     ],
     stats: [
       { label: "Proyek",                      value: 0, suffix: "" },
-      { label: "Jurnal Aktif yang Didukung",  value: 80, suffix: "+" },
-      { label: "Sesi Mengajar",               value: 32, suffix: "" },
+      { label: "Jurnal Akademik yang Didukung", value: 80, suffix: "+" },
+      { label: "VM Publikasi yang Dikelola", value: 5, suffix: "" },
     ],
     cta: "Tertarik bekerja sama?",
     ctaBtn: "Hubungi Saya",
   },
 } as const;
 
-/* ─── Animated counter ──────────────────────────────────────── */
-function Counter({ target, suffix }: { target: number; suffix: string }) {
-  const [count, setCount] = useState(0);
-  const ref  = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  useEffect(() => {
-    if (!inView) return;
-    // Respect reduced-motion — skip animation
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setCount(target);
-      return;
-    }
-    let start = 0;
-    const duration = 500;
-    const step = 16;
-    const increment = target / (duration / step);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) { setCount(target); clearInterval(timer); }
-      else setCount(Math.floor(start));
-    }, step);
-    return () => clearInterval(timer);
-  }, [inView, target]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
-}
-
-/* ─── Framer variants ───────────────────────────────────────── */
-// Container still staggers its children's *entrance timing* — only the
-// per-child motion itself (now fadeMicro) got quieter.
 const container: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
 };
 
-/* ─── Component ─────────────────────────────────────────────── */
 export default function About({ projectCount }: { projectCount: number }) {
   const { lang } = useLanguage();
   const data = aboutData[lang];
@@ -114,8 +79,11 @@ export default function About({ projectCount }: { projectCount: number }) {
           <h2 className="font-accent text-4xl font-medium text-white tracking-tight">
             {data.heading}
           </h2>
-          <p className="mt-4 text-white/50 max-w-xl mx-auto text-sm leading-relaxed">
-            {data.intro}{" "}{data.mission}
+          <p className="mt-4 text-white/60 max-w-3xl mx-auto text-sm leading-relaxed">
+            {data.intro}
+          </p>
+          <p className="mt-4 text-white/60 max-w-3xl mx-auto text-sm leading-relaxed">
+            {profile.availability[lang]}
           </p>
         </motion.div>
 
@@ -132,11 +100,7 @@ export default function About({ projectCount }: { projectCount: number }) {
             const Icon = highlight.icon;
             return (
               <motion.div
-                // Index, not highlight.title — same class of bug as the
-                // stats row below: these titles happen to be identical
-                // in EN/ID right now, but keying on translated text is
-                // fragile the moment that changes. Array order is
-                // stable across languages.
+                // Stable across language switches so entrance motion does not restart.
                 key={i}
                 className="group rounded-2xl border border-white/8 bg-white/[0.03]
                            p-6 shadow-[0_4px_16px_rgba(0,0,0,0.15)]
@@ -166,15 +130,6 @@ export default function About({ projectCount }: { projectCount: number }) {
         >
           {stats.map((stat, i) => (
             <motion.div
-              // Index, not stat.label — the label text differs between
-              // EN/ID for 2 of 3 stats ("Journals in Production" vs
-              // "Jurnal di Production"), so keying on it caused React to
-              // unmount+remount on every language switch. The remounted
-              // element then rendered at its animation's hidden state
-              // and never got told to animate in, since the parent's
-              // whileInView already fired once (once: true) — the stat
-              // was stuck invisible. The array order is stable across
-              // languages, so the index is a safe, stable identity here.
               key={i}
               className={`flex flex-col items-center justify-center py-8 px-4
                           bg-white/[0.02] hover:bg-[#61DCA3]/5 transition-colors duration-300
@@ -182,7 +137,7 @@ export default function About({ projectCount }: { projectCount: number }) {
               variants={fadeMicro}
             >
               <div className="text-3xl md:text-4xl font-extrabold text-[#61DCA3] tabular-nums">
-                <Counter target={stat.value} suffix={stat.suffix} />
+                {stat.value}{stat.suffix}
               </div>
               <div className="mt-1 text-xs text-white/40 text-center">{stat.label}</div>
             </motion.div>

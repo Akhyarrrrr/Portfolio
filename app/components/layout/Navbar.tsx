@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
   motion,
   AnimatePresence,
-  useMotionValueEvent,
   useScroll,
 } from "framer-motion";
 import { Menu, X, Globe, Check } from "lucide-react";
@@ -22,19 +21,15 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [showLang, setShowLang] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { lang, setLang, t } = useLanguage();
   const { scrollY } = useScroll();
 
-  useEffect(() => {
-    setScrolled(scrollY.get() > 20);
-  }, [scrollY]);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const next = latest > 20;
-    setScrolled((current) => (current === next ? current : next));
-  });
+  const scrolled = useSyncExternalStore(
+    useCallback((notify) => scrollY.on("change", notify), [scrollY]),
+    () => scrollY.get() > 20,
+    () => false,
+  );
 
   /* Close lang popover on outside click */
   useEffect(() => {

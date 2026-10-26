@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   AnimatePresence,
   motion,
-  useMotionValueEvent,
   useReducedMotion,
   useScroll,
 } from "framer-motion";
@@ -36,23 +35,21 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showChat, setShowChat] = useState(false);
+  const [messageLanguage, setMessageLanguage] = useState(lang);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
 
-  useEffect(() => {
+  if (messageLanguage !== lang) {
+    setMessageLanguage(lang);
     setMessages([getWelcomeMessage(lang)]);
-  }, [lang]);
+  }
 
-  useEffect(() => {
-    setShowChat(scrollY.get() > window.innerHeight * 0.5);
-  }, [scrollY]);
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const next = latest > window.innerHeight * 0.5;
-    setShowChat((current) => (current === next ? current : next));
-  });
+  const showChat = useSyncExternalStore(
+    useCallback((notify) => scrollY.on("change", notify), [scrollY]),
+    () => scrollY.get() > window.innerHeight * 0.5,
+    () => false,
+  );
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -80,7 +77,7 @@ export default function Chatbot() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: nextMessages.map(({ role, content }) => ({
+          messages: nextMessages.slice(-8).map(({ role, content }) => ({
             role,
             content,
           })),

@@ -10,8 +10,13 @@ export default function SplashScreen() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useLayoutEffect(() => {
-    // Client-side only: decide whether to actually show the splash
-    if (sessionStorage.getItem("splashShown")) {
+    // Synchronize before paint so returning visitors never see a splash flash.
+    let alreadyShown = false;
+    try {
+      alreadyShown = sessionStorage.getItem("splashShown") === "1";
+    } catch {}
+    if (alreadyShown) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Pre-paint browser storage sync is intentional.
       setVisible(false);
       return;
     }
@@ -21,10 +26,9 @@ export default function SplashScreen() {
     }
 
     // First visit: show splash, then auto-hide.
-    sessionStorage.setItem("splashShown", "1");
-    // ponytail: sessionStorage write above guards against Strict Mode
-    // double-mount. The second invocation sees the key and hides immediately,
-    // both before paint, so user never sees a flash.
+    try {
+      sessionStorage.setItem("splashShown", "1");
+    } catch {}
     timerRef.current = setTimeout(() => setVisible(false), 700);
 
     return () => {
